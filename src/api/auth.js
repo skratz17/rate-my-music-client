@@ -7,7 +7,7 @@ export const auth = {
     const response = await request('/register', 'POST', translatedRegistrationInfo);
     const data = await response.json();
     if(response.status >= 400) {
-      throw new Error(data.message);
+      throw new Error(data.message || 'Something went wrong :/.');
     }
     return data;
   }

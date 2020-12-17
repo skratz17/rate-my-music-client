@@ -1,4 +1,4 @@
-import { render, screen, waitFor, act, waitForElementToBeRemoved } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { LocalStorageMock } from '@react-mock/localstorage';
 import { createMemoryHistory } from 'history';

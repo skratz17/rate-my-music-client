@@ -1,3 +1,5 @@
+import { translateObjectKeys, convertCamelToSnake } from './caseConversions';
+
 const API_BASE = 'http://localhost:8000';
 
 /**
@@ -24,7 +26,8 @@ export const request = async (location, method = 'GET', body) => {
   };
 
   if(body) {
-    options.body = JSON.stringify(body);
+    const translatedBody = translateObjectKeys(body, convertCamelToSnake);
+    options.body = JSON.stringify(translatedBody);
   }
 
   return await fetch(fullLocation, options);

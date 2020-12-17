@@ -5,7 +5,7 @@ import * as yup from 'yup';
 
 const registerFormSchema = yup.object().shape({
   username: yup.string().required('Username is required.'),
-  email: yup.string().email('Must be a valid e-mail address.').required('Email is required.'),
+  email: yup.string().email('Must be a valid email address.').required('Email is required.'),
   password: yup.string().required('Password is required.'),
   passwordConfirmation: yup.string().test('passwords-match', 'Passwords must match.', function(value) {
     return this.parent.password === value
@@ -38,7 +38,7 @@ export const Register = () => {
       <input type="password" name="password" id="password" ref={register} />
       <p>{errors.password?.message}</p>
 
-      <label htmlFor="passwordConfirmation">Password</label>
+      <label htmlFor="passwordConfirmation">Confirm Password</label>
       <input type="password" name="passwordConfirmation" id="passwordConfirmation" ref={register} />
       <p>{errors.passwordConfirmation?.message}</p>
 

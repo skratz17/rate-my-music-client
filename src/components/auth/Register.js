@@ -3,8 +3,10 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
+import { api } from '../../api';
+
 const registerFormSchema = yup.object().shape({
-  username: yup.string().required('Username is required.'),
+  username: yup.string().required('Username is required.').matches(/^[a-zA-Z0-9@\.+-_]+$/, 'Username may only contain letters, numbers, and @.+-_ characters.'),
   email: yup.string().email('Must be a valid email address.').required('Email is required.'),
   password: yup.string().required('Password is required.'),
   passwordConfirmation: yup.string().test('passwords-match', 'Passwords must match.', function(value) {
@@ -20,7 +22,14 @@ export const Register = () => {
     resolver: yupResolver(registerFormSchema)
   });
 
-  const onSubmit = data => console.log(data);
+  const onSubmit = async registrationInfo => {
+    try {
+      const response = await api.auth.register(registrationInfo);
+    }
+    catch(e) {
+      alert(e.message);
+    }
+  };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>

@@ -19,6 +19,15 @@ describe('registration form validation', () => {
     expect(await screen.findByText('Bio is required.')).toBeInTheDocument();
   });
 
+  test('username must contain only valid characters', async () => {
+    render(<Register />);
+
+    await userEvent.type(screen.getByLabelText('Username'), 'user~');
+    await userEvent.click(screen.getByRole('button'));
+
+    expect(await screen.findByText('Username may only contain letters, numbers, and @.+-_ characters.')).toBeInTheDocument();
+  });
+
   test('email must be valid email format', async () => {
     render(<Register />);
 

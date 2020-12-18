@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
 import { LocalStorageMock } from '@react-mock/localstorage';
 import React from 'react';
@@ -21,7 +21,7 @@ describe('main app redirection based on auth', () => {
     expect(history.location.pathname).toEqual('/login');
   });
 
-  test('should redirect to home if authorized', () => {
+  test('should render a navbar and redirect to home if authorized', () => {
     const history = createMemoryHistory();
     render(
       <LocalStorageMock items={{ 'rmm_user': '1234' }}>
@@ -33,5 +33,7 @@ describe('main app redirection based on auth', () => {
 
     expect(localStorage.getItem('rmm_user')).toBe('1234');
     expect(history.location.pathname).toEqual('/home');
+
+    expect(screen.getByRole('navigation')).toBeInTheDocument();
   });
 });

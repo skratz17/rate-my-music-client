@@ -41,7 +41,7 @@ export const Register = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="overflow-scroll bg-gray-50 bg-opacity-90 rounded shadow p-5 pb-2 max-w-md text-xl" style={{ maxHeight: '75%' }}>
+    <form onSubmit={handleSubmit(onSubmit)} className="overflow-scroll bg-gray-50 bg-opacity-90 rounded shadow p-8 pb-2 max-w-md text-xl" style={{ maxHeight: '65%' }}>
       <h2 className="text-3xl text-center m-5 mt-0">Register a New Account</h2>
 
       <WarningText>{registrationError}</WarningText>

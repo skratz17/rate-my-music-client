@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 
+import { NavBar } from './nav/NavBar';
 import { ApplicationViews } from './ApplicationViews';
 import { WelcomePage } from './welcomePage/WelcomePage';
 import { UnauthorizedUserViews } from './UnauthorizedUserViews';
@@ -10,7 +11,10 @@ export const RateMyMusic = () => {
     <Route render={() => {
       if(localStorage.getItem('rmm_user')) {
         return (
-          <ApplicationViews />
+          <>
+            <NavBar />
+            <ApplicationViews />
+          </>
         );
       }
       else {

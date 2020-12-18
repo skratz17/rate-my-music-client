@@ -10,7 +10,6 @@
 
 @media(max-width: 500px) {
   .welcomePage {
-    background-position: 90% 200px !important;
-    background-color: #c0cab7 !important;
+    background-image: linear-gradient(#c2d0bd, #c0cab7) !important;
   }
 }

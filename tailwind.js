@@ -17,10 +17,22 @@ module.exports = {
       current: 'currentColor',
 
       black: '#191516',
-      lightblue: '#c9daea',
-      emerald: '#00b295',
-      deepred: '#ab2346',
-      lightyellow: '#e6e18f',
+      lightblue: {
+        DEFAULT: '#c9daea',
+        dark: '#c3d3e2'
+      },
+      emerald: {
+        DEFAULT: '#00b295',
+        dark: '#00aa8e'
+      },
+      deepred: {
+        DEFAULT: '#ab2346',
+        dark: '#a32041'
+      },
+      lightyellow: {
+        DEFAULT: '#e6e18f',
+        dark: '#dbd787'
+      },
       white: colors.white,
       gray: colors.coolGray,
       red: colors.red,

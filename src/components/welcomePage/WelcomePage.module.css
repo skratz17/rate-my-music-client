@@ -7,3 +7,10 @@
     background-position: 90% 100% !important;
   }
 }
+
+@media(max-width: 500px) {
+  .welcomePage {
+    background-position: 90% 200px !important;
+    background-color: #c0cab7 !important;
+  }
+}

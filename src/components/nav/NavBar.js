@@ -8,7 +8,7 @@ export const NavBar = () => {
   const { user } = useContext(UserContext);
 
   return (
-    <nav className="py-3 px-5 flex md:flex-row flex-col justify-between 2xl:container mx-auto">
+    <nav className="border-b border-gray-200 py-3 px-5 flex md:flex-row flex-col justify-between 2xl:container mx-auto">
       <div className="flex md:flex-row flex-col md:justify-evenly justify-center md:items-end items-center">
         <Link className="text-emerald hover:text-emerald-dark text-7xl tracking-widest" to="/">
           <h1>RMM</h1>

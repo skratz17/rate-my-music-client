@@ -6,7 +6,7 @@ export const LinkButton = props => {
 
   return (
     <Link to={to}
-      className={`bg-lightblue hover:bg-lightblue-dark p-2 rounded-sm block ${className || ''}`}>
+      className={`bg-lightblue hover:bg-lightblue-dark text-black hover:text-black p-2 rounded-sm block ${className || ''}`}>
         {props.children}
     </Link>
   );

@@ -1,20 +1,14 @@
 import { render, screen } from '@testing-library/react';
 import React from 'react';
-import { Router } from 'react-router-dom';
-import { createMemoryHistory } from 'history';
+import { MemoryRouter } from 'react-router-dom';
 import { UnauthorizedUserViews } from './UnauthorizedUserViews';
 
 const renderComponentAtRoute = route => {
-  const history = createMemoryHistory();
-  history.push(route);
-
   render(
-    <Router history={history}>
+    <MemoryRouter initialEntries={[ route ]}>
       <UnauthorizedUserViews />
-    </Router>
+    </MemoryRouter>
   );
-
-  return history;
 };
 
 describe('routes are properly set up', () => {
@@ -31,8 +25,8 @@ describe('routes are properly set up', () => {
   });
 
   test('all other routes redirect to /login', () => {
-    const history = renderComponentAtRoute('/saodifjiodfj');
+    renderComponentAtRoute('/saodifjiodfj');
 
-    expect(history.location.pathname).toEqual('/login');
+    expect(screen.getByText('Log In To Your Account')).toBeInTheDocument();
   });
 });

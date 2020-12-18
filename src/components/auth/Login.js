@@ -6,8 +6,7 @@ import * as yup from 'yup';
 
 import { api } from '../../api';
 import { UserContext } from '../user/UserProvider';
-import { FormControl } from '../common/FormControl';
-import { WarningText } from '../common/WarningText';
+import { FormControl, WarningText, Button } from '../common'
 
 const loginFormSchema = yup.object().shape({
   username: yup.string().required('Username is required.'),
@@ -53,7 +52,7 @@ export const Login = () => {
         register={register}
         error={errors.password?.message} />
 
-      <button className="bg-lightblue hover:bg-lightblue-dark p-2 rounded-sm block ml-auto" type="submit">Log In</button>
+      <Button className="ml-auto" type="submit">Log In</Button>
 
       <div className="text-sm text-center">
         New here? <Link to="/register">Sign up for an account.</Link>

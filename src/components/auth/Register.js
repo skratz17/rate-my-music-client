@@ -6,8 +6,7 @@ import * as yup from 'yup';
 
 import { api } from '../../api';
 import { UserContext } from '../user/UserProvider';
-import { FormControl } from '../common/FormControl';
-import { WarningText } from '../common/WarningText';
+import { FormControl, WarningText, Button } from '../common'
 
 const registerFormSchema = yup.object().shape({
   username: yup.string().required('Username is required.').matches(/^[a-zA-Z0-9@\.+-_]+$/, 'Username may only contain letters, numbers, and @.+-_ characters.'),
@@ -87,7 +86,7 @@ export const Register = () => {
         register={register}
         error={errors.bio?.message} />
 
-      <button className="bg-lightblue hover:bg-lightblue-dark p-2 rounded-sm block ml-auto"  type="submit">Register</button>
+      <Button className="ml-auto" type="submit">Register</Button>
 
       <div className="text-sm text-center pb-2">
         Already got an account? <Link to="/login">Go login!</Link>

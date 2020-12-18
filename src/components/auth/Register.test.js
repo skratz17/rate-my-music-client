@@ -11,9 +11,24 @@ import { Register } from './Register';
 jest.mock('../../api');
 const mockRegister = (api.auth.register = jest.fn());
 
+const renderComponent = () => {
+  const history = createMemoryHistory();
+  history.push('/register');
+
+  render(
+    <LocalStorageMock>
+      <Router history={history}>
+        <Register />
+      </Router>
+    </LocalStorageMock>
+  );
+
+  return history;
+}
+
 describe('registration form validation', () => {
   test('all fields are required', async () => {
-    render(<Register />);
+    renderComponent();
 
     await userEvent.click(screen.getByRole('button'));
 
@@ -27,7 +42,7 @@ describe('registration form validation', () => {
   });
 
   test('username must contain only valid characters', async () => {
-    render(<Register />);
+    renderComponent();
 
     await userEvent.type(screen.getByLabelText('Username'), 'user~');
     await userEvent.click(screen.getByRole('button'));
@@ -36,7 +51,7 @@ describe('registration form validation', () => {
   });
 
   test('email must be valid email format', async () => {
-    render(<Register />);
+    renderComponent();
 
     await userEvent.type(screen.getByLabelText('Email'), 'invalid');
     await userEvent.click(screen.getByRole('button'));
@@ -45,7 +60,7 @@ describe('registration form validation', () => {
   });
 
   test('password confirmation must match password', async () => {
-    render(<Register />);
+    renderComponent();
 
     await userEvent.type(screen.getByLabelText('Password'), 'test');
     await userEvent.type(screen.getByLabelText('Confirm Password'), 'testt');
@@ -56,21 +71,6 @@ describe('registration form validation', () => {
 });
 
 describe('registration form functionality', () => {
-  const renderComponent = () => {
-    const history = createMemoryHistory();
-    history.push('/register');
-
-    render(
-      <LocalStorageMock>
-        <Router history={history}>
-          <Register />
-        </Router>
-      </LocalStorageMock>
-    );
-
-    return history;
-  }
-
   test('registers an account, sets token in local storage, and redirects user to home on success', async () => {
     mockRegister.mockResolvedValueOnce({ token: '1234' });
 

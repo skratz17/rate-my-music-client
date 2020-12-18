@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
 import { api } from '../../api';
+import { FormControl } from '../common/FormControl';
+import { WarningText } from '../common/WarningText';
 
 const registerFormSchema = yup.object().shape({
   username: yup.string().required('Username is required.').matches(/^[a-zA-Z0-9@\.+-_]+$/, 'Username may only contain letters, numbers, and @.+-_ characters.'),
@@ -39,40 +41,54 @@ export const Register = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <h2>Register a New Account</h2>
+    <form onSubmit={handleSubmit(onSubmit)} className="overflow-scroll bg-gray-50 bg-opacity-90 rounded shadow p-5 pb-2 max-w-md text-xl" style={{ maxHeight: '75%' }}>
+      <h2 className="text-3xl text-center m-5 mt-0">Register a New Account</h2>
 
-      { registrationError && <p>{registrationError}</p> }
+      <WarningText>{registrationError}</WarningText>
 
-      <label htmlFor="username">Username</label>
-      <input type="text" name="username" id="username" ref={register} />
-      <p>{errors.username?.message}</p>
+      <FormControl name="username"
+        label="Username"
+        register={register}
+        error={errors.username?.message} />
 
-      <label htmlFor="email">Email</label>
-      <input type="text" name="email" id="email" ref={register} />
-      <p>{errors.email?.message}</p>
+      <FormControl name="email"
+        label="Email"
+        register={register}
+        error={errors.email?.message} />
 
-      <label htmlFor="password">Password</label>
-      <input type="password" name="password" id="password" ref={register} />
-      <p>{errors.password?.message}</p>
+      <FormControl name="password"
+        label="Password"
+        type="password"
+        register={register}
+        error={errors.password?.message} />
 
-      <label htmlFor="passwordConfirmation">Confirm Password</label>
-      <input type="password" name="passwordConfirmation" id="passwordConfirmation" ref={register} />
-      <p>{errors.passwordConfirmation?.message}</p>
+      <FormControl name="passwordConfirmation"
+        label="Confirm Password"
+        type="password"
+        register={register}
+        error={errors.passwordConfirmation?.message} />
 
-      <label htmlFor="firstName">First Name</label>
-      <input type="text" name="firstName" id="firstName" ref={register} />
-      <p>{errors.firstName?.message}</p>
+      <FormControl name="firstName"
+        label="First Name"
+        register={register}
+        error={errors.firstName?.message} />
 
-      <label htmlFor="lastName">Last Name</label>
-      <input type="text" name="lastName" id="lastName" ref={register} />
-      <p>{errors.lastName?.message}</p>
+      <FormControl name="lastName"
+        label="Last Name"
+        register={register}
+        error={errors.lastName?.message} />
 
-      <label htmlFor="bio">Bio</label>
-      <textarea name="bio" id="bio" ref={register} />
-      <p>{errors.bio?.message}</p>
+      <FormControl name="bio"
+        type="textarea"
+        label="Bio"
+        register={register}
+        error={errors.bio?.message} />
 
-      <button type="submit">Register</button>
+      <button className="bg-lightblue hover:bg-lightblue-dark p-2 rounded-sm block ml-auto"  type="submit">Register</button>
+
+      <div className="text-sm text-center pb-2">
+        Already got an account? <Link to="/login">Go login!</Link>
+      </div>
     </form>
   );
 };

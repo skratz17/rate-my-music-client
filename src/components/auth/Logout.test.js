@@ -31,12 +31,4 @@ describe('logout functionality', () => {
 
     expect(mockLogout).toHaveBeenCalledTimes(1);
   });
-
-  test('redirects if rendered when not logged in', () => {
-    mockIsLoggedIn.mockImplementation(() => false);
-
-    const history = renderComponent();
-
-    expect(history.location.pathname).toEqual('/');
-  });
 });

@@ -38,6 +38,8 @@ export const convertSnakeToCamel = str => {
  * @param {function} transformer Function dictating how the keys should be transformed.
  */
 export const translateObjectKeys = (obj, transformer) => {
+
+  // if object is array we need to recursively translate all values in the array only if they are an object or an array
   if(Array.isArray(obj)) {
     return obj.map(v => typeof v === 'object' && v !== null ? translateObjectKeys(v, transformer) : v);
   }
@@ -46,8 +48,9 @@ export const translateObjectKeys = (obj, transformer) => {
 
   for(const [ key, value ] of Object.entries(obj)) {
     const transformedKey = transformer(key);
-    let transformedValue = value; // if value is array or object we need to recursively translate its keys as well
+    let transformedValue = value; 
 
+    // if value is array or object we need to recursively translate its keys as well
     if(typeof value === 'object' && value !== null) {
       transformedValue = translateObjectKeys(value, transformer);
     }

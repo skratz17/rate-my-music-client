@@ -4,11 +4,14 @@ import { BrowserRouter } from 'react-router-dom';
 
 import './styles/main.css';
 import { RateMyMusic } from './components/RateMyMusic';
+import { UserProvider } from './components/user/UserProvider';
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
-      <RateMyMusic />
+      <UserProvider>
+        <RateMyMusic />
+      </UserProvider>
     </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')

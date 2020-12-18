@@ -1,26 +1,28 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { LocalStorageMock } from '@react-mock/localstorage';
 import { createMemoryHistory } from 'history';
 import React from 'react';
 import { Router } from 'react-router-dom';
 
 import { api } from '../../api';
+import { UserContext } from '../user/UserProvider';
 import { Register } from './Register';
 
 jest.mock('../../api');
 const mockRegister = (api.auth.register = jest.fn());
+
+const mockSetUserToken = jest.fn();
 
 const renderComponent = () => {
   const history = createMemoryHistory();
   history.push('/register');
 
   render(
-    <LocalStorageMock>
+    <UserContext.Provider value={{ setUserToken: mockSetUserToken }}>
       <Router history={history}>
         <Register />
       </Router>
-    </LocalStorageMock>
+    </UserContext.Provider>
   );
 
   return history;
@@ -97,7 +99,8 @@ describe('registration form functionality', () => {
       bio: 'test'
     });
 
-    await waitFor(() => expect(localStorage.getItem('rmm_user')).toBe('1234'));
+    expect(mockSetUserToken).toHaveBeenCalledTimes(1);
+    expect(mockSetUserToken).toHaveBeenCalledWith('1234');
     expect(history.location.pathname).toEqual('/home');
   });
 
@@ -119,7 +122,7 @@ describe('registration form functionality', () => {
     await waitFor(() => expect(mockRegister).toHaveBeenCalledTimes(1));
 
     expect(await screen.findByText('A user with that username already exists.')).toBeInTheDocument();
-    expect(localStorage.getItem('rmm_user')).toBeNull();
+    expect(mockSetUserToken).toHaveBeenCalledTimes(0);
     expect(history.location.pathname).toEqual('/register');
   });
 });

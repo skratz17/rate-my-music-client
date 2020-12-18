@@ -2,6 +2,7 @@ import React from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 
 import { Home } from './home/Home';
+import { Logout } from './auth/Logout';
 
 export const ApplicationViews = () => {
   return (
@@ -26,10 +27,9 @@ export const ApplicationViews = () => {
         <div>me</div>
       </Route>
 
-      <Route path="/logout" render={() => {
-        localStorage.removeItem('rmm_user');
-        return <Redirect to="/" />;
-      }} />
+      <Route path="/logout">
+        <Logout />
+      </Route>
 
       <Route path="/" >
         <Redirect to="/home" />

@@ -1,26 +1,28 @@
 import { render, screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
-import { LocalStorageMock } from '@react-mock/localstorage';
 import { createMemoryHistory } from 'history';
 import { Router } from 'react-router-dom';
 
 import { api } from '../../api';
 import { Login } from './Login';
+import { UserContext } from '../user/UserProvider';
 
 jest.mock('../../api');
 const mockLogin = (api.auth.login = jest.fn());
 
-const renderComponent = () => {
+const mockSetUserToken = jest.fn();
+
+const renderComponent = value => {
   const history = createMemoryHistory();
   history.push('/login');
 
   render(
-    <LocalStorageMock>
+    <UserContext.Provider value={{ setUserToken: mockSetUserToken }}>
       <Router history={history}>
         <Login />
       </Router>
-    </LocalStorageMock>
+    </UserContext.Provider>
   );
 
   return history;
@@ -37,7 +39,7 @@ describe('login form validation', () => {
 });
 
 describe('login form functionality', () => {
-  test('on login success sets localStorage token and redirects to /home', async () => {
+  test('on login success calls setUserToken and redirects to /home', async () => {
     mockLogin.mockResolvedValueOnce({ token: '1234', valid: true });
 
     const history = renderComponent();
@@ -52,7 +54,8 @@ describe('login form functionality', () => {
       password: 'test'
     });
 
-    await waitFor(() => expect(localStorage.getItem('rmm_user')).toBe('1234'));
+    expect(mockSetUserToken).toHaveBeenCalledTimes(1);
+    expect(mockSetUserToken).toHaveBeenCalledWith('1234')
     expect(history.location.pathname).toEqual('/home');
   });
 
@@ -71,7 +74,7 @@ describe('login form functionality', () => {
       password: 'test'
     });
 
-    await waitFor(() => expect(localStorage.getItem('rmm_user')).toBeNull());
+    expect(mockSetUserToken).toHaveBeenCalledTimes(0);
     expect(history.location.pathname).toEqual('/login');
   });
 });

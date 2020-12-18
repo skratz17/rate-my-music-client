@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useHistory, Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
 import { api } from '../../api';
+import { UserContext } from '../user/UserProvider';
 import { FormControl } from '../common/FormControl';
 import { WarningText } from '../common/WarningText';
 
@@ -29,10 +30,12 @@ export const Register = () => {
     resolver: yupResolver(registerFormSchema)
   });
 
+  const { setUserToken } = useContext(UserContext);
+
   const onSubmit = async registrationInfo => {
     try {
       const { token } = await api.auth.register(registrationInfo);
-      localStorage.setItem('rmm_user', token);
+      setUserToken(token);
       history.push('/home');
     }
     catch(e) {

@@ -74,6 +74,7 @@ describe('login form functionality', () => {
       password: 'test'
     });
 
+    expect(mockSetUserToken).toHaveBeenCalledTimes(0);
     expect(history.location.pathname).toEqual('/login');
   });
 });

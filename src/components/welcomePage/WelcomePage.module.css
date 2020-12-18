@@ -1,0 +1,9 @@
+.welcomePage {
+  background-image: url('../../assets/welcomeImage.jpg') !important;
+}
+
+@media(max-width: 768px) {
+  .welcomePage {
+    background-position: 90% 100% !important;
+  }
+}

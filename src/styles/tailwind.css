@@ -1,3 +1,10 @@
 @tailwind base;
+
+@layer base {
+  body {
+    @apply text-black;
+  }
+}
+
 @tailwind components;
 @tailwind utilities;

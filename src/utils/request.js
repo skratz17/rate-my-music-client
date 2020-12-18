@@ -1,13 +1,14 @@
-import { translateObjectKeys, convertCamelToSnake } from './caseConversions';
+import { translateObjectKeys, convertCamelToSnake, convertSnakeToCamel } from './caseConversions';
 
 const API_BASE = 'http://localhost:8000';
 
 /**
- * Basic fetch wrapper to automate repetitive fetch tasks.
+ * Fetch wrapper to automate repetitive fetch tasks.
  * @param {String} location URL location to make the request to.
  * @param {String} method HTTP verb to use for the request.
  * @param {Object} body Body of the request, if POST or PUT
- * @returns {Promise} Promise returned by underlying fetch call.
+ * @returns {Response or Object} Returns parsed JSON body of response if JSON body exists, or otherwise the fetch Response.
+ * @throws Throws an error if fetch response status code >= 400, error body will contain error description from server.
  */
 export const request = async (location, method = 'GET', body) => {
   const fullLocation = API_BASE + location;
@@ -30,5 +31,16 @@ export const request = async (location, method = 'GET', body) => {
     options.body = JSON.stringify(translatedBody);
   }
 
-  return await fetch(fullLocation, options);
+  const fetchResponse = await fetch(fullLocation, options);
+  if(fetchResponse.status >= 400) {
+    throw new Error((await fetchResponse.json()).message || 'Something went wrong :/.');
+  }
+
+  try {
+    const data = await fetchResponse.json();
+    return translateObjectKeys(data, convertSnakeToCamel);
+  }
+  catch(e) {
+    return fetchResponse;
+  }
 };

@@ -7,7 +7,7 @@ import { LocalStorageMock } from '@react-mock/localstorage';
 import { ApplicationViews } from './ApplicationViews';
 
 describe('application views routing', () => {
-  test('navigation to /logout clears localStorage value and redirects to /', async () => {
+  test('navigation to /logout clears localStorage value and redirects to /', () => {
     const history = createMemoryHistory();
     history.push('/logout');
     render(
@@ -18,7 +18,7 @@ describe('application views routing', () => {
       </LocalStorageMock>
     );
 
-    await waitFor(() => expect(localStorage.getItem('rmm_user')).toBeNull());
+    expect(localStorage.getItem('rmm_user')).toBeNull();
     expect(history.location.pathname).toEqual('/');
   });
 });

@@ -2,6 +2,7 @@ import React from 'react';
 import { MdPerson, MdMusicNote } from 'react-icons/md';
 
 import { LinkButton } from '../common';
+import { Stats } from '../stats/Stats';
 
 export const ContributePage = () => {
 
@@ -22,6 +23,8 @@ export const ContributePage = () => {
           Create a New Song
         </LinkButton>
       </div>
+
+      <Stats />
     </div>
   );
 };

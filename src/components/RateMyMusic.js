@@ -2,7 +2,7 @@ import React from 'react';
 import { Route } from 'react-router-dom';
 
 import { ApplicationViews } from './ApplicationViews';
-import { WelcomeBanner } from './welcomeBanner/WelcomeBanner';
+import { WelcomePage } from './welcomePage/WelcomePage';
 import { UnauthorizedUserViews } from './UnauthorizedUserViews';
 
 export const RateMyMusic = () => {
@@ -15,10 +15,9 @@ export const RateMyMusic = () => {
       }
       else {
         return (
-          <>
-            <WelcomeBanner />
+          <WelcomePage>
             <UnauthorizedUserViews />
-          </>
+          </WelcomePage>
         );
       }
     }} />

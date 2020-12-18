@@ -11,9 +11,24 @@ import { Login } from './Login';
 jest.mock('../../api');
 const mockLogin = (api.auth.login = jest.fn());
 
+const renderComponent = () => {
+  const history = createMemoryHistory();
+  history.push('/login');
+
+  render(
+    <LocalStorageMock>
+      <Router history={history}>
+        <Login />
+      </Router>
+    </LocalStorageMock>
+  );
+
+  return history;
+}
+
 describe('login form validation', () => {
   test('all fields are required', async () => {
-    render(<Login />);
+    renderComponent();
 
     await userEvent.click(screen.getByRole('button'));
     expect(await screen.findByText('Username is required.')).toBeInTheDocument();
@@ -22,21 +37,6 @@ describe('login form validation', () => {
 });
 
 describe('login form functionality', () => {
-  const renderComponent = () => {
-    const history = createMemoryHistory();
-    history.push('/login');
-
-    render(
-      <LocalStorageMock>
-        <Router history={history}>
-          <Login />
-        </Router>
-      </LocalStorageMock>
-    );
-
-    return history;
-  }
-
   test('on login success sets localStorage token and redirects to /home', async () => {
     mockLogin.mockResolvedValueOnce({ token: '1234', valid: true });
 

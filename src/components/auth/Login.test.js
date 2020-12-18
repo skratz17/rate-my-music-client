@@ -39,7 +39,7 @@ describe('login form validation', () => {
 });
 
 describe('login form functionality', () => {
-  test('on login success sets localStorage token and redirects to /home', async () => {
+  test('on login success calls setUserToken and redirects to /home', async () => {
     mockLogin.mockResolvedValueOnce({ token: '1234', valid: true });
 
     const history = renderComponent();

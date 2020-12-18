@@ -1,15 +1,18 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Route } from 'react-router-dom';
 
+import { UserContext } from './user/UserProvider';
 import { NavBar } from './nav/NavBar';
 import { ApplicationViews } from './ApplicationViews';
 import { WelcomePage } from './welcomePage/WelcomePage';
 import { UnauthorizedUserViews } from './UnauthorizedUserViews';
 
 export const RateMyMusic = () => {
+  const { isLoggedIn } = useContext(UserContext);
+
   return (
     <Route render={() => {
-      if(localStorage.getItem('rmm_user')) {
+      if(isLoggedIn()) {
         return (
           <>
             <NavBar />

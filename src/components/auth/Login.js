@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useHistory, Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
 import { api } from '../../api';
+import { UserContext } from '../user/UserProvider';
 import { FormControl } from '../common/FormControl';
 import { WarningText } from '../common/WarningText';
 
@@ -20,12 +21,14 @@ export const Login = () => {
 
   const [ loginError, setLoginError ] = useState('');
 
+  const { setUserToken } = useContext(UserContext);
+
   const history = useHistory();
 
   const onSubmit = async loginData => {
     try {
       const { token } = await api.auth.login(loginData);
-      localStorage.setItem('rmm_user', token);
+      setUserToken(token);
       history.push('/home');
     }
     catch(e) {

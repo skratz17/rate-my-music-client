@@ -1,13 +1,17 @@
 import { render, screen } from '@testing-library/react';
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
+
 import { UnauthorizedUserViews } from './UnauthorizedUserViews';
+import { UserContext } from './user/UserProvider';
 
 const renderComponentAtRoute = route => {
   render(
-    <MemoryRouter initialEntries={[ route ]}>
-      <UnauthorizedUserViews />
-    </MemoryRouter>
+    <UserContext.Provider value={{ setUserToken: jest.fn() }}>
+      <MemoryRouter initialEntries={[ route ]}>
+        <UnauthorizedUserViews />
+      </MemoryRouter>
+    </UserContext.Provider>
   );
 };
 

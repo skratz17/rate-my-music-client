@@ -27,12 +27,15 @@ export const UserProvider = props => {
   const setUserToken = token => {
     localStorage.setItem('rmm_user', token);
     setToken(token);
-  }
+  };
 
-  const destroyUserToken = () => localStorage.removeItem('rmm_user');
+  const logout = () => {
+    localStorage.removeItem('rmm_user');
+    setToken(null);
+  };
 
   return (
-    <UserContext.Provider value={{ isLoggedIn, setUserToken, destroyUserToken, user, token }}>
+    <UserContext.Provider value={{ isLoggedIn, setUserToken, logout, user, token }}>
       {props.children}
     </UserContext.Provider>
   )

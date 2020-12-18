@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 
+import { UserContext } from '../user/UserProvider';
 import { NavLink } from './NavLink';
 
 export const NavBar = () => {
+  const { user } = useContext(UserContext);
+
   return (
     <nav className="py-3 px-5 flex md:flex-row flex-col justify-between 2xl:container mx-auto">
       <div className="flex md:flex-row flex-col md:justify-evenly justify-center md:items-end items-center">
@@ -17,7 +20,7 @@ export const NavBar = () => {
       </div>
 
       <div className="flex md:flex-row flex-col md:justify-end justify-center md:items-end items-center">
-        <NavLink to="/me">username</NavLink>
+        <NavLink to="/me">{user?.user?.username}</NavLink>
         <NavLink to="/logout" className="mx-0">(logout)</NavLink>
       </div>
     </nav>

@@ -31,7 +31,6 @@ export const GenreAutocompleteSelector = props => {
 
   return (
     <div>
-      <AutocompleteSearchBar removeOnSelect onSearch={api.genres.search} onSelect={handleSelect} name={name} className={className} />
       <div className="flex my-2">
         {
           selectedGenres.map(genre => (
@@ -45,6 +44,8 @@ export const GenreAutocompleteSelector = props => {
           ))
         }
       </div>
+      <AutocompleteSearchBar removeOnSelect onSearch={api.genres.search} onSelect={handleSelect} name={name} className={className} />
+
     </div>
   );
 };

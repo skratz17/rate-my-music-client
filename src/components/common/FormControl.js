@@ -3,7 +3,7 @@ import React from 'react';
 import { WarningText } from './WarningText';
 
 export const FormControl = props => {
-  const { type, name, register, label, error } = props;
+  const { type, name, register, label, error, className } = props;
 
   const renderFormControl = type => {
     switch(type) {
@@ -19,7 +19,7 @@ export const FormControl = props => {
   };
 
   return (
-    <div className="flex flex-col my-2">
+    <div className={`flex flex-col my-2 ${className || ''}`}>
       <label htmlFor={name}>{label}</label>
       <WarningText>{error}</WarningText>
       { renderFormControl(type) }

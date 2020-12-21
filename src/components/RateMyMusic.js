@@ -16,7 +16,9 @@ export const RateMyMusic = () => {
         return (
           <>
             <NavBar />
-            <ApplicationViews />
+            <main className="p-5">
+              <ApplicationViews />
+            </main>
           </>
         );
       }

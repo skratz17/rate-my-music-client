@@ -6,7 +6,7 @@ export const NavLink = props => {
 
   return (
     <Link to={to}
-      className={`text-black hover:text-emerald-dark text-lg mx-3 md:my-0 my-1 ${className}`}>
+      className={`text-black hover:text-emerald-dark text-lg mx-3 md:my-0 my-1 ${className || ''}`}>
       {props.children}
     </Link>
   )

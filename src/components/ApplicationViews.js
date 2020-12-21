@@ -2,6 +2,7 @@ import React from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 
 import { Home } from './home/Home';
+import { ContributePage } from './contribute/ContributePage';
 import { Logout } from './auth/Logout';
 
 export const ApplicationViews = () => {
@@ -20,7 +21,7 @@ export const ApplicationViews = () => {
       </Route>
 
       <Route path="/contribute">
-        <div>contribute</div>
+        <ContributePage />
       </Route>
 
       <Route path="/me">

@@ -9,15 +9,15 @@ export const Stats = () => {
 
   return (
     <div>
-      <h2><span className="text-emerald font-bold">RMM</span> Stats</h2>
+      <h2 className="text-xl my-2"><span className="text-emerald">RMM</span> Stats</h2>
       <WarningText>{error}</WarningText>
       { isLoading && <p>loading...</p> }
       { statsData && 
-        <ul>
-          <li>{statsData.users} users</li>
-          <li>{statsData.artists} artists</li>
-          <li>{statsData.songs} songs</li>
-          <li>{statsData.lists} lists</li>
+        <ul className="text-lg">
+          <li><span className="font-bold">{statsData.users}</span> users</li>
+          <li><span className="font-bold">{statsData.artists}</span> artists</li>
+          <li><span className="font-bold">{statsData.songs}</span> songs</li>
+          <li><span className="font-bold">{statsData.lists}</span> lists</li>
         </ul>
       }
     </div>

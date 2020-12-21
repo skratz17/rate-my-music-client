@@ -12,7 +12,7 @@ export const DelayedSearchBar = props => {
 
   const [ results, isLoading ] = useApi(async _debouncedSearchTerm => {
     if(_debouncedSearchTerm) {
-      return await onSearch(_debouncedSearchTerm)
+      return await onSearch(_debouncedSearchTerm);
     }
   }, debouncedSearchTerm);
 

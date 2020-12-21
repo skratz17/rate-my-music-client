@@ -20,6 +20,7 @@ export const ArtistAutocompleteSearchBar = props => {
         <span>{selectedValue.name}</span>
         <button className="bg-red-300 hover:bg-red-400 rounded p-1 mx-2" onClick={() => handleSelect(null)}>
           <MdClear />
+          <span className="sr-only">Clear Artist</span>
         </button>
       </div>
     );

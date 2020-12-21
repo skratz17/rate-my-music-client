@@ -7,11 +7,13 @@ import { useHistory } from 'react-router-dom';
 import { api } from '../../api';
 import { Button, FormControl, WarningText } from '../common';
 import { ArtistAutocompleteSearchBar } from '../artist/ArtistAutocompleteSearchBar';
+import { GenreAutocompleteSelector } from '../genre/GenreAutocompleteSelector';
 
 const songFormSchema = yup.object().shape({
   name: yup.string().required('Name is required.'),
   artistId: yup.number('Artist is required.').typeError('Artist is required.').required('Artist is required.'),
-  year: yup.number().typeError('Year must be a number.').required('Year is required.').integer('Year must be a whole number.').min(1850, 'Year must be on or after 1850.').max((new Date()).getFullYear(), 'Year must be on or earlier than the current year.'),
+  year: yup.number().typeError('Year must be a number.').required('Year is required.').integer('Year must be a whole number.').min(1850, 'Year must be on or after 1850.').max((new Date()).getFullYear(), 'Year must be on or earlier than the current year.')
+
 });
 
 export const SongForm = props => {
@@ -42,7 +44,7 @@ export const SongForm = props => {
 
   return (
     <form className="max-w-screen-lg mx-auto" onSubmit={handleSubmit(onSubmit)} aria-labelledby="song-form-title">
-      <h2 id="song-form-title"><span className="text-deepred">New</span> Song</h2>
+      <h2 id="song-form-title" className="text-2xl text-center"><span className="text-deepred">New</span> Song</h2>
 
       <WarningText>{error}</WarningText>
 

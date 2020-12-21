@@ -1,4 +1,4 @@
-import { request } from '../utils/request';
+import { request, queryParamsToString } from '../utils';
 
 export const artists = {
   create: async artistData => {
@@ -14,5 +14,11 @@ export const artists = {
   update: async (artistId, artistData) => {
     const artist = await request(`/artists/${artistId}`, 'PUT', artistData);
     return artist;
+  },
+
+  list: async params => {
+    const queryParams = queryParamsToString(params);
+    const artists = await request(`/artists?${queryParams}`);
+    return artists;
   }
 }

@@ -12,8 +12,8 @@ import { GenreAutocompleteSelector } from '../genre/GenreAutocompleteSelector';
 const songFormSchema = yup.object().shape({
   name: yup.string().required('Name is required.'),
   artistId: yup.number('Artist is required.').typeError('Artist is required.').required('Artist is required.'),
-  year: yup.number().typeError('Year must be a number.').required('Year is required.').integer('Year must be a whole number.').min(1850, 'Year must be on or after 1850.').max((new Date()).getFullYear(), 'Year must be on or earlier than the current year.')
-
+  year: yup.number().typeError('Year must be a number.').required('Year is required.').integer('Year must be a whole number.').min(1850, 'Year must be on or after 1850.').max((new Date()).getFullYear(), 'Year must be on or earlier than the current year.'),
+  genreIds: yup.array().of(yup.number()).min(1, 'You must select at least one genre.').required('At least one genre is required.')
 });
 
 export const SongForm = props => {
@@ -26,7 +26,8 @@ export const SongForm = props => {
     defaultValues: {
       name: song?.name || '',
       artistId: song?.artistId || '',
-      year: song?.year || ''
+      year: song?.year || '',
+      genreIds: song?.genreIds || []
     }
   });
 
@@ -74,6 +75,21 @@ export const SongForm = props => {
         label="Year"
         register={register}
         error={errors.year?.message} />
+
+      <FormControl name="genres"
+        label="Genre(s)"
+        error={errors.genreIds?.message}>
+        <Controller
+          name="genreIds"
+          control={control}
+          render={props => (
+            <GenreAutocompleteSelector className="p-2"
+              name="genres"
+              onSelect={genres => props.onChange(genres.map(g => g.id))}
+            />
+          )}
+        />
+      </FormControl>
 
       <Button type="submit" className="ml-auto">Create Song</Button>
     </form>

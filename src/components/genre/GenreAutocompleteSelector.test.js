@@ -31,14 +31,14 @@ describe('genre autocomplete selector functionality', () => {
 
     await userEvent.click(buttons[0]);
 
-    expect(mockSelectHandler).toHaveBeenCalledTimes(1);
+    expect(mockSelectHandler).toHaveBeenCalledTimes(2);
     expect(mockSelectHandler).toHaveBeenCalledWith([{ id: 1, name: 'Indie Pop' }]);
 
     const clearIndiePopButton = screen.getByText('Remove Indie Pop');
     expect(clearIndiePopButton).toBeInTheDocument();
     await userEvent.click(clearIndiePopButton);
 
-    expect(mockSelectHandler).toHaveBeenCalledTimes(2);
+    expect(mockSelectHandler).toHaveBeenCalledTimes(3);
     expect(mockSelectHandler).toHaveBeenCalledWith([]);
 
     expect(screen.queryByText('Remove Indie Pop')).not.toBeInTheDocument();
@@ -50,7 +50,7 @@ describe('genre autocomplete selector functionality', () => {
       { id: 2, name: 'Bubblegum Pop' }
     ];
 
-    render(<GenreAutocompleteSelector defaultValue={defaultGenres} />);
+    render(<GenreAutocompleteSelector onSelect={() => {}} defaultValue={defaultGenres} />);
 
     const clearGenreButtons = screen.getAllByRole('button');
     expect(clearGenreButtons).toHaveLength(2);

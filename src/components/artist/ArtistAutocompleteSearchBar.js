@@ -16,7 +16,7 @@ export const ArtistAutocompleteSearchBar = props => {
 
   if(selectedValue) {
     return (
-      <div className="flex">
+      <div className="flex my-2">
         <span>{selectedValue.name}</span>
         <button className="bg-red-300 hover:bg-red-400 rounded p-1 mx-2" onClick={() => handleSelect(null)}>
           <MdClear />

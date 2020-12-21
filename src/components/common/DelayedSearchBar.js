@@ -18,7 +18,7 @@ export const DelayedSearchBar = props => {
 
   useEffect(() => {
     onResults(results);
-  }, [ JSON.stringify(results) ]);
+  }, [ results ]);
 
   return (
     <div className="flex items-center relative">

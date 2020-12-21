@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { MdClear } from 'react-icons/md';
 
 import { AutocompleteSearchBar } from '../common';
@@ -9,11 +9,14 @@ export const GenreAutocompleteSelector = props => {
 
   const [ selectedGenres, setSelectedGenres ] = useState(defaultValue || []);
 
+  useEffect(() => {
+    onSelect(selectedGenres);
+  }, [ selectedGenres ]);
+
   const handleSelect = _selectedValue => {
     if(!selectedGenres.some(genre => genre.id === _selectedValue.id)) {
       setSelectedGenres(prevSelectedGenres => {
         const updatedGenres = [ ...prevSelectedGenres, _selectedValue ]
-        onSelect(updatedGenres);
         return updatedGenres;
       });
     }
@@ -22,7 +25,6 @@ export const GenreAutocompleteSelector = props => {
   const handleRemove = genreToRemove => {
     setSelectedGenres(prevSelectedGenres => {
       const updatedGenres = prevSelectedGenres.filter(genre => genre.id !== genreToRemove.id)
-      onSelect(updatedGenres);
       return updatedGenres;
     });
   };
@@ -30,7 +32,7 @@ export const GenreAutocompleteSelector = props => {
   return (
     <div>
       <AutocompleteSearchBar removeOnSelect onSearch={api.genres.search} onSelect={handleSelect} name={name} className={className} />
-      <div className="flex">
+      <div className="flex my-2">
         {
           selectedGenres.map(genre => (
             <div key={genre.id} className="flex">

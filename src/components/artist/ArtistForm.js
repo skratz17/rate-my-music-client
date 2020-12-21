@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useHistory } from 'react-router-dom';
 
 import { api } from '../../api';
-import { Button, FormControl } from '../common';
+import { Button, FormControl, WarningText } from '../common';
 
 const artistFormSchema = yup.object().shape({
   name: yup.string().required('Artist name is required.'),
@@ -17,13 +18,25 @@ export const ArtistForm = props => {
     resolver: yupResolver(artistFormSchema)
   });
 
+  const [ error, setError ] = useState('');
+
+  const history = useHistory();
+
   const onSubmit = async artistData => {
-    console.log(artistData);
+    try {
+      const artist = await api.artists.create(artistData);
+      history.push(`/artists/${artist.id}`);
+    }
+    catch(e) {
+      setError(e.message);
+    }
   };
 
   return (
     <form className="max-w-screen-lg mx-auto" onSubmit={handleSubmit(onSubmit)}>
-      <h2>New <span className="text-deepred">Artist</span></h2>
+      <h2 className="text-2xl text-center">New <span className="text-deepred">Artist</span></h2>
+
+      <WarningText>{error}</WarningText>
 
       <FormControl name="name"
         label="Name"

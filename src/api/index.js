@@ -1,11 +1,11 @@
 import { auth } from './auth';
 import { user } from './user';
 import { stats } from './stats';
-import { artist } from './artist';
+import { artists } from './artists';
 
 export const api = {
   auth,
   user,
   stats,
-  artist
+  artists
 };

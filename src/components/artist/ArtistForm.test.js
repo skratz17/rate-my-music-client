@@ -9,6 +9,7 @@ import { api } from '../../api';
 
 jest.mock('../../api');
 const mockPostArtist = (api.artists.create = jest.fn());
+const mockUpdateArtist = (api.artists.update = jest.fn());
 
 describe('artist form validation', () => {
   test('all fields are required', async () => {
@@ -84,5 +85,33 @@ describe('artist form functionality', () => {
     await waitFor(() => expect(mockPostArtist).toHaveBeenCalledTimes(1));
 
     expect(await screen.findByText('Artist creation failed.')).toBeInTheDocument();
+  });
+
+  test('renders with default values if artist object passed as props, calls update function on submit, and redirects to artist page', async () => {
+    mockUpdateArtist.mockImplementationOnce((id, artistData) => Promise.resolve({ ...artistData, id }));
+
+    const artist = {
+      id: 2,
+      name: 'of Montreal',
+      foundedYear: 1996,
+      description: 'So good.'
+    };
+
+    const history = renderComponent(<ArtistForm artist={artist} />);
+
+    expect(screen.getByLabelText('Name')).toEqual(screen.getByDisplayValue('of Montreal'));
+    expect(screen.getByLabelText('Year Founded')).toEqual(screen.getByDisplayValue('1996'));
+    expect(screen.getByLabelText('Description')).toEqual(screen.getByDisplayValue('So good.'));
+
+    await userEvent.click(screen.getByRole('button'));
+
+    await waitFor(() => expect(mockUpdateArtist).toHaveBeenCalledTimes(1));
+    expect(mockUpdateArtist).toHaveBeenCalledWith(2, {
+      name: 'of Montreal',
+      foundedYear: 1996,
+      description: 'So good.'
+    });
+
+    await waitFor(() => expect(history.location.pathname).toEqual('/artists/2'));
   });
 });

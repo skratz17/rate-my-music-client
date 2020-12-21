@@ -14,8 +14,15 @@ const artistFormSchema = yup.object().shape({
 });
 
 export const ArtistForm = props => {
+  const { artist } = props;
+
   const { register, handleSubmit, errors } = useForm({
-    resolver: yupResolver(artistFormSchema)
+    resolver: yupResolver(artistFormSchema),
+    defaultValues: {
+      name: artist?.name || '',
+      foundedYear: artist?.foundedYear || '',
+      description: artist?.description || ''
+    }
   });
 
   const [ error, setError ] = useState('');
@@ -24,8 +31,8 @@ export const ArtistForm = props => {
 
   const onSubmit = async artistData => {
     try {
-      const artist = await api.artists.create(artistData);
-      history.push(`/artists/${artist.id}`);
+      const artistResponse = artist ? await api.artists.update(artist.id, artistData) : await api.artists.create(artistData);
+      history.push(`/artists/${artistResponse.id}`);
     }
     catch(e) {
       setError(e.message);
@@ -34,7 +41,7 @@ export const ArtistForm = props => {
 
   return (
     <form className="max-w-screen-lg mx-auto" onSubmit={handleSubmit(onSubmit)}>
-      <h2 className="text-2xl text-center">New <span className="text-deepred">Artist</span></h2>
+      <h2 className="text-2xl text-center">{ artist ? 'Edit' : 'New' } <span className="text-deepred">Artist</span></h2>
 
       <WarningText>{error}</WarningText>
 

@@ -3,6 +3,7 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 
 import { Home } from './home/Home';
 import { ContributePage } from './contribute/ContributePage';
+import { ArtistForm } from './artist/ArtistForm';
 import { Logout } from './auth/Logout';
 
 export const ApplicationViews = () => {
@@ -22,6 +23,10 @@ export const ApplicationViews = () => {
 
       <Route path="/contribute">
         <ContributePage />
+      </Route>
+
+      <Route path="/artists/new">
+        <ArtistForm />
       </Route>
 
       <Route path="/me">

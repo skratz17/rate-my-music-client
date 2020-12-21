@@ -2,7 +2,7 @@ import React from 'react';
 
 import { api } from '../../api';
 import { useApi } from '../../api/useApi';
-import { WarningText } from '../common';
+import { WarningText, LoadingIndicator } from '../common';
 
 export const Stats = () => {
   const [ statsData, isLoading, error ] = useApi(api.stats.get);
@@ -11,7 +11,7 @@ export const Stats = () => {
     <div>
       <h2 className="text-xl my-2"><span className="text-emerald">RMM</span> Stats</h2>
       <WarningText>{error}</WarningText>
-      { isLoading && <p>loading...</p> }
+      <LoadingIndicator isLoading={isLoading} />
       { statsData && 
         <ul className="text-lg">
           <li><span className="font-bold">{statsData.users}</span> users</li>

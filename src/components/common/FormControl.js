@@ -10,7 +10,7 @@ export const FormControl = props => {
       case "password":
         return <input className="p-2" type="password" name={name} id={name} ref={register} />;
       case "textarea":
-        return <textarea name={name} id={name} ref={register} />
+        return <textarea className="p-2" name={name} id={name} ref={register} />
       default:
         return <input className="p-2" type="text" name={name} id={name} ref={register} />;
     }

@@ -12,13 +12,13 @@ export const AutocompleteSearchBar = props => {
   };
 
   return (
-    <div>
+    <div className="flex flex-col">
       <DelayedSearchBar onSearch={onSearch} onResults={handleResults} />
       { results.length > 0 && 
         <ul>
           { results.map(result => (
-            <li key={result.id}>
-              <button onClick={() => onSelect(result)}>
+            <li className="border-t border-gray-400" key={result.id}>
+              <button className="w-full py-2 text-left bg-gray-200 hover:bg-gray-300" onClick={() => onSelect(result)}>
                 {result.name}
               </button>
             </li>

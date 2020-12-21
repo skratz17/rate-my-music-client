@@ -4,6 +4,7 @@ import { FormControl } from './FormControl';
 import { WarningText } from './WarningText';
 import { LoadingIndicator } from './LoadingIndicator';
 import { DelayedSearchBar } from './DelayedSearchBar';
+import { AutocompleteSearchBar } from './AutocompleteSearchBar';
 
 export {
   Button,
@@ -11,5 +12,6 @@ export {
   FormControl,
   WarningText,
   LoadingIndicator,
-  DelayedSearchBar
+  DelayedSearchBar,
+  AutocompleteSearchBar
 };

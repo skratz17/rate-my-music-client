@@ -20,5 +20,9 @@ export const artists = {
     const queryParams = queryParamsToString(params);
     const artists = await request(`/artists?${queryParams}`);
     return artists;
+  },
+
+  search: async searchTerm => {
+    return await artists.list({ q: searchTerm });
   }
 }

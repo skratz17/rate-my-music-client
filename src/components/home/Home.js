@@ -1,7 +1,21 @@
 import React from 'react';
+import { AutocompleteSearchBar } from '../common';
+import { api } from '../../api';
 
 export const Home = () => {
+  const handleSearch = async searchTerm => {
+    if(searchTerm) {
+      return await api.artists.list({ q: searchTerm });
+    }
+  }
+
+  const handleSelect = option => {
+    console.log(option);
+  }
+
   return (
-    <div className="px-5">home</div>
+    <div className="px-5">
+      <AutocompleteSearchBar onSearch={handleSearch} onSelect={handleSelect} />
+    </div>
   )
 };

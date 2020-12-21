@@ -16,8 +16,7 @@ describe('artist edit form functionality', () => {
     expect(mockGetArtist).toHaveBeenCalledTimes(1);
     expect(mockGetArtist).toHaveBeenCalledWith(1);
 
-    const formHeading = await screen.findByRole('heading');
-    expect(formHeading.textContent).toEqual('Edit Artist');
+    expect(await screen.findByRole('form')).toBeInTheDocument();
 
     expect(screen.getByLabelText('Name')).toEqual(screen.getByDisplayValue('of Montreal'));
     expect(screen.getByLabelText('Year Founded')).toEqual(screen.getByDisplayValue('1996'));

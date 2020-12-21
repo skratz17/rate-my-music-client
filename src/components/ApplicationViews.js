@@ -4,6 +4,7 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 import { Home } from './home/Home';
 import { ContributePage } from './contribute/ContributePage';
 import { ArtistForm } from './artist/ArtistForm';
+import { ArtistEditForm } from './artist/ArtistEditForm';
 import { Logout } from './auth/Logout';
 
 export const ApplicationViews = () => {
@@ -24,6 +25,11 @@ export const ApplicationViews = () => {
       <Route path="/contribute">
         <ContributePage />
       </Route>
+
+      <Route path="/artists/:artistId(\d+)/edit" render={props => {
+        const { artistId } = props.match.params;
+        return <ArtistEditForm artistId={artistId} />;
+      }} />
 
       <Route path="/artists/new">
         <ArtistForm />

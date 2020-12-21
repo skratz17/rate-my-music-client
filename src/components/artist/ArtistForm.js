@@ -40,8 +40,8 @@ export const ArtistForm = props => {
   };
 
   return (
-    <form className="max-w-screen-lg mx-auto" onSubmit={handleSubmit(onSubmit)}>
-      <h2 className="text-2xl text-center">{ artist ? 'Edit' : 'New' } <span className="text-deepred">Artist</span></h2>
+    <form className="max-w-screen-lg mx-auto" onSubmit={handleSubmit(onSubmit)} aria-labelledby="artist-form-title">
+      <h2 id="artist-form-title" className="text-2xl text-center">{ artist ? 'Edit' : 'New' } <span className="text-deepred">Artist</span></h2>
 
       <WarningText>{error}</WarningText>
 
@@ -61,7 +61,7 @@ export const ArtistForm = props => {
         register={register}
         error={errors.description?.message} />
 
-      <Button type="submit">Create Artist</Button>
+      <Button type="submit" className="ml-auto">{ artist ? 'Update' : 'Create' } Artist</Button>
     </form>
   );
 };

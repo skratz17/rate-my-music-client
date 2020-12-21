@@ -52,6 +52,27 @@ describe('artist form functionality', () => {
     return history;
   };
 
+  test('renders create / new text when no artist passed in as props', () => {
+    render(<ArtistForm />);
+
+    expect(screen.getByRole('heading').textContent).toEqual('New Artist');
+    expect(screen.getByRole('button').textContent).toEqual('Create Artist');
+  });
+
+  test('renders edit / update text when artist passed in as props', () => {
+    const artist = {
+      id: 2,
+      name: 'of Montreal',
+      foundedYear: 1996,
+      description: 'So good.'
+    };
+
+    render(<ArtistForm artist={artist} />);
+
+    expect(screen.getByRole('heading').textContent).toEqual('Edit Artist');
+    expect(screen.getByRole('button').textContent).toEqual('Update Artist');
+  });
+
   test('calls artist create api function on submit and redirects to artist page', async () => {
     mockPostArtist.mockImplementationOnce(artistData => Promise.resolve({ ...artistData, id: 1 }));
 

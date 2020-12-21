@@ -1,5 +1,5 @@
 import React from 'react';
-import { AutocompleteSearchBar } from '../common';
+import { ArtistAutocompleteSearchBar } from '../artist/ArtistAutocompleteSearchBar';
 import { api } from '../../api';
 
 export const Home = () => {
@@ -15,7 +15,7 @@ export const Home = () => {
 
   return (
     <div className="px-5">
-      <AutocompleteSearchBar onSearch={handleSearch} onSelect={handleSelect} />
+      <ArtistAutocompleteSearchBar onSelect={() => {}} />
     </div>
   )
 };

@@ -49,11 +49,13 @@ export const Register = () => {
       <WarningText>{registrationError}</WarningText>
 
       <FormControl name="username"
+        type="text"
         label="Username"
         register={register}
         error={errors.username?.message} />
 
       <FormControl name="email"
+        type="text"
         label="Email"
         register={register}
         error={errors.email?.message} />
@@ -71,11 +73,13 @@ export const Register = () => {
         error={errors.passwordConfirmation?.message} />
 
       <FormControl name="firstName"
+        type="text"
         label="First Name"
         register={register}
         error={errors.firstName?.message} />
 
       <FormControl name="lastName"
+        type="text"
         label="Last Name"
         register={register}
         error={errors.lastName?.message} />

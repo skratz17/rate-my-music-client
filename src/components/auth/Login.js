@@ -42,6 +42,7 @@ export const Login = () => {
       <WarningText>{loginError}</WarningText>
 
       <FormControl name="username"
+        type="text"
         label="Username"
         register={register}
         error={errors.username?.message} />

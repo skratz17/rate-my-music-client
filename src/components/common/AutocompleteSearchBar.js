@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { DelayedSearchBar } from './DelayedSearchBar';
 
 export const AutocompleteSearchBar = props => {
-  const { onSearch, onSelect } = props;
+  const { onSearch, onSelect, className, name } = props;
 
   const [ results, setResults ] = useState([]);
 
@@ -13,7 +13,7 @@ export const AutocompleteSearchBar = props => {
 
   return (
     <div className="flex flex-col">
-      <DelayedSearchBar onSearch={onSearch} onResults={handleResults} />
+      <DelayedSearchBar className={className} name={name} onSearch={onSearch} onResults={handleResults} />
       { results.length > 0 && 
         <ul>
           { results.map(result => (

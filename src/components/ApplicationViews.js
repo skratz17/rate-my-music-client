@@ -5,6 +5,7 @@ import { Home } from './home/Home';
 import { ContributePage } from './contribute/ContributePage';
 import { ArtistForm } from './artist/ArtistForm';
 import { ArtistEditForm } from './artist/ArtistEditForm';
+import { SongForm } from './song/SongForm';
 import { Logout } from './auth/Logout';
 
 export const ApplicationViews = () => {
@@ -33,6 +34,10 @@ export const ApplicationViews = () => {
 
       <Route path="/artists/new">
         <ArtistForm />
+      </Route>
+
+      <Route path="/songs/new">
+        <SongForm />
       </Route>
 
       <Route path="/me">

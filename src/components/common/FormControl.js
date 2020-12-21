@@ -11,8 +11,10 @@ export const FormControl = props => {
         return <input className="p-2" type="password" name={name} id={name} ref={register} />;
       case "textarea":
         return <textarea className="p-2" name={name} id={name} ref={register} />
-      default:
+      case "text":
         return <input className="p-2" type="text" name={name} id={name} ref={register} />;
+      default:
+        return props.children
     }
   };
 

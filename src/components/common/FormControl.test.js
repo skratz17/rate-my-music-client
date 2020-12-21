@@ -4,8 +4,8 @@ import React from 'react';
 import { FormControl } from './FormControl';
 
 describe('renders proper controls based on type', () => {
-  test('renders a basic text input by default', () => {
-    render(<FormControl name="test" label="Test" />);
+  test('renders a basic text input', () => {
+    render(<FormControl type="text" name="test" label="Test" />);
 
     const input = screen.getByLabelText("Test");
     expect(input.type).toEqual('text');

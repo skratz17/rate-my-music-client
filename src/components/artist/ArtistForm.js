@@ -46,11 +46,13 @@ export const ArtistForm = props => {
       <WarningText>{error}</WarningText>
 
       <FormControl name="name"
+        type="text"
         label="Name"
         register={register}
         error={errors.name?.message} />
 
       <FormControl name="foundedYear"
+        type="text"
         label="Year Founded"
         register={register}
         error={errors.foundedYear?.message} />

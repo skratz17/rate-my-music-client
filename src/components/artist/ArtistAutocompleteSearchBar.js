@@ -5,27 +5,27 @@ import { AutocompleteSearchBar } from '../common';
 import { api } from '../../api';
 
 export const ArtistAutocompleteSearchBar = props => {
-  const { onSelect, defaultValue } = props;
+  const { onSelect, defaultValue, className, name } = props;
 
   const [ selectedValue, setSelectedValue ] = useState(defaultValue);
+
+  const handleSelect = _selectedValue => {
+    onSelect(_selectedValue);
+    setSelectedValue(_selectedValue);
+  };
 
   if(selectedValue) {
     return (
       <div className="flex">
         <span>{selectedValue.name}</span>
-        <button className="bg-red-300 hover:bg-red-400 rounded p-1 mx-2" onClick={() => setSelectedValue(null)}>
+        <button className="bg-red-300 hover:bg-red-400 rounded p-1 mx-2" onClick={() => handleSelect(null)}>
           <MdClear />
         </button>
       </div>
     );
   }
 
-  const handleSelect = _selectedValue => {
-    onSelect(_selectedValue);
-    setSelectedValue(_selectedValue);
-  };
-  
   return (
-    <AutocompleteSearchBar onSearch={api.artists.search} onSelect={handleSelect} />
+    <AutocompleteSearchBar onSearch={api.artists.search} onSelect={handleSelect} name={name} className={className} />
   );
 };

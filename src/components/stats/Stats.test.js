@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import React from 'react';
 
 import { api } from '../../api';
@@ -8,12 +8,27 @@ jest.mock('../../api');
 const mockGetStats = (api.stats.get = jest.fn());
 
 describe('stats page functionality', () => {
-  test('fetches and renders stats from stats api', async () => {
+  test('initially displays a header and a loading indicator', async () => {
+    const promise = Promise.resolve();
+    mockGetStats.mockImplementationOnce(() => promise);
+    render(<Stats />);
+
+    const heading = screen.getByRole('heading');
+    expect(heading).toBeInTheDocument();
+    expect(heading.textContent).toEqual('RMM Stats');
+
+    expect(screen.getByText('Loading...')).toBeInTheDocument();
+
+    await waitFor(() => promise);
+  });
+
+  test('fetches and renders stats from stats api in a list', async () => {
     mockGetStats.mockResolvedValueOnce({ users: 9, artists: 2, songs: 4, lists: 1 });
     render(<Stats />);
 
     expect(mockGetStats).toHaveBeenCalledTimes(1);
 
+    expect(await screen.findByRole('list')).toBeInTheDocument();
     const listItems = await screen.findAllByRole('listitem');
     expect(listItems).toHaveLength(4);
 

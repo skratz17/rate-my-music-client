@@ -11,7 +11,7 @@ import { FormControl, WarningText, Button } from '../common'
 const registerFormSchema = yup.object().shape({
   username: yup.string()
     .required('Username is required.')
-    .matches(/^[a-zA-Z0-9@\.+-_]+$/, 'Username may only contain letters, numbers, and @.+-_ characters.'),
+    .matches(/^[a-zA-Z0-9@.+-_]+$/, 'Username may only contain letters, numbers, and @.+-_ characters.'),
 
   email: yup.string()
     .required('Email is required.')

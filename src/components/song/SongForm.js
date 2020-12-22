@@ -13,17 +13,44 @@ import { GenreAutocompleteSelector } from '../genre/GenreAutocompleteSelector';
 const SERVICES = [ 'SoundCloud', 'YouTube' ];
 
 const songSourceSchema = yup.object().shape({
-  service: yup.string().required('Service is required.'),
-  url: yup.string().required('Song URL is required.').url('Must be a valid URL.'),
-  isPrimary: yup.bool().required('Is primary is required.')
+  service: yup.string()
+    .required('Service is required.'),
+
+  url: yup.string()
+    .required('Song URL is required.')
+    .url('Must be a valid URL.'),
+
+  isPrimary: yup.bool()
+    .required('Is primary is required.')
 });
 
 const songFormSchema = yup.object().shape({
   name: yup.string().required('Name is required.'),
-  artistId: yup.number('Artist is required.').typeError('Artist is required.').required('Artist is required.'),
-  year: yup.number().typeError('Year must be a number.').required('Year is required.').integer('Year must be a whole number.').min(1850, 'Year must be on or after 1850.').max((new Date()).getFullYear(), 'Year must be on or earlier than the current year.'),
-  genreIds: yup.array().of(yup.number()).min(1, 'You must select at least one genre.').required('At least one genre is required.'),
-  sources: yup.array().of(songSourceSchema).min(1, 'You must add at least one source.').test('has-one-primary-source', 'There must be one and only one primary source.', value => value.filter(v => v.isPrimary).length === 1).required('At least one source is required.')
+
+  artistId: yup.number('Artist is required.')
+    .typeError('Artist is required.')
+    .required('Artist is required.'),
+
+  year: yup.number()
+    .typeError('Year must be a number.')
+    .required('Year is required.')
+    .integer('Year must be a whole number.')
+    .min(1850, 'Year must be on or after 1850.')
+    .max((new Date()).getFullYear(), 'Year must be on or earlier than the current year.'),
+
+  genreIds: yup.array()
+    .of(yup.number())
+    .min(1, 'You must select at least one genre.')
+    .required('At least one genre is required.'),
+
+  sources: yup.array()
+    .of(songSourceSchema)
+    .min(1, 'You must add at least one source.')
+    .test(
+      'has-one-primary-source', 
+      'There must be one and only one primary source.', 
+      value => value.filter(v => v.isPrimary).length === 1).required('At least one source is required.'
+    )
 });
 
 export const SongForm = props => {

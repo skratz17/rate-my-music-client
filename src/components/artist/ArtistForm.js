@@ -8,9 +8,18 @@ import { api } from '../../api';
 import { Button, FormControl, WarningText } from '../common';
 
 const artistFormSchema = yup.object().shape({
-  name: yup.string().required('Artist name is required.'),
-  foundedYear: yup.number().typeError('Founded year must be a number.').required('Founded year is required.').integer('Founded year must be a whole number.').min(1850, 'Year must be on or after 1850.').max((new Date()).getFullYear(), 'Year must be on or earlier than the current year.'),
-  description: yup.string().required('Description is required.')
+  name: yup.string()
+    .required('Artist name is required.'),
+
+  foundedYear: yup.number()
+    .typeError('Founded year must be a number.')
+    .required('Founded year is required.')
+    .integer('Founded year must be a whole number.')
+    .min(1850, 'Year must be on or after 1850.')
+    .max((new Date()).getFullYear(), 'Year must be on or earlier than the current year.'),
+
+  description: yup.string()
+    .required('Description is required.')
 });
 
 export const ArtistForm = props => {

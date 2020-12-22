@@ -3,10 +3,9 @@ import { useForm, useFieldArray, Controller } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useHistory } from 'react-router-dom';
-import { MdClear } from 'react-icons/md';
 
 import { api } from '../../api';
-import { Button, FormControl, WarningText } from '../common';
+import { Button, RemoveButton, FormControl, WarningText } from '../common';
 import { ArtistAutocompleteSearchBar } from '../artist/ArtistAutocompleteSearchBar';
 import { GenreAutocompleteSelector } from '../genre/GenreAutocompleteSelector';
 
@@ -183,12 +182,10 @@ export const SongForm = props => {
                     ref={register()} />
               </FormControl>
 
-              <button className="bg-red-300 hover:bg-red-400 order-first md:order-none self-end md:self-center disabled:opacity-50 disabled:cursor-not-allowed rounded p-1 md:mx-2" 
+              <RemoveButton className="order-first md:order-none md:mx-2"
                 disabled={sources.length === 1}
-                onClick={() => remove(index)}>
-                  <MdClear />
-                  <span className="sr-only">Remove Song Source from {item.service}</span>
-              </button>
+                onClick={() => remove(index)}
+                accessibleName={`Remove Song Source from ${item.service}`} />
             </fieldset>
           </li>
         ))}

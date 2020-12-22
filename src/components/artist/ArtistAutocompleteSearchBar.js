@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { MdClear } from 'react-icons/md';
 
-import { AutocompleteSearchBar } from '../common';
+import { AutocompleteSearchBar, RemoveButton } from '../common';
 import { api } from '../../api';
 
 export const ArtistAutocompleteSearchBar = props => {
@@ -18,10 +18,9 @@ export const ArtistAutocompleteSearchBar = props => {
     return (
       <div className="flex my-2">
         <span>{selectedValue.name}</span>
-        <button className="bg-red-300 hover:bg-red-400 rounded p-1 mx-2" onClick={() => handleSelect(null)}>
-          <MdClear />
-          <span className="sr-only">Clear Artist</span>
-        </button>
+        <RemoveButton className="mx-2"
+          onClick={() => handleSelect(null)}
+          accessibleName="Clear Artist" />
       </div>
     );
   }

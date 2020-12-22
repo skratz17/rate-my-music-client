@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { MdClear } from 'react-icons/md';
 
 import { AutocompleteSearchBar, RemoveButton } from '../common';
 import { api } from '../../api';

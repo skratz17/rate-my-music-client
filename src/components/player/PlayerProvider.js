@@ -27,9 +27,11 @@ export const PlayerProvider = props => {
 
   const currentSong = queue[playIndex];
 
+  const currentSongUrl = queue[playIndex]?.sources.find(source => source.isPrimary)?.url || queue[playIndex]?.sources[0]?.url;
+
   return (
     <PlayerContext.Provider value={{
-      setQueue, currentSong, play, pause, skip, isPlaying
+      setQueue, play, pause, skip, isPlaying, currentSong, currentSongUrl
     }}>
       { props.children }
     </PlayerContext.Provider>

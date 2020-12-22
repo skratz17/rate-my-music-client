@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import { PlayerExpander } from './PlayerExpander';
+import { PlayerContainer } from './PlayerContainer';
 import { PlayerContext } from './PlayerProvider';
 
 const renderComponent = (ui, isPlaying = false) => {
@@ -15,13 +15,13 @@ const renderComponent = (ui, isPlaying = false) => {
 
 describe('player expander functionality', () => {
   test('displays collapsed by default', () => {
-    renderComponent(<PlayerExpander />);
+    renderComponent(<PlayerContainer />);
     
     expect(screen.getByText('Expand Player')).toBeInTheDocument();
   });
 
   test('user can expand or collapse the player with the button', async () => {
-    renderComponent(<PlayerExpander />);
+    renderComponent(<PlayerContainer />);
 
     const button = screen.getByRole('button');
     expect(button).toHaveTextContent('Expand Player');

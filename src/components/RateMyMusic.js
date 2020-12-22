@@ -6,7 +6,7 @@ import { NavBar } from './nav/NavBar';
 import { ApplicationViews } from './ApplicationViews';
 import { WelcomePage } from './welcomePage/WelcomePage';
 import { UnauthorizedUserViews } from './UnauthorizedUserViews';
-import { PlayerExpander } from './player/PlayerExpander';
+import { PlayerContainer } from './player/PlayerContainer';
 import { PlayerProvider } from './player/PlayerProvider';
 
 export const RateMyMusic = () => {
@@ -22,7 +22,7 @@ export const RateMyMusic = () => {
               <ApplicationViews />
             </main>
             <footer>
-              <PlayerExpander />
+              <PlayerContainer />
             </footer>
           </PlayerProvider>
         );

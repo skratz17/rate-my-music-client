@@ -117,9 +117,8 @@ describe('song form functionality', () => {
     await waitFor(() => jest.advanceTimersByTime(500));
 
     expect(await screen.findByText('indie pop')).toBeInTheDocument();
-    await waitFor(() => userEvent.click(screen.getByText('indie pop')));
     expect(await screen.findByText('indie folk')).toBeInTheDocument();
-    await waitFor(() => userEvent.click(screen.getByText('indie folk')));
+    await waitFor(() => userEvent.click(screen.getByText('indie pop')));
 
     await waitFor(() => userEvent.selectOptions(screen.getByLabelText('Service'), 'YouTube'));
     await waitFor(() => userEvent.type(screen.getByLabelText('Song URL'), 'https://www.youtube.com/watch?v=4rk_9cYOp8A'));
@@ -135,7 +134,7 @@ describe('song form functionality', () => {
       name: 'Save a Secret for the Moon',
       artistId: 1,
       year: 1996,
-      genreIds: [ 1, 2 ],
+      genreIds: [ 1 ],
       sources: [
         { service: 'YouTube', url: 'https://www.youtube.com/watch?v=4rk_9cYOp8A', isPrimary: true },
         { service: 'SoundCloud', url: 'https://soundcloud.com/themagneticfields/save-a-secret-for-the-moon-1', isPrimary: false }

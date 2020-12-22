@@ -7,6 +7,7 @@ import { ApplicationViews } from './ApplicationViews';
 import { WelcomePage } from './welcomePage/WelcomePage';
 import { UnauthorizedUserViews } from './UnauthorizedUserViews';
 import { PlayerExpander } from './player/PlayerExpander';
+import { PlayerProvider } from './player/PlayerProvider';
 
 export const RateMyMusic = () => {
   const { isLoggedIn } = useContext(UserContext);
@@ -15,7 +16,7 @@ export const RateMyMusic = () => {
     <Route render={() => {
       if(isLoggedIn()) {
         return (
-          <>
+          <PlayerProvider>
             <NavBar />
             <main className="p-5">
               <ApplicationViews />
@@ -23,7 +24,7 @@ export const RateMyMusic = () => {
             <footer>
               <PlayerExpander />
             </footer>
-          </>
+          </PlayerProvider>
         );
       }
       else {

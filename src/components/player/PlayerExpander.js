@@ -1,15 +1,22 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { MdExpandLess } from 'react-icons/md';
 
 import { Player } from './Player';
+import { PlayerContext } from './PlayerProvider';
 
-export const PlayerExpander = props => {
+export const PlayerExpander = () => {
   const [ isExpanded, setIsExpanded ] = useState(false);
+
+  const { isPlaying } = useContext(PlayerContext);
 
   useEffect(() => {
     if(isExpanded) document.body.style = 'margin-bottom: 10rem;';
     else document.body.style = 'margin-bottom: 5rem;';
   }, [ isExpanded ]);
+
+  useEffect(() => {
+    if(isPlaying) setIsExpanded(true);
+  }, [ isPlaying ]);
 
   return (
     <div style={{ height: isExpanded ? '10rem' : '5rem' }}

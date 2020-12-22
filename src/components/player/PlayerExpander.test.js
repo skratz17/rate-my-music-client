@@ -3,16 +3,25 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { PlayerExpander } from './PlayerExpander';
+import { PlayerContext } from './PlayerProvider';
+
+const renderComponent = (ui, isPlaying = false) => {
+  render(
+    <PlayerContext.Provider value={{ isPlaying }}>
+      {ui}
+    </PlayerContext.Provider>
+  );
+};
 
 describe('player expander functionality', () => {
   test('displays collapsed by default', () => {
-    render(<PlayerExpander />);
+    renderComponent(<PlayerExpander />);
     
     expect(screen.getByText('Expand Player')).toBeInTheDocument();
   });
 
   test('user can expand or collapse the player with the button', async () => {
-    render(<PlayerExpander />);
+    renderComponent(<PlayerExpander />);
 
     const button = screen.getByRole('button');
     expect(button).toHaveTextContent('Expand Player');

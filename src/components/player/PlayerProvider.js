@@ -32,7 +32,7 @@ export const PlayerProvider = props => {
 
   return (
     <PlayerContext.Provider value={{
-      setQueue, play, pause, skip, isPlaying, currentSong, currentSongUrl
+      setQueue, play, pause, skip, setIsPlaying, isPlaying, currentSong, currentSongUrl
     }}>
       { props.children }
     </PlayerContext.Provider>

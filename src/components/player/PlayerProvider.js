@@ -10,6 +10,7 @@ export const PlayerProvider = props => {
   useEffect(() => {
     if(queue.length) {
       setIsPlaying(true);
+      setPlayIndex(0);
     }
   }, [ queue ]);
 

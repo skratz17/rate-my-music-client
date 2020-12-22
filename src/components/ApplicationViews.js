@@ -5,6 +5,8 @@ import { Home } from './home/Home';
 import { ContributePage } from './contribute/ContributePage';
 import { ArtistForm } from './artist/ArtistForm';
 import { ArtistEditForm } from './artist/ArtistEditForm';
+import { SongForm } from './song/SongForm';
+import { SongEditForm } from './song/SongEditForm';
 import { Logout } from './auth/Logout';
 
 export const ApplicationViews = () => {
@@ -33,6 +35,15 @@ export const ApplicationViews = () => {
 
       <Route path="/artists/new">
         <ArtistForm />
+      </Route>
+
+      <Route path="/songs/:songId(\d+)/edit" render={props => {
+        const { songId } = props.match.params;
+        return <SongEditForm songId={songId} />;
+      }} />
+
+      <Route path="/songs/new">
+        <SongForm />
       </Route>
 
       <Route path="/me">

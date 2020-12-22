@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { api } from '../../api';
-import { useApi } from '../../api/useApi';
+import { useApi } from '../../hooks';
 import { WarningText, LoadingIndicator } from '../common';
 
 export const Stats = () => {

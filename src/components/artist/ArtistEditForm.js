@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { api } from '../../api';
-import { useApi } from '../../api/useApi';
+import { useApi } from '../../hooks';
 import { LoadingIndicator, WarningText } from '../common';
 import { ArtistForm } from './ArtistForm';
 

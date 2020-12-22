@@ -4,6 +4,10 @@ import { Link } from 'react-router-dom';
 export const SongList = props => {
   const { songs } = props;
 
+  if(!songs.length) {
+    return <p className="italic my-2">No songs were found.</p>;
+  }
+
   return (
     <ul>
       {songs.map(song => (

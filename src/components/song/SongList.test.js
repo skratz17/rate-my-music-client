@@ -71,4 +71,11 @@ describe('song list functionality', () => {
 
     expect(screen.getByText('-- / 5')).toBeInTheDocument();
   });
+
+  test('renders no songs were found message if empty songs array given', () => {
+    renderComponent(<SongList songs={[]} />);
+
+    expect(screen.queryByRole('list')).not.toBeInTheDocument();
+    expect(screen.getByText('No songs were found.')).toBeInTheDocument();
+  });
 });

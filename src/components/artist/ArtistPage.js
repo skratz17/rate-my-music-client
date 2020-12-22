@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 
 import { api } from '../../api';
 import { useApi } from '../../hooks';
+import { PlayButton } from '../player/PlayButton';
 import { SongList } from '../song/SongList';
 import { SongListSortOptions } from '../song/SongListSortOptions';
-import { LoadingIndicator, WarningText, PlayButton } from '../common';
+import { LoadingIndicator, WarningText } from '../common';
 
 export const ArtistPage = props => {
   const { artistId } = props;
@@ -29,7 +30,7 @@ export const ArtistPage = props => {
         <div className="flex items-center">
           <h2 className="mr-2 text-3xl">Songs</h2>
           <PlayButton className="text-5xl" 
-            onClick={() => console.log(songs)} 
+            songs={songs}
             accessibleName={`Play all ${artist?.name} songs`} />
         </div>
         <SongListSortOptions orderingData={orderBy} fields={[ 'year', 'name', 'avgRating' ]} onSelectSortOption={setOrderBy} />

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { MdClear } from 'react-icons/md';
 
-import { AutocompleteSearchBar } from '../common';
+import { AutocompleteSearchBar, RemoveButton } from '../common';
 import { api } from '../../api';
 
 export const GenreAutocompleteSelector = props => {
@@ -36,10 +36,9 @@ export const GenreAutocompleteSelector = props => {
           selectedGenres.map(genre => (
             <div key={genre.id} className="flex">
               <span>{genre.name}</span>
-              <button className="bg-red-300 hover:bg-red-400 rounded p-1 mx-2" onClick={() => handleRemove(genre)}>
-                <MdClear />
-                <span className="sr-only">Remove {genre.name}</span>
-              </button>
+              <RemoveButton className="mx-2"
+                onClick={() => handleRemove(genre)}
+                accessibleName={`Remove ${genre.name}`} />
             </div>
           ))
         }

@@ -6,6 +6,7 @@ import { api } from '../../api';
 
 jest.mock('../../api');
 const mockGetArtist = (api.artists.get = jest.fn());
+const mockListSongs = (api.songs.list = jest.fn());
 
 describe('artist page functionality', () => {
   test('should fetch artist with given id on load and render their information', async () => {

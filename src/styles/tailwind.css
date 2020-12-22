@@ -4,6 +4,7 @@
   body {
     @apply text-black;
     @apply bg-gray-50;
+    @apply min-h-screen;
   }
   
   a {

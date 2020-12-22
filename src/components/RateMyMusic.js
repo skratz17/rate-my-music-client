@@ -6,6 +6,7 @@ import { NavBar } from './nav/NavBar';
 import { ApplicationViews } from './ApplicationViews';
 import { WelcomePage } from './welcomePage/WelcomePage';
 import { UnauthorizedUserViews } from './UnauthorizedUserViews';
+import { PlayerExpander } from './player/PlayerExpander';
 
 export const RateMyMusic = () => {
   const { isLoggedIn } = useContext(UserContext);
@@ -19,6 +20,9 @@ export const RateMyMusic = () => {
             <main className="p-5">
               <ApplicationViews />
             </main>
+            <footer>
+              <PlayerExpander />
+            </footer>
           </>
         );
       }

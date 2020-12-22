@@ -19,7 +19,7 @@ export const useApi = (method, ...params) => {
     }
   };
 
-  useEffect(() => { callApi(...params) }, [ ...params ]);
+  useEffect(() => { callApi(...params) }, [ JSON.stringify(params) ]);
 
   return [ data, isLoading, error, callApi ];
 };

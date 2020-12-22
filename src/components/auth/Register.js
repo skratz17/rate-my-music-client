@@ -9,15 +9,31 @@ import { UserContext } from '../user/UserProvider';
 import { FormControl, WarningText, Button } from '../common'
 
 const registerFormSchema = yup.object().shape({
-  username: yup.string().required('Username is required.').matches(/^[a-zA-Z0-9@\.+-_]+$/, 'Username may only contain letters, numbers, and @.+-_ characters.'),
-  email: yup.string().required('Email is required.').email('Must be a valid email address.'),
-  password: yup.string().required('Password is required.'),
-  passwordConfirmation: yup.string().test('passwords-match', 'Passwords must match.', function(value) {
-    return this.parent.password === value
-  }).required('Confirm password is required.'),
-  firstName: yup.string().required('First name is required.'),
-  lastName: yup.string().required('Last name is required.'),
-  bio: yup.string().required('Bio is required.')
+  username: yup.string()
+    .required('Username is required.')
+    .matches(/^[a-zA-Z0-9@\.+-_]+$/, 'Username may only contain letters, numbers, and @.+-_ characters.'),
+
+  email: yup.string()
+    .required('Email is required.')
+    .email('Must be a valid email address.'),
+
+  password: yup.string()
+    .required('Password is required.'),
+
+  passwordConfirmation: yup.string()
+    .test('passwords-match', 'Passwords must match.', function(value) {
+      return this.parent.password === value
+    })
+    .required('Confirm password is required.'),
+
+  firstName: yup.string()
+    .required('First name is required.'),
+
+  lastName: yup.string()
+    .required('Last name is required.'),
+
+  bio: yup.string()
+    .required('Bio is required.')
 });
 
 export const Register = () => {

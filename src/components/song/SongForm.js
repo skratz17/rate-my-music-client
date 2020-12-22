@@ -144,50 +144,52 @@ export const SongForm = props => {
       <WarningText>{errors.sources?.message}</WarningText>
       <ul>
         {fields.map((item, index) => (
-          <li key={item.id} className="flex items-center w-full">
-            <FormControl name={`sources[${index}].service`}
-              className="mr-2"
-              label="Service"
-              error={errors.sources && errors.sources[index]?.service?.message}>
-                <select id={`sources[${index}].service`} 
-                  name={`sources[${index}].service`} 
-                  className="p-2"
-                  defaultValue={item.service}
-                  ref={register()}>
-                    <option value="" disabled>Select a service...</option>
-                    { SERVICES.map(service => <option key={service} value={service}>{service}</option>) }
-                </select>
-            </FormControl>
+          <li key={item.id} className="my-2">
+            <fieldset className="flex flex-col md:flex-row w-full p-2 border border-gray-200">
+              <FormControl name={`sources[${index}].service`}
+                className="md:mr-2 md:w-auto w-full"
+                label="Service"
+                error={errors.sources && errors.sources[index]?.service?.message}>
+                  <select id={`sources[${index}].service`} 
+                    name={`sources[${index}].service`} 
+                    className="p-2"
+                    defaultValue={item.service}
+                    ref={register()}>
+                      <option value="" disabled>Select a service...</option>
+                      { SERVICES.map(service => <option key={service} value={service}>{service}</option>) }
+                  </select>
+              </FormControl>
 
-            <FormControl name={`sources[${index}].url`}
-              className="flex-grow mx-2"
-              label="Song URL"
-              error={errors.sources && errors.sources[index]?.url?.message}>
-                <input type="text"
-                  name={`sources[${index}].url`}
-                  id={`sources[${index}].url`}
-                  className="p-2"
-                  ref={register()}
-                  defaultValue={item.url} />
-            </FormControl>
-            
-            <FormControl name={`sources[${index}].isPrimary`}
-              className="ml-2 justify-center self-start"
-              label="Is Primary?"
-              error={errors.sources && errors.sources[index]?.isPrimary?.message}>
-                <input type="checkbox" 
-                  name={`sources[${index}].isPrimary`}
-                  defaultChecked={item.isPrimary}
-                  id={`sources[${index}].isPrimary`} 
-                  ref={register()} />
-            </FormControl>
+              <FormControl name={`sources[${index}].url`}
+                className="flex-grow md:mx-2 md:w-auto w-full"
+                label="Song URL"
+                error={errors.sources && errors.sources[index]?.url?.message}>
+                  <input type="text"
+                    name={`sources[${index}].url`}
+                    id={`sources[${index}].url`}
+                    className="p-2"
+                    ref={register()}
+                    defaultValue={item.url} />
+              </FormControl>
+              
+              <FormControl name={`sources[${index}].isPrimary`}
+                className="md:ml-2 md:items-center items-start justify-evenly md:w-auto w-full"
+                label="Is Primary?"
+                error={errors.sources && errors.sources[index]?.isPrimary?.message}>
+                  <input type="checkbox" 
+                    name={`sources[${index}].isPrimary`}
+                    defaultChecked={item.isPrimary}
+                    id={`sources[${index}].isPrimary`} 
+                    ref={register()} />
+              </FormControl>
 
-            <button className="bg-red-300 hover:bg-red-400 disabled:opacity-50 disabled:cursor-not-allowed rounded p-1 mx-2" 
-              disabled={sources.length === 1}
-              onClick={() => remove(index)}>
-                <MdClear />
-                <span className="sr-only">Remove Song Source from {item.service}</span>
-            </button>
+              <button className="bg-red-300 hover:bg-red-400 order-first md:order-none self-end md:self-center disabled:opacity-50 disabled:cursor-not-allowed rounded p-1 md:mx-2" 
+                disabled={sources.length === 1}
+                onClick={() => remove(index)}>
+                  <MdClear />
+                  <span className="sr-only">Remove Song Source from {item.service}</span>
+              </button>
+            </fieldset>
           </li>
         ))}
       </ul>

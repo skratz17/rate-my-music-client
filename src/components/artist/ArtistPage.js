@@ -1,15 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { api } from '../../api';
 import { useApi } from '../../hooks';
 import { SongList } from '../song/SongList';
+import { SongListSortOptions } from '../song/SongListSortOptions';
 import { LoadingIndicator, WarningText } from '../common';
 
 export const ArtistPage = props => {
   const { artistId } = props;
 
+  const [ orderBy, setOrderBy ] = useState({ orderBy: 'year', direction: 'desc' });
   const [ artist, isArtistLoading, artistError ] = useApi(api.artists.get, artistId);
-  const [ songs, isSongsLoading, songsError ] = useApi(api.songs.list, { artist: artistId });
+  const [ songs, isSongsLoading, songsError ] = useApi(api.songs.list, { artist: artistId, ...orderBy });
 
   const renderArtistData = () => {
     if(!artist) return null;
@@ -23,7 +25,10 @@ export const ArtistPage = props => {
   const renderSongsData = () => {
     if(!songs) return null;
     return <>
-      <h2 className="text-3xl">Songs</h2>
+      <div className="flex justify-between">
+        <h2 className="text-3xl">Songs</h2>
+        <SongListSortOptions orderingData={orderBy} fields={[ 'year', 'name', 'avgRating' ]} onSelectSortOption={setOrderBy} />
+      </div>
       <SongList songs={songs} />
     </>;
   };
@@ -40,7 +45,7 @@ export const ArtistPage = props => {
 
       <section>
         <WarningText>{songsError}</WarningText>
-        <LoadingIndicator isLoading={isSongsLoading} />
+        <LoadingIndicator isLoading={!songs && isSongsLoading} />
         { renderSongsData() }
       </section>
     </div>

@@ -35,9 +35,9 @@ export const SongForm = props => {
     resolver: yupResolver(songFormSchema),
     defaultValues: {
       name: song?.name || '',
-      artistId: song?.artistId || '',
+      artistId: song?.artist?.id|| '',
       year: song?.year || '',
-      genreIds: song?.genreIds || [],
+      genreIds: song?.genres.map(g => g.id) || [],
       sources: song?.sources || [ { service: '', url: '', isPrimary: true } ]
     }
   });
@@ -53,7 +53,7 @@ export const SongForm = props => {
 
   const onSubmit = async songData => {
     try {
-      const songResponse = await api.songs.create(songData);
+      const songResponse = song ? await api.songs.update(song.id, songData) : await api.songs.create(songData);
       history.push(`/songs/${songResponse.id}`);
     }
     catch(e) {
@@ -63,7 +63,9 @@ export const SongForm = props => {
 
   return (
     <form className="max-w-screen-lg mx-auto" onSubmit={handleSubmit(onSubmit)} aria-labelledby="song-form-title">
-      <h2 id="song-form-title" className="text-2xl text-center"><span className="text-deepred">New</span> Song</h2>
+      <h2 id="song-form-title" className="text-2xl text-center">
+        <span className="text-deepred">{ song ? 'Edit' : 'New' }</span> Song
+      </h2>
 
       <WarningText>{error}</WarningText>
 
@@ -82,6 +84,7 @@ export const SongForm = props => {
           render={props => (
             <ArtistAutocompleteSearchBar className="p-2"
               name="artist"
+              defaultValue={song?.artist}
               onSelect={artist => props.onChange(artist?.id)}
             />
           )}
@@ -103,6 +106,7 @@ export const SongForm = props => {
           render={props => (
             <GenreAutocompleteSelector className="p-2"
               name="genres"
+              defaultValue={song?.genres}
               onSelect={genres => props.onChange(genres.map(g => g.id))}
             />
           )}
@@ -122,7 +126,7 @@ export const SongForm = props => {
                   name={`sources[${index}].service`} 
                   className="p-2"
                   defaultValue={item.service}
-                  ref={register}>
+                  ref={register()}>
                     <option value="" disabled>Select a service...</option>
                     { SERVICES.map(service => <option key={service} value={service}>{service}</option>) }
                 </select>
@@ -136,7 +140,7 @@ export const SongForm = props => {
                   name={`sources[${index}].url`}
                   id={`sources[${index}].url`}
                   className="p-2"
-                  ref={register}
+                  ref={register()}
                   defaultValue={item.url} />
             </FormControl>
             
@@ -148,7 +152,7 @@ export const SongForm = props => {
                   name={`sources[${index}].isPrimary`}
                   defaultChecked={item.isPrimary}
                   id={`sources[${index}].isPrimary`} 
-                  ref={register} />
+                  ref={register()} />
             </FormControl>
 
             <button className="bg-red-300 hover:bg-red-400 disabled:opacity-50 disabled:cursor-not-allowed rounded p-1 mx-2" 
@@ -163,7 +167,7 @@ export const SongForm = props => {
 
       <Button type="button" onClick={() => append({ service: '', url: '', isPrimary: false })}>Add Additional Source</Button>
 
-      <Button type="submit" className="ml-auto">Create Song</Button>
+      <Button type="submit" className="ml-auto">{song ? 'Update' : 'Create' } Song</Button>
     </form>
   );
 };

@@ -9,6 +9,7 @@ import { api } from '../../api';
 
 jest.mock('../../api');
 const mockPostSong = (api.songs.create = jest.fn());
+const mockUpdateSong = (api.songs.update = jest.fn());
 const mockSearchArtists = (api.artists.search = jest.fn());
 const mockSearchGenres = (api.genres.search = jest.fn());
 
@@ -142,5 +143,43 @@ describe('song form functionality', () => {
     });
 
     await waitFor(() => expect(history.location.pathname).toEqual('/songs/1'));
+  });
+
+  test('prepopulates form with song data if song passed as prop and calls update method on submit', async () => {
+    mockUpdateSong.mockImplementationOnce((id, song) => Promise.resolve({ id }));
+
+    const songData = {
+      id: 12,
+      name: 'Ambulance Blues',
+      artist: { id: 2, name: 'Neil Young' },
+      year: 1973,
+      genres: [ { id: 1, name: 'Folk' }, { id: 2, name: 'Classic Rock' }],
+      sources: [ { service: 'YouTube', url: 'https://www.youtube.com/watch?v=EA2BNB_4m3g', isPrimary: true } ]
+    };
+
+    const history = renderComponent(<SongForm song={songData} />);
+
+    await waitFor(() => expect(screen.getByLabelText('Name')).toEqual(screen.getByDisplayValue('Ambulance Blues')));
+    expect(screen.getByText('Neil Young')).toBeInTheDocument();
+    expect(screen.getByText('Clear Artist')).toBeInTheDocument();
+    expect(screen.getByLabelText('Year')).toEqual(screen.getByDisplayValue('1973'));
+    expect(screen.getByText('Remove Folk')).toBeInTheDocument();
+    expect(screen.getByText('Remove Classic Rock')).toBeInTheDocument();
+    expect(screen.getByLabelText('Service')).toEqual(screen.getByDisplayValue('YouTube'));
+    expect(screen.getByLabelText('Song URL')).toEqual(screen.getByDisplayValue('https://www.youtube.com/watch?v=EA2BNB_4m3g'));
+    expect(screen.getByLabelText('Is Primary?')).toBeChecked();
+
+    await waitFor(() => userEvent.click(screen.getByText('Update Song')));
+
+    expect(mockUpdateSong).toHaveBeenCalledTimes(1);
+    expect(mockUpdateSong).toHaveBeenCalledWith(12, {
+      name: 'Ambulance Blues',
+      artistId: 2,
+      year: 1973,
+      genreIds: [ 1, 2 ],
+      sources: [ { service: 'YouTube', url: 'https://www.youtube.com/watch?v=EA2BNB_4m3g', isPrimary: true }]
+    });
+
+    await waitFor(() => expect(history.location.pathname).toEqual('/songs/12'));
   });
 });

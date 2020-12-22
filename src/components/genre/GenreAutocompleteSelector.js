@@ -44,8 +44,12 @@ export const GenreAutocompleteSelector = props => {
           ))
         }
       </div>
-      <AutocompleteSearchBar removeOnSelect onSearch={api.genres.search} onSelect={handleSelect} name={name} className={className} />
-
+      <AutocompleteSearchBar removeOnSelect 
+        onSearch={api.genres.search} 
+        onSelect={handleSelect} 
+        name={name} 
+        placeholder={selectedGenres.length ? "Add another genre" : "Add a genre"}
+        className={className} />
     </div>
   );
 };

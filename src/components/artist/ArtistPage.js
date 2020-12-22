@@ -4,7 +4,7 @@ import { api } from '../../api';
 import { useApi } from '../../hooks';
 import { SongList } from '../song/SongList';
 import { SongListSortOptions } from '../song/SongListSortOptions';
-import { LoadingIndicator, WarningText } from '../common';
+import { LoadingIndicator, WarningText, PlayButton } from '../common';
 
 export const ArtistPage = props => {
   const { artistId } = props;
@@ -26,7 +26,12 @@ export const ArtistPage = props => {
     if(!songs) return null;
     return <>
       <div className="flex justify-between">
-        <h2 className="text-3xl">Songs</h2>
+        <div className="flex items-center">
+          <h2 className="mr-2 text-3xl">Songs</h2>
+          <PlayButton className="text-5xl" 
+            onClick={() => console.log(songs)} 
+            accessibleName={`Play all ${artist?.name} songs`} />
+        </div>
         <SongListSortOptions orderingData={orderBy} fields={[ 'year', 'name', 'avgRating' ]} onSelectSortOption={setOrderBy} />
       </div>
       <SongList songs={songs} />

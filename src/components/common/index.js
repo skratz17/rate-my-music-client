@@ -1,5 +1,6 @@
 import { Button } from './Button';
 import { RemoveButton } from './RemoveButton';
+import { PlayButton } from './PlayButton';
 import { LinkButton } from './LinkButton';
 import { FormControl } from './FormControl';
 import { WarningText } from './WarningText';
@@ -10,6 +11,7 @@ import { AutocompleteSearchBar } from './AutocompleteSearchBar';
 export {
   Button,
   RemoveButton,
+  PlayButton,
   LinkButton,
   FormControl,
   WarningText,

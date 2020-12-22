@@ -22,7 +22,7 @@ export const PlayerExpander = props => {
           className="text-3xl hover:bg-gray-200"
         >
           <MdExpandLess style={{ transition: 'transform 300ms ease-in-out' }} className={`transform ${isExpanded ? 'rotate-180' : ''}`}/>
-          <span className="sr-only">{isExpanded ? "Expand Player" : "Collapse Player" }</span>
+          <span className="sr-only">{isExpanded ? "Collapse Player" : "Expand Player" }</span>
         </button>
       </div>
       { isExpanded && <Player /> }

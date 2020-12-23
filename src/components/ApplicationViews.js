@@ -11,6 +11,7 @@ import { SongEditForm } from './song/SongEditForm';
 import { SongPage } from './song/SongPage';
 import { ListForm } from './list/ListForm';
 import { ListEditForm } from './list/ListEditForm';
+import { ListPage } from './list/ListPage';
 import { Logout } from './auth/Logout';
 
 export const ApplicationViews = () => {
@@ -64,6 +65,11 @@ export const ApplicationViews = () => {
       <Route path="/lists/new">
         <ListForm />
       </Route>
+
+      <Route path="/lists/:listId(\d+)" render={props => {
+        const { listId } = props.match.params;
+        return <ListPage listId={listId} />;
+      }} />
 
       <Route path="/lists">
         <div>lists</div>

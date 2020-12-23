@@ -20,5 +20,9 @@ export const songs = {
     const queryParams = queryParamsToString(params);
     const songs = await request(`/songs?${queryParams}`);
     return songs;
+  },
+
+  search: async searchTerm => {
+    return await songs.list({ q: searchTerm });
   }
 };

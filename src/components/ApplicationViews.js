@@ -8,6 +8,7 @@ import { ArtistEditForm } from './artist/ArtistEditForm';
 import { ArtistPage } from './artist/ArtistPage';
 import { SongForm } from './song/SongForm';
 import { SongEditForm } from './song/SongEditForm';
+import { ListForm } from './list/ListForm';
 import { Logout } from './auth/Logout';
 
 export const ApplicationViews = () => {
@@ -19,10 +20,6 @@ export const ApplicationViews = () => {
 
       <Route path="/charts">
         <div>charts</div>
-      </Route>
-
-      <Route path="/lists">
-        <div>lists</div>
       </Route>
 
       <Route path="/contribute">
@@ -50,6 +47,14 @@ export const ApplicationViews = () => {
 
       <Route path="/songs/new">
         <SongForm />
+      </Route>
+
+      <Route path="/lists/new">
+        <ListForm />
+      </Route>
+
+      <Route path="/lists">
+        <div>lists</div>
       </Route>
 
       <Route path="/me">

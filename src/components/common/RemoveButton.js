@@ -7,7 +7,7 @@ export const RemoveButton = props => {
   return (
     <button onClick={onClick}
       disabled={disabled}
-      className={`bg-red-300 hover:bg-red-400 self-end md:self-center disabled:opacity-50 disabled:cursor-not-allowed rounded p-1 ${className || ''}`}
+      className={`bg-red-300 hover:bg-red-400 disabled:opacity-50 disabled:cursor-not-allowed rounded p-1 ${className || ''}`}
     >
       <MdClear />
       <span className="sr-only">{accessibleName}</span>

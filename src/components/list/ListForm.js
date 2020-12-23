@@ -65,7 +65,7 @@ export const ListForm = props => {
     listDataToPost.songs = listDataToPost.songs.map(s => ({ id: s.songId, description: s.description }));
 
     try {
-      const listResponse = await api.lists.create(listDataToPost);
+      const listResponse = list ? await api.lists.update(list.id, listDataToPost) : await api.lists.create(listDataToPost);
       history.push(`/lists/${listResponse.id}`);
     }
     catch(e) {
@@ -81,7 +81,7 @@ export const ListForm = props => {
       onSubmit={handleSubmit(onSubmit)}
     >
       <h2 id="list-form-title" className="text-2xl text-center">
-        New <span className="text-deepred">List</span>
+        { list ? 'Edit' : 'New' } <span className="text-deepred">List</span>
       </h2>
 
       <WarningText>{error}</WarningText>
@@ -145,7 +145,7 @@ export const ListForm = props => {
       <Button type="button" onClick={() => append({ songId: '', description: '' })}>Add Another Song</Button>
 
       <Button type="submit" className="ml-auto">
-        Create List
+        { list ? 'Update' : 'Create' } List
       </Button>
     </form>
   );

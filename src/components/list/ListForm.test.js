@@ -40,7 +40,7 @@ describe('list form validation', () => {
 
     render(<ListForm list={initialValues} />);
 
-    await waitFor(() => userEvent.click(screen.getByText('Create List')));
+    await waitFor(() => userEvent.click(screen.getByText('Update List')));
     expect(await screen.findByText('Each song in the list must be unique.'));
   });
 });

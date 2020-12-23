@@ -57,11 +57,6 @@ export const ApplicationViews = () => {
         return <SongPage songId={songId} />;
       }} />
 
-      <Route path="/lists/:listId(\d+)" render={props => {
-        const { listId } = props.match.params;
-        return <ListPage listId={listId} />;
-      }} />
-
       <Route path="/lists/:listId(\d+)/edit" render={props => {
         const { listId } = props.match.params;
         return <ListEditForm listId={listId} />;
@@ -70,6 +65,11 @@ export const ApplicationViews = () => {
       <Route path="/lists/new">
         <ListForm />
       </Route>
+
+      <Route path="/lists/:listId(\d+)" render={props => {
+        const { listId } = props.match.params;
+        return <ListPage listId={listId} />;
+      }} />
 
       <Route path="/lists">
         <div>lists</div>

@@ -20,5 +20,13 @@ export const lists = {
     const queryParams = queryParamsToString(params);
     const lists = await request(`/lists?${queryParams}`);
     return lists;
+  },
+
+  favorite: async listId => {
+    return await request(`/lists/${listId}/favorite`, 'POST');
+  },
+
+  unfavorite: async listId => {
+    return await request(`/lists/${listId}/favorite`, 'DELETE');
   }
 };

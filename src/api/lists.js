@@ -1,4 +1,4 @@
-import { request } from '../utils';
+import { request, queryParamsToString } from '../utils';
 
 export const lists = {
   create: async listData => {
@@ -14,5 +14,11 @@ export const lists = {
   update: async (listId, listData) => {
     const list = await request(`/lists/${listId}`, 'PUT', listData);
     return list;
+  },
+
+  list: async params => {
+    const queryParams = queryParamsToString(params);
+    const lists = await request(`/lists?${queryParams}`);
+    return lists;
   }
 };

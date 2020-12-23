@@ -5,6 +5,7 @@ import { artists } from './artists';
 import { songs } from './songs';
 import { genres } from './genres';
 import { lists } from './lists';
+import { ratings } from './ratings';
 
 export const api = {
   auth,
@@ -13,5 +14,6 @@ export const api = {
   artists,
   songs,
   genres,
-  lists
+  lists,
+  ratings
 };

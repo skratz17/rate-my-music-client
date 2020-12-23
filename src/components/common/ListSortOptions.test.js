@@ -2,16 +2,23 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import { SongListSortOptions } from './SongListSortOptions';
+import { ListSortOptions } from './ListSortOptions';
 
 const orderingData = {
   orderBy: 'year',
   direction: 'asc'
 };
 
+const songListSortOptions = [
+  { name: 'year', displayName: 'Year' },
+  { name: 'name', displayName: 'Name' },
+  { name: 'avgRating', displayName: 'Average Rating' },
+  { name: 'artist', displayName: 'Artist' }
+];
+
 describe('song list sort options functionality', () => {
-  test('renders all sort options by default', () => {
-    render(<SongListSortOptions orderingData={orderingData} />);
+  test('renders sort options in fields array passed as props', () => {
+    render(<ListSortOptions type="song" orderingData={orderingData} fields={songListSortOptions} />);
 
     const buttons = screen.getAllByRole('button');
     expect(buttons).toHaveLength(4);
@@ -22,19 +29,9 @@ describe('song list sort options functionality', () => {
     expect(buttons[3].textContent).toEqual('Artist');
   });
 
-  test('renders only sort options in fields array if passed as props', () => {
-    render(<SongListSortOptions orderingData={orderingData} fields={['year', 'artist']} />);
-
-    const buttons = screen.getAllByRole('button');
-    expect(buttons).toHaveLength(2);
-
-    expect(buttons[0].textContent).toEqual('Year');
-    expect(buttons[1].textContent).toEqual('Artist');
-  });
-
   test('calls onSelectSortOption with direction of desc if user clicks on already-selected ordering option that is ordered asc', async () => {
     const mockSelectHandler = jest.fn();
-    render(<SongListSortOptions orderingData={orderingData} onSelectSortOption={mockSelectHandler} />);
+    render(<ListSortOptions orderingData={orderingData} fields={songListSortOptions} onSelectSortOption={mockSelectHandler} />);
 
     await userEvent.click(screen.getByText('Year'));
     expect(mockSelectHandler).toHaveBeenCalledTimes(1);
@@ -46,7 +43,7 @@ describe('song list sort options functionality', () => {
 
   test('calls onSelectSortOption with direction of asc if user clicks on already-selected ordering option that is ordered desc', async () => {
     const mockSelectHandler = jest.fn();
-    render(<SongListSortOptions onSelectSortOption={mockSelectHandler} 
+    render(<ListSortOptions fields={songListSortOptions} onSelectSortOption={mockSelectHandler} 
       orderingData={{ orderBy: 'year', direction: 'desc' }} />
     );
 
@@ -60,7 +57,7 @@ describe('song list sort options functionality', () => {
 
   test('calls onSelectSortOption with direction of asc if user clicks on ordering option that is not currently selected', async () => {
     const mockSelectHandler = jest.fn();
-    render(<SongListSortOptions orderingData={orderingData} onSelectSortOption={mockSelectHandler} />);
+    render(<ListSortOptions orderingData={orderingData} fields={songListSortOptions} onSelectSortOption={mockSelectHandler} />);
 
     await userEvent.click(screen.getByText('Artist'));
     expect(mockSelectHandler).toHaveBeenCalledTimes(1);

@@ -19,7 +19,7 @@ export const SongAutocompleteSearchBar = props => {
         <span>{selectedValue.name}</span>
         <RemoveButton className="mx-2"
           onClick={() => handleSelect(null)}
-          accessibleName="Clear Artist" />
+          accessibleName="Clear Song" />
       </div>
     );
   }

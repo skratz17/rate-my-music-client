@@ -10,6 +10,7 @@ import { user } from '../../api/user';
 
 jest.mock('../../api');
 const mockPostList = (api.lists.create = jest.fn());
+const mockUpdateList = (api.lists.update = jest.fn());
 const mockSearchSongs = (api.songs.search = jest.fn());
 
 describe('list form validation', () => {
@@ -88,5 +89,46 @@ describe('list form functionality', () => {
     });
 
     await waitFor(() => expect(history.location.pathname).toEqual('/lists/1'));
+  });
+
+  test('prepopulates form with song data if song passed as prop and calls update method on submit', async () => {
+    mockUpdateList.mockImplementationOnce((id, song) => Promise.resolve({ id }));
+
+    const listData = {
+      id: 4,
+      name: 'My List',
+      description: 'Here is my description.',
+      songs: [
+        { songId: 3, name: 'Famous', description: 'A great opener to Get Lost.' },
+        { songId: 4, name: 'Baby', description: 'Cherry Peel is so good.' }
+      ]
+    };
+
+    const history = renderComponent(<ListForm list={listData} />);
+
+    await waitFor(() => expect(screen.getByLabelText('Name')).toEqual(screen.getByDisplayValue('My List')));
+    expect(screen.getByLabelText('Description')).toEqual(screen.getByDisplayValue('Here is my description.'));
+    expect(screen.getAllByText('Clear Song')).toHaveLength(2);
+    expect(screen.getByText('Famous')).toBeInTheDocument();
+    expect(screen.getByText('Baby')).toBeInTheDocument();
+
+    const songDescriptions = screen.getAllByLabelText('Song Description');
+    expect(songDescriptions).toHaveLength(2);
+    expect(songDescriptions[0]).toHaveTextContent('A great opener to Get Lost.');
+    expect(songDescriptions[1]).toHaveTextContent('Cherry Peel is so good.');
+
+    await waitFor(() => userEvent.click(screen.getByText('Update List')));
+
+    expect(mockUpdateList).toHaveBeenCalledTimes(1);
+    expect(mockUpdateList).toHaveBeenCalledWith(4, {
+      name: 'My List',
+      description: 'Here is my description.',
+      songs: [
+        { id: 3, description: 'A great opener to Get Lost.' },
+        { id: 4, description: 'Cherry Peel is so good.' }
+      ]
+    });
+
+    await waitFor(() => expect(history.location.pathname).toEqual('/lists/4'));
   });
 });

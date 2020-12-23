@@ -4,6 +4,7 @@ import { api } from '../../api';
 import { useApi } from '../../hooks';
 import { LoadingIndicator, WarningText } from '../common';
 import { SongDetail } from './SongDetail';
+import { RatingList } from '../rating/RatingList';
 
 export const SongPage = props => {
   const { songId } = props;
@@ -11,14 +12,6 @@ export const SongPage = props => {
   const [ song, isSongLoading, songError ] = useApi(api.songs.get, songId);
   const [ ratings, isRatingsLoading, ratingsError ] = useApi(api.ratings.list, { songId });
   const [ lists, isListsLoading, listsError ] = useApi(api.lists.list, { songId });
-
-  const renderRatingsData = () => {
-    if(!ratings) return null;
-    return <>
-      <h3>Ratings and Reviews</h3>
-      { ratings.map(r => <p key={r.id}>{r.review}</p>) }
-    </>;
-  };
 
   const renderListsData = () => {
     if(!lists) return null;
@@ -41,7 +34,8 @@ export const SongPage = props => {
       <section>
         <WarningText>{ratingsError}</WarningText>
         <LoadingIndicator isLoading={isRatingsLoading} />
-        { renderRatingsData() }
+        <h3 className="text-2xl">Ratings and Reviews</h3>
+        { ratings && <RatingList ratings={ratings} /> }
       </section>
 
       <hr className="w-3/4 h-1 mx-auto my-5" />

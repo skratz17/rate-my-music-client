@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { DelayedSearchBar } from './DelayedSearchBar';
 
 export const AutocompleteSearchBar = props => {
-  const { onSearch, onSelect, className, name, placeholder, removeOnSelect } = props;
+  const { onSearch, onSelect, className, name, placeholder, removeOnSelect, resultFormatter } = props;
 
   const [ results, setResults ] = useState([]);
   const [ isRefreshing, setIsRefreshing ] = useState(false);
@@ -44,7 +44,7 @@ export const AutocompleteSearchBar = props => {
           { results.map(result => (
             <li className="border-t border-gray-400" key={result.id}>
               <button className="w-full p-2 text-left bg-gray-200 hover:bg-gray-300" onClick={() => handleSelect(result)}>
-                {result.name}
+                { resultFormatter ? resultFormatter(result) : result.name }
               </button>
             </li>
           ))}

@@ -20,14 +20,15 @@ const renderComponent = () => {
 };
 
 describe('contribute page basic rendering', () => {
-  test('should render two links to add new artist and song', () => {
+  test('should render three links to add new artist, song, and list', () => {
     renderComponent();
 
     const links = screen.getAllByRole('link');
-    expect(links).toHaveLength(2);
+    expect(links).toHaveLength(3);
 
-    expect(links[0].textContent).toEqual("Create a New Artist");
-    expect(links[1].textContent).toEqual("Create a New Song");
+    expect(links[0]).toHaveTextContent("Create a New Artist");
+    expect(links[1]).toHaveTextContent("Create a New Song");
+    expect(links[2]).toHaveTextContent("Create a New List");
   });
 
   test('clicking on new artist link navigates to /artists/new', async () => {
@@ -44,5 +45,13 @@ describe('contribute page basic rendering', () => {
     await userEvent.click(screen.getByText("Create a New Song"));
 
     expect(history.location.pathname).toEqual('/songs/new');
+  });
+
+  test('clicking on new list link navigates to /lists/new', async () => {
+    const history = renderComponent();
+
+    await userEvent.click(screen.getByText("Create a New List"));
+
+    expect(history.location.pathname).toEqual('/lists/new');
   });
 });

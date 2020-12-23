@@ -48,8 +48,9 @@ const songFormSchema = yup.object().shape({
     .test(
       'has-one-primary-source', 
       'There must be one and only one primary source.', 
-      value => value.filter(v => v.isPrimary).length === 1).required('At least one source is required.'
+      value => value.filter(v => v.isPrimary).length === 1
     )
+    .required('At least one source is required.')
 });
 
 export const SongForm = props => {
@@ -90,7 +91,7 @@ export const SongForm = props => {
   return (
     <form className="max-w-screen-lg mx-auto" onSubmit={handleSubmit(onSubmit)} aria-labelledby="song-form-title">
       <h2 id="song-form-title" className="text-2xl text-center">
-        <span className="text-deepred">{ song ? 'Edit' : 'New' }</span> Song
+        { song ? 'Edit' : 'New' } <span className="text-deepred">Song</span>
       </h2>
 
       <WarningText>{error}</WarningText>
@@ -182,7 +183,7 @@ export const SongForm = props => {
                     ref={register()} />
               </FormControl>
 
-              <RemoveButton className="order-first md:order-none md:mx-2"
+              <RemoveButton className="order-first md:order-none self-end md:self-center md:mx-2"
                 disabled={sources.length === 1}
                 onClick={() => remove(index)}
                 accessibleName={`Remove Song Source from ${item.service}`} />

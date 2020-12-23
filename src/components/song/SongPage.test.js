@@ -4,6 +4,7 @@ import userEvent from '@testing-library/user-event';
 import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 
+import { UserContext } from '../user/UserProvider';
 import { SongPage } from './SongPage';
 import { api } from '../../api';
 jest.mock('../../api');
@@ -15,7 +16,11 @@ const mockListRatings = (api.ratings.list = jest.fn());
 const renderComponent = ui => {
   const history = createMemoryHistory();
 
-  render(<Router history={history}>{ui}</Router>);
+  render(
+    <UserContext.Provider value={{ user: {} }}>
+      <Router history={history}>{ui}</Router>
+    </UserContext.Provider>
+  );
 
   return history;
 };

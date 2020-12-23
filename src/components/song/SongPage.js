@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { api } from '../../api';
 import { useApi } from '../../hooks';
-import { LoadingIndicator, WarningText } from '../common';
+import { LoadingIndicator, WarningText, ListSortOptions } from '../common';
 import { SongDetail } from './SongDetail';
 import { RatingList } from '../rating/RatingList';
 import { ListList } from '../list/ListList';
@@ -10,8 +10,14 @@ import { ListList } from '../list/ListList';
 export const SongPage = props => {
   const { songId } = props;
 
+  const allRatingSortOptions = [
+    { name: 'date', displayName: 'Date' },
+    { name: 'rating', displayName: 'Rating' }
+  ];
+  const [ ratingSortOptions, setRatingSortOptions ] = useState({ orderBy: 'date', direction: 'desc' });
+
   const [ song, isSongLoading, songError ] = useApi(api.songs.get, songId);
-  const [ ratings, isRatingsLoading, ratingsError ] = useApi(api.ratings.list, { songId });
+  const [ ratings, isRatingsLoading, ratingsError ] = useApi(api.ratings.list, { songId, ...ratingSortOptions });
   const [ lists, isListsLoading, listsError ] = useApi(api.lists.list, { songId });
 
   return (
@@ -26,8 +32,13 @@ export const SongPage = props => {
 
       <section>
         <WarningText>{ratingsError}</WarningText>
-        <LoadingIndicator isLoading={isRatingsLoading} />
-        <h3 className="text-2xl">Ratings and Reviews</h3>
+        <LoadingIndicator isLoading={!ratings && isRatingsLoading} />
+        <div className="flex justify-between">
+          <h3 className="text-2xl">Ratings and Reviews</h3>
+          <ListSortOptions fields={allRatingSortOptions} 
+            orderingData={ratingSortOptions} 
+            onSelectSortOption={setRatingSortOptions} />
+        </div>
         { ratings && <RatingList ratings={ratings} /> }
       </section>
 

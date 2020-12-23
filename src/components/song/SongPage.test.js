@@ -1,5 +1,6 @@
 import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 
@@ -30,6 +31,21 @@ describe('song page functionality', () => {
     expect(mockListLists).toHaveBeenCalledWith({ songId: 2 });
 
     expect(mockListRatings).toHaveBeenCalledTimes(1);
-    expect(mockListRatings).toHaveBeenCalledWith({ songId: 2 });
+    expect(mockListRatings).toHaveBeenCalledWith({ songId: 2, orderBy: 'date', direction: 'desc' });
+  });
+
+  test('clicking on a rating list sort option will refetch list data', async () => {
+    await waitFor(() => renderComponent(<SongPage songId={2} />));
+
+    expect(mockListRatings).toHaveBeenCalledTimes(1);
+    expect(mockListRatings).toHaveBeenCalledWith({ songId: 2, orderBy: 'date', direction: 'desc' });
+
+    const buttons = screen.getAllByRole('button');
+    const ratingSortButton = buttons.find(button => button.textContent === 'Rating');
+
+    await waitFor(() => userEvent.click(ratingSortButton));
+
+    expect(mockListRatings).toHaveBeenCalledTimes(2);
+    expect(mockListRatings).toHaveBeenCalledWith({ songId: 2, orderBy: 'rating', direction: 'asc' });
   });
 });

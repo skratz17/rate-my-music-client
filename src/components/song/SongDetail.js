@@ -9,7 +9,7 @@ export const SongDetail = props => {
   const [ songSource, setSongSource ] = useState(song.sources.find(s => s.isPrimary)?.url);
 
   return (
-    <div className="flex items-start justify-between">
+    <div className="flex flex-col md:flex-row text-center md:text-left items-center md:items-start justify-between">
       <div className="flex flex-col">
         <h2 className="text-4xl text-deepred my-1">{song.name}</h2>
         <Link to={`/artists/${song.artist.id}`} className="text-2xl my-1 text-black hover:text-deepred">{song.artist.name}</Link>

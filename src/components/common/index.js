@@ -6,6 +6,7 @@ import { WarningText } from './WarningText';
 import { LoadingIndicator } from './LoadingIndicator';
 import { DelayedSearchBar } from './DelayedSearchBar';
 import { AutocompleteSearchBar } from './AutocompleteSearchBar';
+import { ListSortOptions } from './ListSortOptions';
 
 export {
   Button,
@@ -15,5 +16,6 @@ export {
   WarningText,
   LoadingIndicator,
   DelayedSearchBar,
-  AutocompleteSearchBar
+  AutocompleteSearchBar,
+  ListSortOptions
 };

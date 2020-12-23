@@ -5,8 +5,12 @@ import { MdFavorite } from 'react-icons/md';
 export const ListList = props => {
   const { lists } = props;
 
+  if(!lists.length) {
+    return <p className="italic">There are no lists to display.</p>
+  }
+
   return (
-    <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+    <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 my-3">
       { lists.map(list => (
         <li key={list.id} className="relative py-4 px-2 bg-gray-200 hover:bg-gray-300">
           <Link to={`/lists/${list.id}`} className="absolute w-full h-full top-0 left-0">

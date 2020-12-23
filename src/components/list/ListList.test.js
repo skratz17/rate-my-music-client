@@ -80,4 +80,10 @@ describe('list list functionality', () => {
     await userEvent.click(links[1]);
     expect(history.location.pathname).toEqual('/lists/2');
   });
+
+  test('renders no lists to display text if empty list', () => {
+    renderComponent(<ListList lists={[]} />);
+
+    expect(screen.getByText('There are no lists to display.')).toBeInTheDocument();
+  });
 });

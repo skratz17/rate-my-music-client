@@ -36,7 +36,7 @@ export const SongPage = props => {
       <section>
         <WarningText>{listsError}</WarningText>
         <LoadingIndicator isLoading={isListsLoading} />
-        <h3 className="text-2xl mb-2">Appears in Lists</h3>
+        <h3 className="text-2xl">Appears in Lists</h3>
         { lists && <ListList lists={lists} /> }
       </section>
     </div>

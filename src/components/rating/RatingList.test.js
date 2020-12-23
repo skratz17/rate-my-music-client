@@ -73,4 +73,10 @@ describe('rating list functionality', () => {
     expect(screen.getByText('4 stars out of 5')).toBeInTheDocument();
     expect(screen.getByText('5 stars out of 5')).toBeInTheDocument();
   });
+
+  test('renders no ratings to display message if empty ratings array given', () => {
+    renderComponent(<RatingList ratings={[]} />);
+
+    expect(screen.getByText('There are no ratings to display.')).toBeInTheDocument();
+  });
 });

@@ -8,6 +8,7 @@ import { SongDetail } from './SongDetail';
 import { RatingControl } from '../rating/RatingControl';
 import { RatingList } from '../rating/RatingList';
 import { ListList } from '../list/ListList';
+import { ReviewFormToggler } from '../rating/ReviewFormToggler';
 
 export const SongPage = props => {
   const { songId } = props;
@@ -40,6 +41,14 @@ export const SongPage = props => {
     refreshRatings();
   };
 
+  const reviewSong = async review => {
+    if(review === userRating?.review) return;
+
+    await api.ratings.update(userRating.id, { songId, rating: userRating.rating, review: review });
+
+    refreshRatings();
+  };
+
   return (
     <div className="max-w-screen-lg mx-auto">
       <section>
@@ -47,6 +56,7 @@ export const SongPage = props => {
         <LoadingIndicator isLoading={!song && isSongLoading} />
         { song && <SongDetail song={song} /> }
         { ratings && <RatingControl value={userRating?.rating} onClick={rateSong} /> }
+        { ratings && <ReviewFormToggler rating={userRating} onSubmit={reviewSong} /> }
       </section>
 
       <hr className="w-3/4 h-1 mx-auto my-5" />

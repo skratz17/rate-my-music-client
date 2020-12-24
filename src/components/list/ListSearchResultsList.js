@@ -15,7 +15,7 @@ export const ListSearchResultsList = props => {
       <h2 className="text-xl text-center my-2">Lists</h2>
       <ul>
         {lists.map(list => (
-          <SearchResultListItem to={`/lists/${list.id}`}>
+          <SearchResultListItem key={list.id} to={`/lists/${list.id}`}>
             <span className="text-xl text-emerald">{list.name}</span>
             <span className="text-lg text-black">by {list.creator.user.username}</span>
             <div className="flex items-center">

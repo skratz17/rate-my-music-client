@@ -13,7 +13,7 @@ export const SongSearchResultsList = props => {
       <h2 className="text-xl text-center my-2">Songs</h2>
       <ul>
         {songs.map(song => (
-          <SearchResultListItem to={`/songs/${song.id}`}>
+          <SearchResultListItem key={song.id} to={`/songs/${song.id}`}>
             <span className="text-xl text-deepred">{song.name}</span>
             <span className="text-lg text-black">{song.artist.name}</span>
           </SearchResultListItem>

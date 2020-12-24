@@ -68,7 +68,7 @@ export const ProfilePage = props => {
                 className="mr-2"
                 id="userId" name="userId"
                 checked={listSearchParams.userId !== undefined} 
-                onClick={handleListSearchParamClick} />
+                onChange={handleListSearchParamClick} />
               <label htmlFor="userId">Lists Created by { user?.user.username }</label>
             </div>
 
@@ -77,7 +77,7 @@ export const ProfilePage = props => {
                 className="mr-2"
                 id="favorited" name="favorited"
                 checked={listSearchParams.favorited !== undefined} 
-                onClick={handleListSearchParamClick} />
+                onChange={handleListSearchParamClick} />
               <label htmlFor="favorited">{ user?.user.username }'s Favorites</label>
             </div>
           </div>

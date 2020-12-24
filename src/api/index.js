@@ -6,6 +6,7 @@ import { songs } from './songs';
 import { genres } from './genres';
 import { lists } from './lists';
 import { ratings } from './ratings';
+import { search } from './search';
 
 export const api = {
   auth,
@@ -15,5 +16,6 @@ export const api = {
   songs,
   genres,
   lists,
-  ratings
+  ratings,
+  search
 };

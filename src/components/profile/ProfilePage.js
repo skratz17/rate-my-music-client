@@ -5,7 +5,7 @@ import { useApi } from '../../hooks';
 import { SongList } from '../song/SongList';
 import { ListList } from '../list/ListList';
 import { PlayButton } from '../player/PlayButton';
-import { LoadingIndicator, WarningText, ListSortOptions } from '../common';
+import { Page, LoadingIndicator, WarningText, ListSortOptions } from '../common';
 
 export const ProfilePage = props => {
   const { userId } = props;
@@ -28,7 +28,7 @@ export const ProfilePage = props => {
   };
 
   return (
-    <div className="max-w-screen-lg mx-auto">
+    <Page>
       <section>
         <LoadingIndicator isLoading={isUserLoading} />
         <WarningText>{userError}</WarningText>
@@ -85,6 +85,6 @@ export const ProfilePage = props => {
 
         { lists && <ListList lists={lists} /> }
       </section>
-    </div>
+    </Page>
   );
 };

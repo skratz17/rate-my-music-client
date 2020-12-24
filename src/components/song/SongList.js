@@ -22,7 +22,7 @@ export const SongList = props => {
           </div>
 
           <div className="flex items-center text-2xl">
-            { song.avgRating || '--' } / 5
+            { song.rating || song.avgRating || '--' } / 5
           </div>
         </li>
       ))}

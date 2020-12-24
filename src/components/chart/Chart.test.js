@@ -13,10 +13,11 @@ jest.mock('../../api');
 const mockListSongs = (api.songs.list = jest.fn());
 const mockSearchGenres = (api.genres.search = jest.fn());
 const mockSetQueue = jest.fn();
+const mockPlayQueue = jest.fn();
 
 const renderComponent = ui => {
   render(
-    <PlayerContext.Provider value={{ setQueue: mockSetQueue }}>
+    <PlayerContext.Provider value={{ setQueue: mockSetQueue, playQueue: mockPlayQueue }}>
       <Router history={createMemoryHistory()}>
         {ui}
       </Router>
@@ -153,5 +154,7 @@ describe('chart functionality', () => {
 
     expect(mockSetQueue).toHaveBeenCalledTimes(1);
     expect(mockSetQueue).toHaveBeenCalledWith(SONGS_RESPONSE);
+    
+    expect(mockPlayQueue).toHaveBeenCalledTimes(1);
   });
 });

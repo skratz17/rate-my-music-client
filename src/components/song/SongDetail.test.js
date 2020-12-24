@@ -8,12 +8,13 @@ import { SongDetail } from './SongDetail';
 import { PlayerContext } from '../player/PlayerProvider';
 
 const mockSetQueue = jest.fn();
+const mockPlayQueue = jest.fn();
 
 const renderComponent = ui => {
   const history = createMemoryHistory();
 
   render(
-    <PlayerContext.Provider value={{ setQueue: mockSetQueue }}>
+    <PlayerContext.Provider value={{ setQueue: mockSetQueue, playQueue: mockPlayQueue }}>
       <Router history={history}>
         {ui}
       </Router>
@@ -82,6 +83,8 @@ describe('song detail view functionality', () => {
       ]
     }]);
 
+    expect(mockPlayQueue).toHaveBeenCalledTimes(1);
+
     const dropdown = screen.getByRole('combobox');
     await userEvent.selectOptions(dropdown, 'https://soundcloud.com/themagneticfields/famous-1');
 
@@ -100,5 +103,7 @@ describe('song detail view functionality', () => {
         { service: 'SoundCloud', url: 'https://soundcloud.com/themagneticfields/famous-1', isPrimary: false }
       ]
     }]);
+
+    expect(mockPlayQueue).toHaveBeenCalledTimes(2);
   });
 });

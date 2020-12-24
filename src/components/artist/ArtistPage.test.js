@@ -13,12 +13,13 @@ const mockGetArtist = (api.artists.get = jest.fn());
 const mockListSongs = (api.songs.list = jest.fn());
 
 const mockSetQueue = jest.fn();
+const mockPlayQueue = jest.fn();
 
 const renderComponent = ui => {
   const history = createMemoryHistory();
 
   render(
-    <PlayerContext.Provider value={{ setQueue: mockSetQueue }}>
+    <PlayerContext.Provider value={{ setQueue: mockSetQueue, playQueue: mockPlayQueue }}>
       <Router history={history}>
         {ui}
       </Router>
@@ -113,5 +114,7 @@ describe('artist page functionality', () => {
 
     expect(mockSetQueue).toHaveBeenCalledTimes(1);
     expect(mockSetQueue).toHaveBeenCalledWith(songsResponse);
+
+    expect(mockPlayQueue).toHaveBeenCalledTimes(1);
   });
 });

@@ -8,16 +8,18 @@ import { Player } from './Player';
 export const PlayerContainer = () => {
   const [ isExpanded, setIsExpanded ] = useState(false);
 
-  const { isPlaying } = useContext(PlayerContext);
+  const { isPlaying, queue } = useContext(PlayerContext);
 
   useEffect(() => {
     if(isExpanded) document.body.style = 'margin-bottom: 10rem;';
     else document.body.style = 'margin-bottom: 5rem;';
+
+    return () => document.body.style = 'margin-bottom: 0';
   }, [ isExpanded ]);
 
   useEffect(() => {
-    if(isPlaying) setIsExpanded(true);
-  }, [ isPlaying ]);
+    if(isPlaying && queue) setIsExpanded(true);
+  }, [ isPlaying, queue ]);
 
   return (
     <div style={{ height: isExpanded ? '10rem' : '5rem' }}

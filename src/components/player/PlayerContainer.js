@@ -13,6 +13,8 @@ export const PlayerContainer = () => {
   useEffect(() => {
     if(isExpanded) document.body.style = 'margin-bottom: 10rem;';
     else document.body.style = 'margin-bottom: 5rem;';
+
+    return () => document.body.style = 'margin-bottom: 0';
   }, [ isExpanded ]);
 
   useEffect(() => {

@@ -1,18 +1,59 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
+
+import { UserContext } from '../user/UserProvider';
 
 export const PlayerContext = createContext();
+
+const createMinimalQueue = queue => {
+  return queue.map(song => ({
+    id: song.id,
+    name: song.name,
+    artist: {
+      id: song.artist.id,
+      name: song.artist.name
+    },
+    sources: [
+      song.sources.find(source => source.isPrimary) || song.sources[0]
+    ]
+  }));
+};
 
 export const PlayerProvider = props => {
   const [ queue, setQueue ] = useState([]);
   const [ playIndex, setPlayIndex ] = useState(0);
-  const [ isPlaying, setIsPlaying ] = useState(false);
+  const [ isPlaying, setIsPlaying ] = useState(null);
+
+  const { user } = useContext(UserContext);
 
   useEffect(() => {
-    if(queue.length) {
+    if(user) {
+      const restoredQueue = localStorage.getItem(`${user.id}_playerState`);
+      if(restoredQueue) {
+        const parsedRestoredQueue = JSON.parse(restoredQueue);
+        setIsPlaying(false);
+        setQueue(parsedRestoredQueue.queue);
+        setPlayIndex(parsedRestoredQueue.playIndex);
+      }
+    }
+  }, [ user, setQueue, setPlayIndex ]);
+
+  useEffect(() => {
+    if(user && queue?.length) {
+      const toSerialize = {
+        playIndex,
+        queue: createMinimalQueue(queue)
+      };
+
+      localStorage.setItem(`${user.id}_playerState`, JSON.stringify(toSerialize));
+    }
+  }, [ user, playIndex, queue ]);
+
+  useEffect(() => {
+    if(queue.length && isPlaying === null) {
       setIsPlaying(true);
       setPlayIndex(0);
     }
-  }, [ queue ]);
+  }, [ queue, isPlaying ]);
 
   const play = () => {
     setIsPlaying(true);

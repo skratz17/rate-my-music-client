@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 
+import { UserContext } from './user/UserProvider';
 import { Home } from './home/Home';
 import { Chart } from './chart/Chart';
 import { ContributePage } from './contribute/ContributePage';
@@ -13,9 +14,12 @@ import { SongPage } from './song/SongPage';
 import { ListForm } from './list/ListForm';
 import { ListEditForm } from './list/ListEditForm';
 import { ListPage } from './list/ListPage';
+import { ProfilePage } from './profile/ProfilePage';
 import { Logout } from './auth/Logout';
 
 export const ApplicationViews = () => {
+  const { user } = useContext(UserContext);
+
   return (
     <Switch>
       <Route path="/home">
@@ -77,7 +81,7 @@ export const ApplicationViews = () => {
       </Route>
 
       <Route path="/me">
-        <div>me</div>
+        { user && <ProfilePage userId={user.id} /> }
       </Route>
 
       <Route path="/logout">

@@ -1,12 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 
 import { DelayedSearchBar } from './DelayedSearchBar';
+import { useClickOutside } from '../../hooks';
 
 export const AutocompleteSearchBar = props => {
   const { onSearch, onSelect, className, name, placeholder, removeOnSelect, resultFormatter } = props;
 
   const [ results, setResults ] = useState([]);
   const [ isRefreshing, setIsRefreshing ] = useState(false);
+
+  const clickOutsideHandler = useCallback(() => setResults([]), [ ]);
+  const searchBarComponentRef = useRef();
+  useClickOutside(searchBarComponentRef, clickOutsideHandler);
 
   useEffect(() => {
     if(isRefreshing) {
@@ -33,7 +38,7 @@ export const AutocompleteSearchBar = props => {
   };
 
   return (
-    <div className="flex flex-col">
+    <div ref={searchBarComponentRef } className="flex flex-col">
       { !isRefreshing && <DelayedSearchBar className={className} 
         name={name} 
         placeholder={placeholder}

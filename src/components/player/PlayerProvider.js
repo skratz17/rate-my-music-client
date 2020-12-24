@@ -25,6 +25,7 @@ export const PlayerProvider = props => {
 
   const { user } = useContext(UserContext);
 
+  // on user state change, try to restore the queue for the user from local storage
   useEffect(() => {
     if(user) {
       const restoredQueue = localStorage.getItem(`${user.id}_playerState`);
@@ -37,6 +38,7 @@ export const PlayerProvider = props => {
     }
   }, [ user, setQueue, setPlayIndex ]);
 
+  // on user and queue change, serialize the current minimal queue state to local storage
   useEffect(() => {
     if(user && queue?.length) {
       const toSerialize = {

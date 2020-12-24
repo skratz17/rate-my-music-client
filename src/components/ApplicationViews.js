@@ -2,6 +2,7 @@ import React from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 
 import { Home } from './home/Home';
+import { Chart } from './chart/Chart';
 import { ContributePage } from './contribute/ContributePage';
 import { ArtistForm } from './artist/ArtistForm';
 import { ArtistEditForm } from './artist/ArtistEditForm';
@@ -22,7 +23,7 @@ export const ApplicationViews = () => {
       </Route>
 
       <Route path="/charts">
-        <div>charts</div>
+        <Chart />
       </Route>
 
       <Route path="/contribute">

@@ -4,7 +4,7 @@ import { AutocompleteSearchBar, RemoveButton } from '../common';
 import { api } from '../../api';
 
 export const GenreAutocompleteSelector = props => {
-  const { onSelect, defaultValue, className, name } = props;
+  const { onSelect, defaultValue, className, name, selectionsBelow } = props;
 
   const [ selectedGenres, setSelectedGenres ] = useState(defaultValue || []);
 
@@ -29,8 +29,8 @@ export const GenreAutocompleteSelector = props => {
   };
 
   return (
-    <div>
-      <div className="flex my-2">
+    <div className="flex flex-col">
+      <div className={`flex my-2 ${selectionsBelow ? 'order-last' : ''}`}>
         {
           selectedGenres.map(genre => (
             <div key={genre.id} className="flex">

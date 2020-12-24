@@ -17,7 +17,7 @@ export const SongList = props => {
               <Link className="text-deepred hover:text-deepred-dark" to={`/songs/${song.id}`}>{song.name}</Link>
             </h3>
             <h4 className="text-lg">
-              <Link className="text-black hover:text-gray-800" to={`/artists/${song.artist.id}`}>{song.artist.name}</Link>
+              <Link className="text-black hover:text-deepred" to={`/artists/${song.artist.id}`}>{song.artist.name}</Link>
             </h4>
           </div>
 

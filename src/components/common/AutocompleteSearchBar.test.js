@@ -48,4 +48,47 @@ describe('autocomplete search bar functionality', () => {
     expect(mockSelectHandler).toHaveBeenCalledTimes(1);
     expect(mockSelectHandler).toHaveBeenCalledWith({ id: 1, name: 'The Magnetic Fields' });
   });
+
+  test('clicking outside of the component when results are showing stops the results from showing', async () => {
+    mockSearch.mockResolvedValue([ { id: 1, name: 'The Magnetic Fields' }]);
+
+    render(
+      <div>
+        <p data-testid="1234">Click me</p>
+        <AutocompleteSearchBar onSearch={mockSearch} />
+      </div>
+    );
+
+    await waitFor(() => userEvent.type(screen.getByRole('textbox'), 'a'));
+    await waitFor(() => jest.advanceTimersByTime(500));
+
+    const selectButton = await screen.findByRole('button');
+    expect(selectButton).toBeInTheDocument();
+
+    await userEvent.click(screen.getByTestId('1234'));
+
+    expect(screen.queryByRole('button')).not.toBeInTheDocument();
+  });
+
+  test('clicking back inside of the component after clicking outside will show the previous results again', async () => {
+    mockSearch.mockResolvedValue([ { id: 1, name: 'The Magnetic Fields' }]);
+
+    render(
+      <div>
+        <p data-testid="1234">Click me</p>
+        <AutocompleteSearchBar onSearch={mockSearch} />
+      </div>
+    );
+
+    await waitFor(() => userEvent.type(screen.getByRole('textbox'), 'a'));
+    await waitFor(() => jest.advanceTimersByTime(500));
+
+    await userEvent.click(screen.getByTestId('1234'));
+    expect(screen.queryByRole('button')).not.toBeInTheDocument();
+
+    await userEvent.click(screen.getByRole('textbox'));
+    const button = screen.getByRole('button');
+    expect(button).toBeInTheDocument();
+    expect(button).toHaveTextContent('The Magnetic Fields');
+  });
 });

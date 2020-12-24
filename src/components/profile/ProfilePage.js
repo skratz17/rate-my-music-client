@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { api } from '../../api';
 import { useApi } from '../../hooks';
 import { SongList } from '../song/SongList';
+import { ListList } from '../list/ListList';
 import { PlayButton } from '../player/PlayButton';
 import { LoadingIndicator, WarningText, ListSortOptions } from '../common';
 
@@ -14,9 +15,17 @@ export const ProfilePage = props => {
     { name: 'rating', displayName: 'Rating' }
   ];
   const [ ratingSortOptions, setRatingSortOptions ] = useState({ orderBy: 'date', direction: 'desc' });
+  const [ listSearchParams, setListSearchParams ] = useState({ userId: userId });
 
   const [ user, isUserLoading, userError ] = useApi(api.user.get, userId);
   const [ ratings, isRatingsLoading, ratingsError ] = useApi(api.ratings.list, { userId: userId, ...ratingSortOptions })
+  const [ lists, isListsLoading, listsError ] = useApi(api.lists.list, listSearchParams);
+
+  const handleListSearchParamClick = e => {
+    const { name } = e.target;
+    if(name === 'userId') setListSearchParams({ userId });
+    else if(name === 'favorited') setListSearchParams({ favorited: userId });
+  };
 
   return (
     <div className="max-w-screen-lg mx-auto">
@@ -45,6 +54,36 @@ export const ProfilePage = props => {
         </div>
 
         { ratings && <SongList songs={ratings.map(r => ({ ...r.song, rating: r.rating }))} /> }
+      </section>
+
+      <section className="my-4">
+        <LoadingIndicator isLoading={!lists && isListsLoading} />
+        <WarningText>{listsError}</WarningText>
+        <div className="flex justify-between">
+          <h3 className="text-3xl text-emerald">Lists</h3>
+
+          <div className="flex items-center">
+            <div className="flex mx-2">
+              <input type="radio" 
+                className="mr-2"
+                id="userId" name="userId"
+                checked={listSearchParams.userId !== undefined} 
+                onClick={handleListSearchParamClick} />
+              <label htmlFor="userId">Lists Created by { user?.user.username }</label>
+            </div>
+
+            <div className="flex mx-2">
+              <input type="radio" 
+                className="mr-2"
+                id="favorited" name="favorited"
+                checked={listSearchParams.favorited !== undefined} 
+                onClick={handleListSearchParamClick} />
+              <label htmlFor="favorited">{ user?.user.username }'s Favorites</label>
+            </div>
+          </div>
+        </div>
+
+        { lists && <ListList lists={lists} /> }
       </section>
     </div>
   );

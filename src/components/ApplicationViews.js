@@ -80,6 +80,11 @@ export const ApplicationViews = () => {
         <div>lists</div>
       </Route>
 
+      <Route path="/profiles/:userId(\d+)" render={props => {
+        const { userId } = props.match.params;
+        return <ProfilePage userId={userId} />
+      }} />
+
       <Route path="/me">
         { user && <ProfilePage userId={user.id} /> }
       </Route>

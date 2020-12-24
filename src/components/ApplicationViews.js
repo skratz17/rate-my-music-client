@@ -14,6 +14,7 @@ import { SongPage } from './song/SongPage';
 import { ListForm } from './list/ListForm';
 import { ListEditForm } from './list/ListEditForm';
 import { ListPage } from './list/ListPage';
+import { ListListPage } from './list/ListListPage';
 import { ProfilePage } from './profile/ProfilePage';
 import { Logout } from './auth/Logout';
 
@@ -77,7 +78,7 @@ export const ApplicationViews = () => {
       }} />
 
       <Route path="/lists">
-        <div>lists</div>
+        <ListListPage />
       </Route>
 
       <Route path="/profiles/:userId(\d+)" render={props => {

@@ -1,17 +1,36 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 
 import { DelayedSearchBar } from './DelayedSearchBar';
-import { useClickOutside } from '../../hooks';
+import { useClickOutside, useClickInside } from '../../hooks';
 
 export const AutocompleteSearchBar = props => {
   const { onSearch, onSelect, className, name, placeholder, removeOnSelect, resultFormatter } = props;
 
+  const [ clickOutsideResults, setClickOutsideResults ] = useState(null);
   const [ results, setResults ] = useState([]);
   const [ isRefreshing, setIsRefreshing ] = useState(false);
 
-  const clickOutsideHandler = useCallback(() => setResults([]), [ ]);
+  // on click outside, clear results to not show autocomplete options
+  // and if there were results and no previously cached click outside results, cache them in clickOutsideResults
+  const clickOutsideHandler = useCallback(() => {
+    if(!clickOutsideResults && results?.length) { 
+      setClickOutsideResults([ ...results ]);
+    }
+    setResults([]);
+  }, [ results, clickOutsideResults, setResults, setClickOutsideResults ]);
+
+  // on click inside, if there were cached clickOutsideResults put them back into results
+  // and then clear cached clickOutsideResults
+  const clickInsideHandler = useCallback(() => {
+    if(clickOutsideResults) {
+      setResults([ ...clickOutsideResults ]);
+      setClickOutsideResults(null);
+    }
+  }, [ clickOutsideResults, setResults, setClickOutsideResults ]);
+
   const searchBarComponentRef = useRef();
   useClickOutside(searchBarComponentRef, clickOutsideHandler);
+  useClickInside(searchBarComponentRef, clickInsideHandler);
 
   useEffect(() => {
     if(isRefreshing) {
@@ -22,6 +41,9 @@ export const AutocompleteSearchBar = props => {
   }, [ isRefreshing ]);
 
   const handleResults = _results => {
+    if(clickOutsideResults) {
+      setClickOutsideResults(null);
+    }
     setResults(_results ? _results : []);
   };
 

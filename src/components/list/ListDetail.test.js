@@ -8,12 +8,13 @@ import { ListDetail } from './ListDetail';
 import { PlayerContext } from '../player/PlayerProvider';
 
 const mockSetQueue = jest.fn();
+const mockPlayQueue = jest.fn();
 
 const renderComponent = ui => {
   const history = createMemoryHistory();
 
   render(
-    <PlayerContext.Provider value={{ setQueue: mockSetQueue }}>
+    <PlayerContext.Provider value={{ setQueue: mockSetQueue, playQueue: mockPlayQueue }}>
       <Router history={history}>{ui}</Router>
     </PlayerContext.Provider>
   );
@@ -156,5 +157,7 @@ describe('list detail functionality', () => {
         ]
       }
     ]);
+
+    expect(mockPlayQueue).toHaveBeenCalledTimes(1);
   });
 });

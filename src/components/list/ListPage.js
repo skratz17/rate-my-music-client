@@ -2,7 +2,7 @@ import React from 'react';
 
 import { api } from '../../api';
 import { useApi } from '../../hooks';
-import { LoadingIndicator, WarningText } from '../common';
+import { Page, LoadingIndicator, WarningText } from '../common';
 import { ListDetail } from './ListDetail';
 import { ListSongList } from './ListSongList';
 import { ListFavoriteControl } from './ListFavoriteControl';
@@ -24,7 +24,7 @@ export const ListPage = props => {
   };
 
   return (
-    <div className="max-w-screen-lg mx-auto">
+    <Page>
       <section>
         <LoadingIndicator isLoading={!list && isLoading} />
         <WarningText>{error}</WarningText>
@@ -43,6 +43,6 @@ export const ListPage = props => {
       <section>
         { list && <ListSongList listSongs={list.songs} /> }
       </section>
-    </div>
+    </Page>
   );
 };

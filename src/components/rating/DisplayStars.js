@@ -4,7 +4,9 @@ import { MdStar, MdStarBorder } from 'react-icons/md';
 export const DisplayStars = props => {
   const { value } = props;
 
-  const stars = Array(5).fill(<MdStar data-testid="filled-star" />, 0, value).fill(<MdStarBorder data-testid="empty-star" />, value, 6);
+  const stars = Array(5)
+    .fill(<MdStar data-testid="filled-star" />, 0, value)
+    .fill(<MdStarBorder data-testid="empty-star" />, value, 5);
 
   return (
     <div className="flex">

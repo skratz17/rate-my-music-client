@@ -1,11 +1,12 @@
 import React from 'react';
 
+import { Page } from '../common';
 import { FullSearch } from '../search/FullSearch';
 
 export const Home = () => {
   return (
-    <div className="max-w-screen-lg mx-auto">
+    <Page>
       <FullSearch />
-    </div>
+    </Page>
   );
 };

@@ -3,7 +3,7 @@ import React, { useState, useContext } from 'react';
 import { api } from '../../api';
 import { useApi } from '../../hooks';
 import { UserContext } from '../user/UserProvider';
-import { LoadingIndicator, WarningText, ListSortOptions } from '../common';
+import { Page, LoadingIndicator, WarningText, ListSortOptions } from '../common';
 import { SongDetail } from './SongDetail';
 import { RatingControl } from '../rating/RatingControl';
 import { RatingList } from '../rating/RatingList';
@@ -50,7 +50,7 @@ export const SongPage = props => {
   };
 
   return (
-    <div className="max-w-screen-lg mx-auto">
+    <Page>
       <section>
         <WarningText>{songError}</WarningText>
         <LoadingIndicator isLoading={!song && isSongLoading} />
@@ -81,6 +81,6 @@ export const SongPage = props => {
         <h3 className="text-2xl">Appears in Lists</h3>
         { lists && <ListList lists={lists} /> }
       </section>
-    </div>
+    </Page>
   )
 };

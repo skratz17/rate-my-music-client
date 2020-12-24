@@ -5,7 +5,7 @@ import { useApi } from '../../hooks';
 import { SongList } from '../song/SongList';
 import { ListList } from '../list/ListList';
 import { PlayButton } from '../player/PlayButton';
-import { LoadingIndicator, WarningText, ListSortOptions } from '../common';
+import { Page, LoadingIndicator, WarningText, ListSortOptions } from '../common';
 
 export const ProfilePage = props => {
   const { userId } = props;
@@ -24,11 +24,11 @@ export const ProfilePage = props => {
   const handleListSearchParamClick = e => {
     const { name } = e.target;
     if(name === 'userId') setListSearchParams({ userId });
-    else if(name === 'favorited') setListSearchParams({ favorited: userId });
+    else if(name === 'favoritedBy') setListSearchParams({ favoritedBy: userId });
   };
 
   return (
-    <div className="max-w-screen-lg mx-auto">
+    <Page>
       <section>
         <LoadingIndicator isLoading={isUserLoading} />
         <WarningText>{userError}</WarningText>
@@ -75,16 +75,16 @@ export const ProfilePage = props => {
             <div className="flex mx-2">
               <input type="radio" 
                 className="mr-2"
-                id="favorited" name="favorited"
-                checked={listSearchParams.favorited !== undefined} 
+                id="favoritedBy" name="favoritedBy"
+                checked={listSearchParams.favoritedBy !== undefined} 
                 onChange={handleListSearchParamClick} />
-              <label htmlFor="favorited">{ user?.user.username }'s Favorites</label>
+              <label htmlFor="favoritedBy">{ user?.user.username }'s Favorites</label>
             </div>
           </div>
         </div>
 
         { lists && <ListList lists={lists} /> }
       </section>
-    </div>
+    </Page>
   );
 };

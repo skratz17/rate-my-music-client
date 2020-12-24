@@ -6,7 +6,7 @@ import { YearSelect } from './YearSelect';
 import { SongList } from '../song/SongList';
 import { PlayButton } from '../player/PlayButton';
 import { GenreAutocompleteSelector } from '../genre/GenreAutocompleteSelector';
-import { LoadingIndicator, WarningText } from '../common';
+import { Page, LoadingIndicator, WarningText } from '../common';
 
 export const Chart = () => {
   const [ chartParams, setChartParams ] = useState({ orderBy: 'avgRating', direction: 'desc' });
@@ -33,7 +33,7 @@ export const Chart = () => {
   };
 
   return (
-    <div className="max-w-screen-lg mx-auto">
+    <Page>
       <h2 className="text-3xl text-center">The <span className="text-emerald">Charts</span></h2>
       <section>
         <LoadingIndicator isLoading={!songs && isLoading} />
@@ -61,6 +61,6 @@ export const Chart = () => {
         }
         { songs && <SongList songs={songs} /> }
       </section>
-    </div>
+    </Page>
   );
 };

@@ -66,7 +66,7 @@ describe('profile page functionality', () => {
 
     expect(mockListLists).toHaveBeenCalledTimes(2);
     expect(mockListLists).toHaveBeenCalledWith({
-      favorited: 3
+      favoritedBy: 3
     });
 
     expect(favoritesRadioButton).toBeChecked();

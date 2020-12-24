@@ -1,3 +1,4 @@
+import { Page } from './Page';
 import { Button } from './Button';
 import { RemoveButton } from './RemoveButton';
 import { LinkButton } from './LinkButton';
@@ -9,6 +10,7 @@ import { AutocompleteSearchBar } from './AutocompleteSearchBar';
 import { ListSortOptions } from './ListSortOptions';
 
 export {
+  Page,
   Button,
   RemoveButton,
   LinkButton,

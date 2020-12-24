@@ -4,7 +4,7 @@ import { api } from '../../api';
 import { useApi } from '../../hooks';
 import { PlayButton } from '../player/PlayButton';
 import { SongList } from '../song/SongList';
-import { LoadingIndicator, WarningText, ListSortOptions } from '../common';
+import { Page, LoadingIndicator, WarningText, ListSortOptions } from '../common';
 
 export const ArtistPage = props => {
   const { artistId } = props;
@@ -46,7 +46,7 @@ export const ArtistPage = props => {
   };
 
   return (
-    <div className="max-w-screen-lg mx-auto">
+    <Page>
       <section>
         <WarningText>{artistError}</WarningText>
         <LoadingIndicator isLoading={isArtistLoading} />
@@ -60,6 +60,6 @@ export const ArtistPage = props => {
         <LoadingIndicator isLoading={!songs && isSongsLoading} />
         { renderSongsData() }
       </section>
-    </div>
+    </Page>
   )
 };

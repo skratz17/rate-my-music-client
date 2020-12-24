@@ -24,7 +24,7 @@ export const ProfilePage = props => {
   const handleListSearchParamClick = e => {
     const { name } = e.target;
     if(name === 'userId') setListSearchParams({ userId });
-    else if(name === 'favorited') setListSearchParams({ favorited: userId });
+    else if(name === 'favoritedBy') setListSearchParams({ favoritedBy: userId });
   };
 
   return (
@@ -75,10 +75,10 @@ export const ProfilePage = props => {
             <div className="flex mx-2">
               <input type="radio" 
                 className="mr-2"
-                id="favorited" name="favorited"
-                checked={listSearchParams.favorited !== undefined} 
+                id="favoritedBy" name="favoritedBy"
+                checked={listSearchParams.favoritedBy !== undefined} 
                 onChange={handleListSearchParamClick} />
-              <label htmlFor="favorited">{ user?.user.username }'s Favorites</label>
+              <label htmlFor="favoritedBy">{ user?.user.username }'s Favorites</label>
             </div>
           </div>
         </div>

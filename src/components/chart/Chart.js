@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
 
 import { api } from '../../api';
-import { useApi } from '../../hooks';
+import { usePaginatedApi } from '../../hooks';
 import { YearSelect } from './YearSelect';
 import { SongList } from '../song/SongList';
 import { PlayButton } from '../player/PlayButton';
 import { GenreAutocompleteSelector } from '../genre/GenreAutocompleteSelector';
-import { Page, LoadingIndicator, WarningText } from '../common';
+import { Page, LoadingIndicator, WarningText, PaginationControls } from '../common';
 
 export const Chart = () => {
   const [ chartParams, setChartParams ] = useState({ orderBy: 'avgRating', direction: 'desc' });
-  const [ songs, isLoading, error ] = useApi(api.songs.list, chartParams);
+  const [ pagination, songs, isLoading, error ] = usePaginatedApi(api.songs.list, chartParams);
+
+  const { page, getPreviousPage, getNextPage } = pagination;
 
   const handleChange = e => {
     const { name, value } = e.target;
@@ -59,7 +61,14 @@ export const Chart = () => {
             <PlayButton className="text-5xl" songs={songs} accessibleName="Play All Songs in Chart" />
           </div>
         }
-        { songs && <SongList songs={songs} /> }
+        { songs && 
+          <div>
+            <SongList songs={songs} /> 
+            <PaginationControls page={page}
+              onPreviousPage={getPreviousPage}
+              onNextPage={getNextPage} />
+          </div>
+        }
       </section>
     </Page>
   );

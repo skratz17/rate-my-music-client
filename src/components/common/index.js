@@ -1,4 +1,5 @@
 import { Page } from './Page';
+import { PaginationControls } from './PaginationControls';
 import { Button } from './Button';
 import { RemoveButton } from './RemoveButton';
 import { LinkButton } from './LinkButton';
@@ -11,6 +12,7 @@ import { ListSortOptions } from './ListSortOptions';
 
 export {
   Page,
+  PaginationControls,
   Button,
   RemoveButton,
   LinkButton,

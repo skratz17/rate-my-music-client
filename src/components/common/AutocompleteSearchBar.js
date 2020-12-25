@@ -70,7 +70,7 @@ export const AutocompleteSearchBar = props => {
         <ul>
           { results.map(result => (
             <li className="border-t border-gray-400" key={result.id}>
-              <button className="w-full p-2 text-left bg-gray-200 hover:bg-gray-300" onClick={() => handleSelect(result)}>
+              <button type="button" className="w-full p-2 text-left bg-gray-200 hover:bg-gray-300" onClick={() => handleSelect(result)}>
                 { resultFormatter ? resultFormatter(result) : result.name }
               </button>
             </li>

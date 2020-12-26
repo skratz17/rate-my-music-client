@@ -11,6 +11,9 @@ describe('list list page functionality', () => {
     await waitFor(() => render(<ListListPage />));
 
     expect(mockListLists).toHaveBeenCalledTimes(1);
-    expect(mockListLists).toHaveBeenCalledWith();
+    expect(mockListLists).toHaveBeenCalledWith({
+      page: 1,
+      pageSize: 10
+    });
   });
 });

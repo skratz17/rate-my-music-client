@@ -21,12 +21,16 @@ describe('profile page functionality', () => {
     expect(mockListRatings).toHaveBeenCalledWith({
       orderBy: 'date',
       direction: 'desc',
-      userId: 3
+      userId: 3,
+      page: 1,
+      pageSize: 10
     });
 
     expect(mockListLists).toHaveBeenCalledTimes(1);
     expect(mockListLists).toHaveBeenCalledWith({
-      userId: 3
+      userId: 3,
+      page: 1,
+      pageSize: 10
     });
   });
 
@@ -66,7 +70,9 @@ describe('profile page functionality', () => {
 
     expect(mockListLists).toHaveBeenCalledTimes(2);
     expect(mockListLists).toHaveBeenCalledWith({
-      favoritedBy: 3
+      favoritedBy: 3,
+      page: 1,
+      pageSize: 10
     });
 
     expect(favoritesRadioButton).toBeChecked();
@@ -75,7 +81,9 @@ describe('profile page functionality', () => {
 
     expect(mockListLists).toHaveBeenCalledTimes(3);
     expect(mockListLists).toHaveBeenCalledWith({
-      userId: 3
+      userId: 3,
+      page: 1,
+      pageSize: 10
     });
   });
 });

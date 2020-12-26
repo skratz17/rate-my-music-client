@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 
 import { api } from '../../api';
-import { useApi } from '../../hooks';
+import { usePagination, useApi } from '../../hooks';
 import { SongList } from '../song/SongList';
 import { ListList } from '../list/ListList';
 import { PlayButton } from '../player/PlayButton';
-import { Page, LoadingIndicator, WarningText, ListSortOptions } from '../common';
+import { Page, LoadingIndicator, WarningText, ListSortOptions, PaginationControls } from '../common';
 
 export const ProfilePage = props => {
   const { userId } = props;
@@ -17,9 +17,12 @@ export const ProfilePage = props => {
   const [ ratingSortOptions, setRatingSortOptions ] = useState({ orderBy: 'date', direction: 'desc' });
   const [ listSearchParams, setListSearchParams ] = useState({ userId: userId });
 
+  const [ ratingPaginationParams, ratingPaginationFunctions ] = usePagination();
+  const [ listPaginationParams, listPaginationFunctions ] = usePagination();
+
   const [ user, isUserLoading, userError ] = useApi(api.user.get, userId);
-  const [ ratings, isRatingsLoading, ratingsError ] = useApi(api.ratings.list, { userId: userId, ...ratingSortOptions })
-  const [ lists, isListsLoading, listsError ] = useApi(api.lists.list, listSearchParams);
+  const [ ratings, isRatingsLoading, ratingsError ] = useApi(api.ratings.list, { userId: userId, ...ratingSortOptions, ...ratingPaginationParams })
+  const [ lists, isListsLoading, listsError ] = useApi(api.lists.list, { ...listSearchParams, ...listPaginationParams });
 
   const handleListSearchParamClick = e => {
     const { name } = e.target;
@@ -53,7 +56,14 @@ export const ProfilePage = props => {
             onSelectSortOption={setRatingSortOptions} />
         </div>
 
-        { ratings && <SongList songs={ratings.map(r => ({ ...r.song, rating: r.rating }))} /> }
+        { ratings && 
+          <div>
+            <SongList songs={ratings.map(r => ({ ...r.song, rating: r.rating }))} /> 
+            <PaginationControls page={ratingPaginationParams.page}
+              onPreviousPage={ratingPaginationFunctions.getPreviousPage}
+              onNextPage={ratingPaginationFunctions.getNextPage} />
+          </div>
+        }
       </section>
 
       <section className="my-4">
@@ -83,7 +93,14 @@ export const ProfilePage = props => {
           </div>
         </div>
 
-        { lists && <ListList lists={lists} /> }
+        { lists && 
+          <div>
+            <ListList lists={lists} /> 
+            <PaginationControls page={listPaginationParams.page}
+              onPreviousPage={listPaginationFunctions.getPreviousPage}
+              onNextPage={listPaginationFunctions.getNextPage} />
+          </div>
+        }
       </section>
     </Page>
   );

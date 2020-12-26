@@ -1,9 +1,9 @@
 import React, { useState, useContext } from 'react';
 
 import { api } from '../../api';
-import { useApi } from '../../hooks';
+import { useApi, usePagination } from '../../hooks';
 import { UserContext } from '../user/UserProvider';
-import { Page, LoadingIndicator, WarningText, ListSortOptions } from '../common';
+import { Page, LoadingIndicator, WarningText, ListSortOptions, PaginationControls } from '../common';
 import { SongDetail } from './SongDetail';
 import { RatingControl } from '../rating/RatingControl';
 import { RatingList } from '../rating/RatingList';
@@ -21,11 +21,22 @@ export const SongPage = props => {
   ];
   const [ ratingSortOptions, setRatingSortOptions ] = useState({ orderBy: 'date', direction: 'desc' });
 
-  const [ song, isSongLoading, songError, refreshSong ] = useApi(api.songs.get, songId);
-  const [ ratings, isRatingsLoading, ratingsError, refreshRatings ] = useApi(api.ratings.list, { songId, ...ratingSortOptions });
-  const [ lists, isListsLoading, listsError ] = useApi(api.lists.list, { songId });
+  const [ ratingsPaginationParams, ratingsPaginationFunctions ] = usePagination();
+  const [ listsPaginationParams, listsPaginationFunctions ] = usePagination();
 
-  const userRating = ratings?.find(r => r.rater.id === user?.id);
+  const [ song, isSongLoading, songError, refreshSong ] = useApi(api.songs.get, songId);
+  const [ ratings, isRatingsLoading, ratingsError, refreshRatings ] = useApi(api.ratings.list, { songId, ...ratingSortOptions, ...ratingsPaginationParams });
+  const [ lists, isListsLoading, listsError ] = useApi(api.lists.list, { songId, ...listsPaginationParams });
+  const [ userRatingResult, isUserRatingLoading, isUserRatingError, refreshUserRating ] = useApi(
+    async (...params) => {
+      if(user?.id) {
+        return await api.ratings.list(...params);
+      }
+    },
+    { userId: user?.id, songId: songId }
+  );
+
+  const userRating = userRatingResult?.length ? userRatingResult[0] : null;
 
   const rateSong = async value => {
     if(value === userRating?.rating) return;
@@ -39,6 +50,7 @@ export const SongPage = props => {
 
     refreshSong();
     refreshRatings();
+    refreshUserRating();
   };
 
   const reviewSong = async review => {
@@ -47,6 +59,7 @@ export const SongPage = props => {
     await api.ratings.update(userRating.id, { songId, rating: userRating.rating, review: review });
 
     refreshRatings();
+    refreshUserRating();
   };
 
   return (
@@ -70,16 +83,30 @@ export const SongPage = props => {
             orderingData={ratingSortOptions} 
             onSelectSortOption={setRatingSortOptions} />
         </div>
-        { ratings && <RatingList ratings={ratings} /> }
+        { ratings && 
+        <div>
+          <RatingList ratings={ratings} /> 
+          <PaginationControls page={ratingsPaginationParams.page}
+            onPreviousPage={ratingsPaginationFunctions.getPreviousPage}
+            onNextPage={ratingsPaginationFunctions.getNextPage} />
+        </div>
+        }
       </section>
 
       <hr className="w-3/4 h-1 mx-auto my-5" />
 
       <section>
         <WarningText>{listsError}</WarningText>
-        <LoadingIndicator isLoading={isListsLoading} />
+        <LoadingIndicator isLoading={!lists && isListsLoading} />
         <h3 className="text-2xl">Appears in Lists</h3>
-        { lists && <ListList lists={lists} /> }
+        { lists && 
+          <div>
+            <ListList lists={lists} /> 
+            <PaginationControls page={listsPaginationParams.page}
+              onPreviousPage={listsPaginationFunctions.getPreviousPage}
+              onNextPage={listsPaginationFunctions.getNextPage} />
+          </div>
+        }
       </section>
     </Page>
   )

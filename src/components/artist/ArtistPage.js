@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
 
 import { api } from '../../api';
-import { useApi } from '../../hooks';
+import { useApi, usePagination } from '../../hooks';
 import { PlayButton } from '../player/PlayButton';
 import { SongList } from '../song/SongList';
-import { Page, LoadingIndicator, WarningText, ListSortOptions } from '../common';
+import { Page, LoadingIndicator, WarningText, ListSortOptions, PaginationControls } from '../common';
 
 export const ArtistPage = props => {
   const { artistId } = props;
 
   const [ orderBy, setOrderBy ] = useState({ orderBy: 'year', direction: 'desc' });
+  const [ paginationParams, paginationFunctions ] = usePagination();
   const [ artist, isArtistLoading, artistError ] = useApi(api.artists.get, artistId);
-  const [ songs, isSongsLoading, songsError ] = useApi(api.songs.list, { artist: artistId, ...orderBy });
+  const [ songs, isSongsLoading, songsError ] = useApi(api.songs.list, { artist: artistId, ...orderBy, ...paginationParams });
 
   const renderArtistData = () => {
     if(!artist) return null;
@@ -41,7 +42,12 @@ export const ArtistPage = props => {
         </div>
         <ListSortOptions orderingData={orderBy} fields={songListSortOptions} onSelectSortOption={setOrderBy} />
       </div>
-      <SongList songs={songs} />
+      <div>
+        <SongList songs={songs} />
+        <PaginationControls page={paginationParams.page}
+          onPreviousPage={paginationFunctions.getPreviousPage}
+          onNextPage={paginationFunctions.getNextPage} />
+      </div>
     </>;
   };
 

@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 
 import { api } from '../../api';
-import { useApi } from '../../hooks';
+import { usePagination, useApi } from '../../hooks';
 import { SongList } from '../song/SongList';
 import { ListList } from '../list/ListList';
 import { PlayButton } from '../player/PlayButton';
-import { Page, LoadingIndicator, WarningText, ListSortOptions } from '../common';
+import { Page, LoadingIndicator, WarningText, ListSortOptions, PaginationControls } from '../common';
 
 export const ProfilePage = props => {
   const { userId } = props;
@@ -17,9 +17,18 @@ export const ProfilePage = props => {
   const [ ratingSortOptions, setRatingSortOptions ] = useState({ orderBy: 'date', direction: 'desc' });
   const [ listSearchParams, setListSearchParams ] = useState({ userId: userId });
 
+  const [ ratingPaginationParams, ratingPaginationFunctions ] = usePagination();
+  const [ listPaginationParams, listPaginationFunctions ] = usePagination();
+
   const [ user, isUserLoading, userError ] = useApi(api.user.get, userId);
-  const [ ratings, isRatingsLoading, ratingsError ] = useApi(api.ratings.list, { userId: userId, ...ratingSortOptions })
-  const [ lists, isListsLoading, listsError ] = useApi(api.lists.list, listSearchParams);
+  const [ ratingsResponse, isRatingsLoading, ratingsError ] = useApi(api.ratings.list, { userId: userId, ...ratingSortOptions, ...ratingPaginationParams })
+  const [ listsResponse, isListsLoading, listsError ] = useApi(api.lists.list, { ...listSearchParams, ...listPaginationParams });
+
+  const ratings = ratingsResponse?.data;
+  const ratingsCount = ratingsResponse?.count;
+
+  const lists = listsResponse?.data;
+  const listsCount = listsResponse?.count;
 
   const handleListSearchParamClick = e => {
     const { name } = e.target;
@@ -40,6 +49,8 @@ export const ProfilePage = props => {
         }
       </section>
 
+      <hr className="w-3/4 h-1 mx-auto my-5" />
+
       <section className="my-4">
         <LoadingIndicator isLoading={!ratings && isRatingsLoading} />
         <WarningText>{ratingsError}</WarningText>
@@ -53,8 +64,20 @@ export const ProfilePage = props => {
             onSelectSortOption={setRatingSortOptions} />
         </div>
 
-        { ratings && <SongList songs={ratings.map(r => ({ ...r.song, rating: r.rating }))} /> }
+        { ratings && 
+          <div>
+            <SongList songs={ratings.map(r => ({ ...r.song, rating: r.rating }))} /> 
+            <PaginationControls page={ratingPaginationParams.page}
+              pageSize={ratingPaginationParams.pageSize}
+              isLastPage={ratingPaginationFunctions.isLastPage(ratingsCount)}
+              onSetPageSize={ratingPaginationFunctions.setPageSize}
+              onPreviousPage={ratingPaginationFunctions.getPreviousPage}
+              onNextPage={ratingPaginationFunctions.getNextPage} />
+          </div>
+        }
       </section>
+
+      <hr className="w-3/4 h-1 mx-auto my-5" />
 
       <section className="my-4">
         <LoadingIndicator isLoading={!lists && isListsLoading} />
@@ -83,7 +106,17 @@ export const ProfilePage = props => {
           </div>
         </div>
 
-        { lists && <ListList lists={lists} /> }
+        { lists && 
+          <div>
+            <ListList lists={lists} /> 
+            <PaginationControls page={listPaginationParams.page}
+              pageSize={listPaginationParams.pageSize}
+              isLastPage={listPaginationFunctions.isLastPage(listsCount)}
+              onSetPageSize={listPaginationFunctions.setPageSize}
+              onPreviousPage={listPaginationFunctions.getPreviousPage}
+              onNextPage={listPaginationFunctions.getNextPage} />
+          </div>
+        }
       </section>
     </Page>
   );

@@ -28,6 +28,8 @@ export const GenreAutocompleteSelector = props => {
     });
   };
 
+  const searchHandler = async searchTerm => (await api.genres.search(searchTerm))?.data;
+
   return (
     <div className="flex flex-col">
       <div className={`flex my-2 ${selectionsBelow ? 'order-last' : ''}`}>
@@ -43,7 +45,7 @@ export const GenreAutocompleteSelector = props => {
         }
       </div>
       <AutocompleteSearchBar removeOnSelect 
-        onSearch={api.genres.search} 
+        onSearch={searchHandler} 
         onSelect={handleSelect} 
         name={name} 
         placeholder={selectedGenres.length ? "Add another genre" : "Add a genre"}

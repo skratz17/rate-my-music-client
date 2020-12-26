@@ -33,17 +33,17 @@ describe('song page functionality', () => {
     expect(mockGetSong).toHaveBeenCalledWith(2);
 
     expect(mockListLists).toHaveBeenCalledTimes(1);
-    expect(mockListLists).toHaveBeenCalledWith({ songId: 2 });
+    expect(mockListLists).toHaveBeenCalledWith({ songId: 2, page: 1, pageSize: 10 });
 
     expect(mockListRatings).toHaveBeenCalledTimes(1);
-    expect(mockListRatings).toHaveBeenCalledWith({ songId: 2, orderBy: 'date', direction: 'desc' });
+    expect(mockListRatings).toHaveBeenCalledWith({ songId: 2, orderBy: 'date', direction: 'desc', page: 1, pageSize: 10 });
   });
 
   test('clicking on a rating list sort option will refetch list data', async () => {
     await waitFor(() => renderComponent(<SongPage songId={2} />));
 
     expect(mockListRatings).toHaveBeenCalledTimes(1);
-    expect(mockListRatings).toHaveBeenCalledWith({ songId: 2, orderBy: 'date', direction: 'desc' });
+    expect(mockListRatings).toHaveBeenCalledWith({ songId: 2, orderBy: 'date', direction: 'desc', page: 1, pageSize: 10 });
 
     const buttons = screen.getAllByRole('button');
     const ratingSortButton = buttons.find(button => button.textContent === 'Rating');
@@ -51,6 +51,6 @@ describe('song page functionality', () => {
     await waitFor(() => userEvent.click(ratingSortButton));
 
     expect(mockListRatings).toHaveBeenCalledTimes(2);
-    expect(mockListRatings).toHaveBeenCalledWith({ songId: 2, orderBy: 'rating', direction: 'asc' });
+    expect(mockListRatings).toHaveBeenCalledWith({ songId: 2, orderBy: 'rating', direction: 'asc', page: 1, pageSize: 10 });
   });
 });

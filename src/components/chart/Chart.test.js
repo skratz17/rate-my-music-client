@@ -25,71 +25,74 @@ const renderComponent = ui => {
   )
 };
 
-const SONGS_RESPONSE = [
-  {
-      "id": 1,
-      "name": "Half-Life",
-      "year": 2014,
-      "artist": {
-          "id": 1,
-          "name": "KoeeoaddiThere",
-      },
-      "genres": [
-          {
-              "id": 1,
-              "genre": {
-                  "id": 1,
-                  "name": "Indie Pop"
-              }
-          }
-      ],
-      "sources": [
-          {
-              "id": 1,
-              "url": "https://soundcloud.com/koeeoaddithere/half-life",
-              "service": "Soundcloud",
-              "isPrimary": true,
-              "song": 1
-          }
-      ],
-      "avgRating": 4
-  },
-  {
-      "id": 2,
-      "name": "Later On",
-      "year": 2014,
-      "artist": {
-          "id": 1,
-          "name": "KoeeoaddiThere",
-      },
-      "genres": [
-          {
-              "id": 2,
-              "genre": {
-                  "id": 2,
-                  "name": "Indie Folk"
-              }
-          }
-      ],
-      "sources": [
-          {
-              "id": 2,
-              "url": "https://soundcloud.com/koeeoaddithere/later-on",
-              "service": "Soundcloud",
-              "isPrimary": true,
-              "song": 2
-          }
-      ],
-      "avgRating": 4
-  }
-];
+const SONGS_RESPONSE = {
+    count: 2,
+    data: [
+      {
+        "id": 1,
+        "name": "Half-Life",
+        "year": 2014,
+        "artist": {
+            "id": 1,
+            "name": "KoeeoaddiThere",
+        },
+        "genres": [
+            {
+                "id": 1,
+                "genre": {
+                    "id": 1,
+                    "name": "Indie Pop"
+                }
+            }
+        ],
+        "sources": [
+            {
+                "id": 1,
+                "url": "https://soundcloud.com/koeeoaddithere/half-life",
+                "service": "Soundcloud",
+                "isPrimary": true,
+                "song": 1
+            }
+        ],
+        "avgRating": 4
+    },
+    {
+        "id": 2,
+        "name": "Later On",
+        "year": 2014,
+        "artist": {
+            "id": 1,
+            "name": "KoeeoaddiThere",
+        },
+        "genres": [
+            {
+                "id": 2,
+                "genre": {
+                    "id": 2,
+                    "name": "Indie Folk"
+                }
+            }
+        ],
+        "sources": [
+            {
+                "id": 2,
+                "url": "https://soundcloud.com/koeeoaddithere/later-on",
+                "service": "Soundcloud",
+                "isPrimary": true,
+                "song": 2
+            }
+        ],
+        "avgRating": 4
+    }
+  ]
+};
 
 describe('chart functionality', () => {
   test('on load fetches songs list sorted by avg rating descending', async () => {
     renderComponent(<Chart />);
 
     await waitFor(() => expect(mockListSongs).toHaveBeenCalledTimes(1));
-    expect(mockListSongs).toHaveBeenCalledWith({ orderBy: 'avgRating', direction: 'desc' });
+    expect(mockListSongs).toHaveBeenLastCalledWith({ orderBy: 'avgRating', direction: 'desc', page: 1, pageSize: 10 });
   });
 
   test('renders two dropdowns and a textbox', async () => {
@@ -108,7 +111,7 @@ describe('chart functionality', () => {
 
     await waitFor(() => userEvent.selectOptions(startYearDropdown, '1992'));
     expect(mockListSongs).toHaveBeenCalledTimes(2);
-    expect(mockListSongs).toHaveBeenCalledWith({ orderBy: 'avgRating', direction: 'desc', startYear: '1992' });
+    expect(mockListSongs).toHaveBeenLastCalledWith({ orderBy: 'avgRating', direction: 'desc', startYear: '1992', page: 1, pageSize: 10 });
   });
 
   test('selecting a value in the end year dropdown refetches songs list with selected year', async () => {
@@ -119,11 +122,14 @@ describe('chart functionality', () => {
 
     await waitFor(() => userEvent.selectOptions(endYearDropdown, '1996'));
     expect(mockListSongs).toHaveBeenCalledTimes(2);
-    expect(mockListSongs).toHaveBeenCalledWith({ orderBy: 'avgRating', direction: 'desc', endYear: '1996' });
+    expect(mockListSongs).toHaveBeenLastCalledWith({ orderBy: 'avgRating', direction: 'desc', endYear: '1996', page: 1, pageSize: 10 });
   });
 
   test('selecting a genre in the genre autocomplete selector refetches songs list with selected genre', async () => {
-    mockSearchGenres.mockResolvedValue([ { id: 1, name: 'Indie Folk' }, { id: 2, name: 'Indie Pop' } ]);
+    mockSearchGenres.mockResolvedValue({
+      count: 2,
+      data: [ { id: 1, name: 'Indie Folk' }, { id: 2, name: 'Indie Pop' } ]
+    });
     jest.useFakeTimers();
 
     renderComponent(<Chart />);
@@ -141,7 +147,7 @@ describe('chart functionality', () => {
     await waitFor(() => userEvent.click(screen.getByText('Indie Folk')));
 
     expect(mockListSongs).toHaveBeenCalledTimes(2);
-    expect(mockListSongs).toHaveBeenCalledWith({ orderBy: 'avgRating', direction: 'desc', genres: [ 1 ]});
+    expect(mockListSongs).toHaveBeenLastCalledWith({ orderBy: 'avgRating', direction: 'desc', genres: [ 1 ], page: 1, pageSize: 10 });
   });
 
   test('clicking play button will queue songs in songs list response', async () => {
@@ -153,7 +159,7 @@ describe('chart functionality', () => {
     await waitFor(() => userEvent.click(screen.getByText('Play All Songs in Chart')));
 
     expect(mockSetQueue).toHaveBeenCalledTimes(1);
-    expect(mockSetQueue).toHaveBeenCalledWith(SONGS_RESPONSE);
+    expect(mockSetQueue).toHaveBeenLastCalledWith(SONGS_RESPONSE.data);
     
     expect(mockPlayQueue).toHaveBeenCalledTimes(1);
   });

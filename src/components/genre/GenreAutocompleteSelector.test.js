@@ -14,7 +14,10 @@ describe('genre autocomplete selector functionality', () => {
   });
 
   test('fetches genre search results, allows user to select or unselect genres', async () => {
-    mockSearchGenres.mockResolvedValueOnce([ { id: 1, name: 'Indie Pop' }, { id: 2, name: 'Indie Folk' } ]);
+    mockSearchGenres.mockResolvedValueOnce({
+      count: 2,
+      data: [ { id: 1, name: 'Indie Pop' }, { id: 2, name: 'Indie Folk' } ]
+    });
     const mockSelectHandler = jest.fn();
 
     render(<GenreAutocompleteSelector onSelect={mockSelectHandler} />);

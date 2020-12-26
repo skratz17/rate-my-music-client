@@ -1,20 +1,34 @@
 import React from 'react';
 
 import { api } from '../../api';
-import { useApi } from '../../hooks';
+import { usePagination, useApi } from '../../hooks';
 import { ListList } from './ListList';
-import { Page, LoadingIndicator, WarningText } from '../common';
+import { Page, LoadingIndicator, WarningText, PaginationControls } from '../common';
 
 export const ListListPage = () => {
-  const [ lists, isLoading, error ] = useApi(api.lists.list);
+  const [ paginationParams, paginationFunctions ] = usePagination();
+  const [ listsResponse, isLoading, error ] = useApi(api.lists.list, { ...paginationParams });
+
+  const lists = listsResponse?.data;
+  const count = listsResponse?.count;
 
   return (
     <Page>
       <section>
         <h2 className="text-4xl text-center">All <span className="text-emerald">Lists</span></h2>
-        <LoadingIndicator isLoading={isLoading} />
+        <LoadingIndicator isLoading={!lists && isLoading} />
         <WarningText>{error}</WarningText>
-        { lists && <ListList lists={lists} /> }
+        { lists && 
+          <div>
+            <ListList lists={lists} /> 
+            <PaginationControls page={paginationParams.page}
+              pageSize={paginationParams.pageSize}
+              isLastPage={paginationFunctions.isLastPage(count)}
+              onSetPageSize={paginationFunctions.setPageSize}
+              onPreviousPage={paginationFunctions.getPreviousPage}
+              onNextPage={paginationFunctions.getNextPage} />
+          </div>
+        }
       </section>
     </Page>
   );

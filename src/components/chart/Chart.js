@@ -1,16 +1,20 @@
 import React, { useState } from 'react';
 
 import { api } from '../../api';
-import { useApi } from '../../hooks';
+import { usePagination, useApi } from '../../hooks';
 import { YearSelect } from './YearSelect';
 import { SongList } from '../song/SongList';
 import { PlayButton } from '../player/PlayButton';
 import { GenreAutocompleteSelector } from '../genre/GenreAutocompleteSelector';
-import { Page, LoadingIndicator, WarningText } from '../common';
+import { Page, LoadingIndicator, WarningText, PaginationControls } from '../common';
 
 export const Chart = () => {
   const [ chartParams, setChartParams ] = useState({ orderBy: 'avgRating', direction: 'desc' });
-  const [ songs, isLoading, error ] = useApi(api.songs.list, chartParams);
+  const [ paginationParams, paginationFunctions ] = usePagination();
+  const [ songsResponse, isLoading, error ] = useApi(api.songs.list, { ...chartParams, ...paginationParams });
+
+  const songs = songsResponse?.data;
+  const count = songsResponse?.count;
 
   const handleChange = e => {
     const { name, value } = e.target;
@@ -59,7 +63,17 @@ export const Chart = () => {
             <PlayButton className="text-5xl" songs={songs} accessibleName="Play All Songs in Chart" />
           </div>
         }
-        { songs && <SongList songs={songs} /> }
+        { songs && 
+          <div>
+            <SongList songs={songs} /> 
+            <PaginationControls page={paginationParams.page}
+              pageSize={paginationParams.pageSize}
+              isLastPage={paginationFunctions.isLastPage(count)}
+              onSetPageSize={paginationFunctions.setPageSize}
+              onPreviousPage={paginationFunctions.getPreviousPage}
+              onNextPage={paginationFunctions.getNextPage} />
+          </div>
+        }
       </section>
     </Page>
   );

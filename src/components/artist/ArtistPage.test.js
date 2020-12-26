@@ -34,46 +34,49 @@ const artistResponse = {
   description: 'AKA Oneohtrix Point Never'
 };
 
-const songsResponse = [
+const songsResponse = {
+  count: 2,
+  data: [
+      {
+        "id": 3,
+        "name": "Save a Secret for the Moon",
+        "year": 1996,
+        "artist": {
+            "id": 2,
+            "name": "The Magnetic Fields",
+        },
+        "sources": [
+            {
+                "id": 3,
+                "url": "https://www.youtube.com/watch?v=4rk_9cYOp8A",
+                "service": "YouTube",
+                "is_primary": true,
+                "song": 3
+            }
+        ],
+        "avg_rating": 4.5
+    },
     {
-      "id": 3,
-      "name": "Save a Secret for the Moon",
-      "year": 1996,
-      "artist": {
-          "id": 2,
-          "name": "The Magnetic Fields",
-      },
-      "sources": [
-          {
-              "id": 3,
-              "url": "https://www.youtube.com/watch?v=4rk_9cYOp8A",
-              "service": "YouTube",
-              "is_primary": true,
-              "song": 3
-          }
-      ],
-      "avg_rating": 4.5
-  },
-  {
-      "id": 4,
-      "name": "You and Me and the Moon",
-      "year": 1996,
-      "artist": {
-          "id": 2,
-          "name": "The Magnetic Fields",
-      },
-      "sources": [
-          {
-              "id": 4,
-              "url": "https://www.youtube.com/watch?v=r1aLwEQc6LM",
-              "service": "YouTube",
-              "is_primary": true,
-              "song": 4
-          }
-      ],
-      "avg_rating": null
-  }
-];
+        "id": 4,
+        "name": "You and Me and the Moon",
+        "year": 1996,
+        "artist": {
+            "id": 2,
+            "name": "The Magnetic Fields",
+        },
+        "sources": [
+            {
+                "id": 4,
+                "url": "https://www.youtube.com/watch?v=r1aLwEQc6LM",
+                "service": "YouTube",
+                "is_primary": true,
+                "song": 4
+            }
+        ],
+        "avg_rating": null
+    }
+  ]
+};
 
 describe('artist page functionality', () => {
   test('should fetch artist with given id on load and render their information', async () => {
@@ -113,7 +116,7 @@ describe('artist page functionality', () => {
     await userEvent.click(playButton);
 
     expect(mockSetQueue).toHaveBeenCalledTimes(1);
-    expect(mockSetQueue).toHaveBeenCalledWith(songsResponse);
+    expect(mockSetQueue).toHaveBeenCalledWith(songsResponse.data);
 
     expect(mockPlayQueue).toHaveBeenCalledTimes(1);
   });

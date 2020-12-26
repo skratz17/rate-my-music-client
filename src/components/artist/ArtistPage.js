@@ -48,7 +48,9 @@ export const ArtistPage = props => {
       <div>
         <SongList songs={songs} />
         <PaginationControls page={paginationParams.page}
+          pageSize={paginationParams.pageSize}
           isLastPage={paginationFunctions.isLastPage(songsCount)}
+          onSetPageSize={paginationFunctions.setPageSize}
           onPreviousPage={paginationFunctions.getPreviousPage}
           onNextPage={paginationFunctions.getNextPage} />
       </div>

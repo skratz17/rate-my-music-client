@@ -49,6 +49,8 @@ export const ProfilePage = props => {
         }
       </section>
 
+      <hr className="w-3/4 h-1 mx-auto my-5" />
+
       <section className="my-4">
         <LoadingIndicator isLoading={!ratings && isRatingsLoading} />
         <WarningText>{ratingsError}</WarningText>
@@ -66,12 +68,16 @@ export const ProfilePage = props => {
           <div>
             <SongList songs={ratings.map(r => ({ ...r.song, rating: r.rating }))} /> 
             <PaginationControls page={ratingPaginationParams.page}
+              pageSize={ratingPaginationParams.pageSize}
               isLastPage={ratingPaginationFunctions.isLastPage(ratingsCount)}
+              onSetPageSize={ratingPaginationFunctions.setPageSize}
               onPreviousPage={ratingPaginationFunctions.getPreviousPage}
               onNextPage={ratingPaginationFunctions.getNextPage} />
           </div>
         }
       </section>
+
+      <hr className="w-3/4 h-1 mx-auto my-5" />
 
       <section className="my-4">
         <LoadingIndicator isLoading={!lists && isListsLoading} />
@@ -104,7 +110,9 @@ export const ProfilePage = props => {
           <div>
             <ListList lists={lists} /> 
             <PaginationControls page={listPaginationParams.page}
+              pageSize={listPaginationParams.pageSize}
               isLastPage={listPaginationFunctions.isLastPage(listsCount)}
+              onSetPageSize={listPaginationFunctions.setPageSize}
               onPreviousPage={listPaginationFunctions.getPreviousPage}
               onNextPage={listPaginationFunctions.getNextPage} />
           </div>

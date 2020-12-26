@@ -43,7 +43,7 @@ export const SongPage = props => {
     { userId: user?.id, songId: songId }
   );
 
-  const userRating = userRatingResult?.length ? userRatingResult[0] : null;
+  const userRating = userRatingResult?.data ? userRatingResult.data[0] : null;
 
   const rateSong = async value => {
     if(value === userRating?.rating) return;
@@ -94,7 +94,9 @@ export const SongPage = props => {
         <div>
           <RatingList ratings={ratings} /> 
           <PaginationControls page={ratingsPaginationParams.page}
+            pageSize={ratingsPaginationParams.pageSize}
             isLastPage={ratingsPaginationFunctions.isLastPage(ratingsCount)}
+            onSetPageSize={ratingsPaginationFunctions.setPageSize}
             onPreviousPage={ratingsPaginationFunctions.getPreviousPage}
             onNextPage={ratingsPaginationFunctions.getNextPage} />
         </div>
@@ -111,7 +113,9 @@ export const SongPage = props => {
           <div>
             <ListList lists={lists} /> 
             <PaginationControls page={listsPaginationParams.page}
+              pageSize={listsPaginationParams.pageSize}
               isLastPage={listsPaginationFunctions.isLastPage(listsCount)}
+              onSetPageSize={listsPaginationFunctions.setPageSize}
               onPreviousPage={listsPaginationFunctions.getPreviousPage}
               onNextPage={listsPaginationFunctions.getNextPage} />
           </div>

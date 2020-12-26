@@ -22,7 +22,9 @@ export const ListListPage = () => {
           <div>
             <ListList lists={lists} /> 
             <PaginationControls page={paginationParams.page}
+              pageSize={paginationParams.pageSize}
               isLastPage={paginationFunctions.isLastPage(count)}
+              onSetPageSize={paginationFunctions.setPageSize}
               onPreviousPage={paginationFunctions.getPreviousPage}
               onNextPage={paginationFunctions.getNextPage} />
           </div>

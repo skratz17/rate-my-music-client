@@ -10,7 +10,7 @@ export const usePagination = (initialPageSize = 10) => {
     getNextPage: () => setPage(prevPage => prevPage + 1),
     getPreviousPage: () => setPage(prevPage => prevPage - 1),
     getPage: pageNumber => setPage(pageNumber),
-    isLastPage: count => (page * pageSize) > count
+    isLastPage: count => (page * pageSize) >= count
   };
 
   return [ paginationParams, paginationFunctions ];

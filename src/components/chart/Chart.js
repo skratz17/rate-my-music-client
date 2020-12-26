@@ -67,7 +67,9 @@ export const Chart = () => {
           <div>
             <SongList songs={songs} /> 
             <PaginationControls page={paginationParams.page}
+              pageSize={paginationParams.pageSize}
               isLastPage={paginationFunctions.isLastPage(count)}
+              onSetPageSize={paginationFunctions.setPageSize}
               onPreviousPage={paginationFunctions.getPreviousPage}
               onNextPage={paginationFunctions.getNextPage} />
           </div>

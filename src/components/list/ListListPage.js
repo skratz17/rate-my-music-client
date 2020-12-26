@@ -7,7 +7,10 @@ import { Page, LoadingIndicator, WarningText, PaginationControls } from '../comm
 
 export const ListListPage = () => {
   const [ paginationParams, paginationFunctions ] = usePagination();
-  const [ lists, isLoading, error ] = useApi(api.lists.list, { ...paginationParams });
+  const [ listsResponse, isLoading, error ] = useApi(api.lists.list, { ...paginationParams });
+
+  const lists = listsResponse?.data;
+  const count = listsResponse?.count;
 
   return (
     <Page>
@@ -19,6 +22,7 @@ export const ListListPage = () => {
           <div>
             <ListList lists={lists} /> 
             <PaginationControls page={paginationParams.page}
+              isLastPage={paginationFunctions.isLastPage(count)}
               onPreviousPage={paginationFunctions.getPreviousPage}
               onNextPage={paginationFunctions.getNextPage} />
           </div>

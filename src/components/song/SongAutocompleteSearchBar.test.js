@@ -14,10 +14,13 @@ describe('song autocomplete search bar functionality', () => {
   });
 
   test('fetches song search results, allows user to select or unselect a song', async () => {
-    mockSearchSongs.mockResolvedValue([ 
-      { id: 1, name: 'Famous', artist: { id: 2, name: 'The Magnetic Fields' } }, 
-      { id: 2, name: 'Baby', artist: { id: 3, name: 'of Montreal' } } 
-    ]);
+    mockSearchSongs.mockResolvedValue({
+      count: 2,
+      data: [ 
+        { id: 1, name: 'Famous', artist: { id: 2, name: 'The Magnetic Fields' } }, 
+        { id: 2, name: 'Baby', artist: { id: 3, name: 'of Montreal' } } 
+      ]
+    });
     const mockSelectHandler = jest.fn();
 
     render(<SongAutocompleteSearchBar onSelect={mockSelectHandler} />)

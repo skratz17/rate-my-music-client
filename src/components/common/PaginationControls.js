@@ -1,7 +1,7 @@
 import React from 'react';
 
 export const PaginationControls = props => {
-  const { page, onNextPage, onPreviousPage } = props;
+  const { page, isLastPage, onNextPage, onPreviousPage } = props;
 
   return (
     <div className="flex justify-evenly items-center">
@@ -9,7 +9,7 @@ export const PaginationControls = props => {
 
       <span>Page {page}</span>
 
-      <button type="button" onClick={onNextPage}>Next Page</button>
+      <button type="button" disabled={isLastPage} onClick={onNextPage}>Next Page</button>
     </div>
   );
 };

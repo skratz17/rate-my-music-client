@@ -25,8 +25,15 @@ export const SongPage = props => {
   const [ listsPaginationParams, listsPaginationFunctions ] = usePagination();
 
   const [ song, isSongLoading, songError, refreshSong ] = useApi(api.songs.get, songId);
-  const [ ratings, isRatingsLoading, ratingsError, refreshRatings ] = useApi(api.ratings.list, { songId, ...ratingSortOptions, ...ratingsPaginationParams });
-  const [ lists, isListsLoading, listsError ] = useApi(api.lists.list, { songId, ...listsPaginationParams });
+  const [ ratingsResponse, isRatingsLoading, ratingsError, refreshRatings ] = useApi(api.ratings.list, { songId, ...ratingSortOptions, ...ratingsPaginationParams });
+  const [ listsResponse, isListsLoading, listsError ] = useApi(api.lists.list, { songId, ...listsPaginationParams });
+
+  const ratings = ratingsResponse?.data;
+  const ratingsCount = ratingsResponse?.count;
+
+  const lists = listsResponse?.data;
+  const listsCount = listsResponse?.count;
+
   const [ userRatingResult, isUserRatingLoading, isUserRatingError, refreshUserRating ] = useApi(
     async (...params) => {
       if(user?.id) {
@@ -87,6 +94,7 @@ export const SongPage = props => {
         <div>
           <RatingList ratings={ratings} /> 
           <PaginationControls page={ratingsPaginationParams.page}
+            isLastPage={ratingsPaginationFunctions.isLastPage(ratingsCount)}
             onPreviousPage={ratingsPaginationFunctions.getPreviousPage}
             onNextPage={ratingsPaginationFunctions.getNextPage} />
         </div>
@@ -103,6 +111,7 @@ export const SongPage = props => {
           <div>
             <ListList lists={lists} /> 
             <PaginationControls page={listsPaginationParams.page}
+              isLastPage={listsPaginationFunctions.isLastPage(listsCount)}
               onPreviousPage={listsPaginationFunctions.getPreviousPage}
               onNextPage={listsPaginationFunctions.getNextPage} />
           </div>

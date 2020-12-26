@@ -100,8 +100,14 @@ describe('song form functionality', () => {
   test('calls song create method with song data on submit and redirects to song detail page', async () => {
     const history = renderComponent(<SongForm />);
 
-    mockSearchArtists.mockResolvedValueOnce([ { id: 1, name: 'The Magnetic Fields' }]);
-    mockSearchGenres.mockResolvedValueOnce([ { id: 1, name: 'indie pop' }, { id: 2, name: 'indie folk' } ]);
+    mockSearchArtists.mockResolvedValue({
+      count: 1,
+      data: [ { id: 1, name: 'The Magnetic Fields' } ]
+    });
+    mockSearchGenres.mockResolvedValueOnce({
+      count: 2,
+      data: [ { id: 1, name: 'indie pop' }, { id: 2, name: 'indie folk' } ]
+    });
     mockPostSong.mockResolvedValueOnce({ id: 1 });
     
     await waitFor(() => userEvent.type(screen.getByLabelText('Name'), 'Save a Secret for the Moon'));

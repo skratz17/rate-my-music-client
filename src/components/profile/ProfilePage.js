@@ -21,8 +21,14 @@ export const ProfilePage = props => {
   const [ listPaginationParams, listPaginationFunctions ] = usePagination();
 
   const [ user, isUserLoading, userError ] = useApi(api.user.get, userId);
-  const [ ratings, isRatingsLoading, ratingsError ] = useApi(api.ratings.list, { userId: userId, ...ratingSortOptions, ...ratingPaginationParams })
-  const [ lists, isListsLoading, listsError ] = useApi(api.lists.list, { ...listSearchParams, ...listPaginationParams });
+  const [ ratingsResponse, isRatingsLoading, ratingsError ] = useApi(api.ratings.list, { userId: userId, ...ratingSortOptions, ...ratingPaginationParams })
+  const [ listsResponse, isListsLoading, listsError ] = useApi(api.lists.list, { ...listSearchParams, ...listPaginationParams });
+
+  const ratings = ratingsResponse?.data;
+  const ratingsCount = ratingsResponse?.count;
+
+  const lists = listsResponse?.data;
+  const listsCount = listsResponse?.count;
 
   const handleListSearchParamClick = e => {
     const { name } = e.target;
@@ -60,6 +66,7 @@ export const ProfilePage = props => {
           <div>
             <SongList songs={ratings.map(r => ({ ...r.song, rating: r.rating }))} /> 
             <PaginationControls page={ratingPaginationParams.page}
+              isLastPage={ratingPaginationFunctions.isLastPage(ratingsCount)}
               onPreviousPage={ratingPaginationFunctions.getPreviousPage}
               onNextPage={ratingPaginationFunctions.getNextPage} />
           </div>
@@ -97,6 +104,7 @@ export const ProfilePage = props => {
           <div>
             <ListList lists={lists} /> 
             <PaginationControls page={listPaginationParams.page}
+              isLastPage={listPaginationFunctions.isLastPage(listsCount)}
               onPreviousPage={listPaginationFunctions.getPreviousPage}
               onNextPage={listPaginationFunctions.getNextPage} />
           </div>

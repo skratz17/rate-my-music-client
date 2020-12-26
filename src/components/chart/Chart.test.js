@@ -25,64 +25,67 @@ const renderComponent = ui => {
   )
 };
 
-const SONGS_RESPONSE = [
-  {
-      "id": 1,
-      "name": "Half-Life",
-      "year": 2014,
-      "artist": {
-          "id": 1,
-          "name": "KoeeoaddiThere",
-      },
-      "genres": [
-          {
-              "id": 1,
-              "genre": {
-                  "id": 1,
-                  "name": "Indie Pop"
-              }
-          }
-      ],
-      "sources": [
-          {
-              "id": 1,
-              "url": "https://soundcloud.com/koeeoaddithere/half-life",
-              "service": "Soundcloud",
-              "isPrimary": true,
-              "song": 1
-          }
-      ],
-      "avgRating": 4
-  },
-  {
-      "id": 2,
-      "name": "Later On",
-      "year": 2014,
-      "artist": {
-          "id": 1,
-          "name": "KoeeoaddiThere",
-      },
-      "genres": [
-          {
-              "id": 2,
-              "genre": {
-                  "id": 2,
-                  "name": "Indie Folk"
-              }
-          }
-      ],
-      "sources": [
-          {
-              "id": 2,
-              "url": "https://soundcloud.com/koeeoaddithere/later-on",
-              "service": "Soundcloud",
-              "isPrimary": true,
-              "song": 2
-          }
-      ],
-      "avgRating": 4
-  }
-];
+const SONGS_RESPONSE = {
+    count: 2,
+    data: [
+      {
+        "id": 1,
+        "name": "Half-Life",
+        "year": 2014,
+        "artist": {
+            "id": 1,
+            "name": "KoeeoaddiThere",
+        },
+        "genres": [
+            {
+                "id": 1,
+                "genre": {
+                    "id": 1,
+                    "name": "Indie Pop"
+                }
+            }
+        ],
+        "sources": [
+            {
+                "id": 1,
+                "url": "https://soundcloud.com/koeeoaddithere/half-life",
+                "service": "Soundcloud",
+                "isPrimary": true,
+                "song": 1
+            }
+        ],
+        "avgRating": 4
+    },
+    {
+        "id": 2,
+        "name": "Later On",
+        "year": 2014,
+        "artist": {
+            "id": 1,
+            "name": "KoeeoaddiThere",
+        },
+        "genres": [
+            {
+                "id": 2,
+                "genre": {
+                    "id": 2,
+                    "name": "Indie Folk"
+                }
+            }
+        ],
+        "sources": [
+            {
+                "id": 2,
+                "url": "https://soundcloud.com/koeeoaddithere/later-on",
+                "service": "Soundcloud",
+                "isPrimary": true,
+                "song": 2
+            }
+        ],
+        "avgRating": 4
+    }
+  ]
+};
 
 describe('chart functionality', () => {
   test('on load fetches songs list sorted by avg rating descending', async () => {
@@ -123,7 +126,10 @@ describe('chart functionality', () => {
   });
 
   test('selecting a genre in the genre autocomplete selector refetches songs list with selected genre', async () => {
-    mockSearchGenres.mockResolvedValue([ { id: 1, name: 'Indie Folk' }, { id: 2, name: 'Indie Pop' } ]);
+    mockSearchGenres.mockResolvedValue({
+      count: 2,
+      data: [ { id: 1, name: 'Indie Folk' }, { id: 2, name: 'Indie Pop' } ]
+    });
     jest.useFakeTimers();
 
     renderComponent(<Chart />);
@@ -153,7 +159,7 @@ describe('chart functionality', () => {
     await waitFor(() => userEvent.click(screen.getByText('Play All Songs in Chart')));
 
     expect(mockSetQueue).toHaveBeenCalledTimes(1);
-    expect(mockSetQueue).toHaveBeenLastCalledWith(SONGS_RESPONSE);
+    expect(mockSetQueue).toHaveBeenLastCalledWith(SONGS_RESPONSE.data);
     
     expect(mockPlayQueue).toHaveBeenCalledTimes(1);
   });

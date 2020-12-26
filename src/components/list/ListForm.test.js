@@ -62,9 +62,10 @@ describe('list form functionality', () => {
   test('calls list create method with list data on submit and redirects to list detail page', async () => {
     const history = renderComponent(<ListForm />);
 
-    mockSearchSongs.mockResolvedValueOnce([
-      { id: 4, name: 'Famous', artist: { id: 1, name: 'The Magnetic Fields' } }
-    ]);
+    mockSearchSongs.mockResolvedValueOnce({
+      count: 1,
+      data: [ { id: 4, name: 'Famous', artist: { id: 1, name: 'The Magnetic Fields' } } ]
+    });
     mockPostList.mockResolvedValueOnce({ id: 1 });
 
     await waitFor(() => userEvent.type(screen.getByLabelText('Name'), 'Test'));

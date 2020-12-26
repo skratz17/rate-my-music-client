@@ -1,12 +1,12 @@
 import { useApi } from './useApi';
-import { usePaginatedApi } from './usePaginatedApi';
+import { usePagination } from './usePagination';
 import { useDebounce } from './useDebounce';
 import { useClickOutside } from './useClickOutside';
 import { useClickInside } from './useClickInside';
 
 export {
   useApi,
-  usePaginatedApi,
+  usePagination,
   useDebounce,
   useClickOutside,
   useClickInside

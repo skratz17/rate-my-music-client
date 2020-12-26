@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import { api } from '../../api';
-import { usePaginatedApi } from '../../hooks';
+import { usePagination, useApi } from '../../hooks';
 import { YearSelect } from './YearSelect';
 import { SongList } from '../song/SongList';
 import { PlayButton } from '../player/PlayButton';
@@ -10,9 +10,8 @@ import { Page, LoadingIndicator, WarningText, PaginationControls } from '../comm
 
 export const Chart = () => {
   const [ chartParams, setChartParams ] = useState({ orderBy: 'avgRating', direction: 'desc' });
-  const [ pagination, songs, isLoading, error ] = usePaginatedApi(api.songs.list, chartParams);
-
-  const { page, getPreviousPage, getNextPage } = pagination;
+  const [ paginationParams, paginationFunctions ] = usePagination();
+  const [ songs, isLoading, error ] = useApi(api.songs.list, { ...chartParams, ...paginationParams });
 
   const handleChange = e => {
     const { name, value } = e.target;
@@ -64,9 +63,9 @@ export const Chart = () => {
         { songs && 
           <div>
             <SongList songs={songs} /> 
-            <PaginationControls page={page}
-              onPreviousPage={getPreviousPage}
-              onNextPage={getNextPage} />
+            <PaginationControls page={paginationParams.page}
+              onPreviousPage={paginationFunctions.getPreviousPage}
+              onNextPage={paginationFunctions.getNextPage} />
           </div>
         }
       </section>

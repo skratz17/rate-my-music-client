@@ -36,6 +36,9 @@ const song = {
   sources: [
     { service: 'YouTube', url: 'https://www.youtube.com/watch?v=n3L-4vASZ5s', isPrimary: true },
     { service: 'SoundCloud', url: 'https://soundcloud.com/themagneticfields/famous-1', isPrimary: false }
+  ],
+  genres: [
+    { id: 1, genre: { id: 1, name: 'Indie Pop' } }
   ]
 };
 
@@ -53,6 +56,8 @@ describe('song detail view functionality', () => {
     expect(screen.getByText('Avg. Rating: 4 / 5')).toBeInTheDocument();
 
     expect(screen.getByText('Year: 1996')).toBeInTheDocument();
+
+    expect(screen.getByText('Indie Pop')).toBeInTheDocument();
   });
 
   test('renders dropdown with song sources which defaults to song\'s primary source', () => {
@@ -80,6 +85,9 @@ describe('song detail view functionality', () => {
       year: 1996,
       sources: [
         { service: 'YouTube', url: 'https://www.youtube.com/watch?v=n3L-4vASZ5s', isPrimary: true }
+      ],
+      genres: [
+        { id: 1, genre: { id: 1, name: 'Indie Pop' } }
       ]
     }]);
 
@@ -101,6 +109,9 @@ describe('song detail view functionality', () => {
       year: 1996,
       sources: [
         { service: 'SoundCloud', url: 'https://soundcloud.com/themagneticfields/famous-1', isPrimary: false }
+      ],
+      genres: [
+        { id: 1, genre: { id: 1, name: 'Indie Pop' } }
       ]
     }]);
 

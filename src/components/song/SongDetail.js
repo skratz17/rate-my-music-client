@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 
 import { LinkButton, DeleteButton } from '../common';
 import { PlayButton } from '../player/PlayButton';
+import { GenreBadge } from '../genre/GenreBadge';
 
 export const SongDetail = props => {
   const { song, canUserModify, onDelete } = props;
@@ -16,6 +17,10 @@ export const SongDetail = props => {
         <Link to={`/artists/${song.artist.id}`} className="text-2xl my-1 text-black hover:text-deepred">{song.artist.name}</Link>
         <span className="text-lg">Avg. Rating: {song.avgRating !== null ? song.avgRating : '--'} / 5</span>
         <span className="text-lg">Year: {song.year}</span>
+        <div className="flex items-center">
+          <span className="mr-1">Genres:</span>
+          { song.genres.map(g => <GenreBadge key={g.genre.id}>{g.genre.name}</GenreBadge>) }
+        </div>
       </div>
       <div className="flex flex-col items-end">
         { canUserModify && (

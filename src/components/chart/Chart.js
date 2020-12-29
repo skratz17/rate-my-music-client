@@ -10,7 +10,7 @@ import { Page, LoadingIndicator, WarningText, PaginationControls } from '../comm
 
 export const Chart = () => {
   const [ chartParams, setChartParams ] = useState({ orderBy: 'avgRating', direction: 'desc' });
-  const [ paginationParams, paginationFunctions ] = usePagination(chartParams);
+  const [ paginationParams, paginationFunctions ] = usePagination();
   const [ songsResponse, isLoading, error ] = useApi(api.songs.list, { ...chartParams, ...paginationParams });
 
   const songs = songsResponse?.data;
@@ -24,6 +24,7 @@ export const Chart = () => {
       else updatedChartParams[name] = value;
       return updatedChartParams;
     });
+    paginationFunctions.getPage(1);
   };
 
   const handleGenreSelect = genres => {
@@ -34,6 +35,7 @@ export const Chart = () => {
       else updatedChartParams.genres = genreIds;
       return updatedChartParams;
     });
+    paginationFunctions.getPage(1);
   };
 
   return (

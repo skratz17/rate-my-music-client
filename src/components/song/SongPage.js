@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 
 import { api } from '../../api';
-import { useApi, usePagination } from '../../hooks';
+import { useApi, usePagination, useDeleteAndRedirect } from '../../hooks';
 import { UserContext } from '../user/UserProvider';
 import { Page, LoadingIndicator, WarningText, ListSortOptions, PaginationControls } from '../common';
 import { SongDetail } from './SongDetail';
@@ -14,6 +14,8 @@ export const SongPage = props => {
   const { songId } = props;
 
   const { user } = useContext(UserContext);
+
+  const [ handleDelete, deleteError ] = useDeleteAndRedirect(api.songs.delete, songId);
 
   const allRatingSortOptions = [
     { name: 'date', displayName: 'Date' },
@@ -73,8 +75,9 @@ export const SongPage = props => {
     <Page>
       <section>
         <WarningText>{songError}</WarningText>
+        <WarningText>{deleteError}</WarningText>
         <LoadingIndicator isLoading={!song && isSongLoading} />
-        { song && <SongDetail song={song} /> }
+        { song && <SongDetail song={song} onDelete={handleDelete} canUserModify={user?.id === song.creator.id} /> }
         { ratings && <RatingControl value={userRating?.rating} onClick={rateSong} /> }
         { ratings && <ReviewFormToggler rating={userRating} onSubmit={reviewSong} /> }
       </section>

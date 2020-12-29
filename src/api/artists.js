@@ -22,6 +22,10 @@ export const artists = {
     return artists;
   },
 
+  delete: async artistId => {
+    return await request(`/artists/${artistId}`, 'DELETE');
+  },
+
   search: async searchTerm => {
     return await artists.list({ q: searchTerm });
   }

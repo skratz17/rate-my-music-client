@@ -1,29 +1,44 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 
 import { api } from '../../api';
-import { useApi, usePagination } from '../../hooks';
+import { useApi, useDeleteAndRedirect, usePagination } from '../../hooks';
+import { UserContext } from '../user/UserProvider';
 import { PlayButton } from '../player/PlayButton';
 import { SongList } from '../song/SongList';
-import { Page, LoadingIndicator, WarningText, ListSortOptions, PaginationControls } from '../common';
+import { Page, LoadingIndicator, WarningText, ListSortOptions, PaginationControls, LinkButton, DeleteButton } from '../common';
 
 export const ArtistPage = props => {
   const { artistId } = props;
+
+  const { user } = useContext(UserContext);
 
   const [ orderBy, setOrderBy ] = useState({ orderBy: 'year', direction: 'desc' });
   const [ paginationParams, paginationFunctions ] = usePagination();
   const [ artist, isArtistLoading, artistError ] = useApi(api.artists.get, artistId);
   const [ songsResponse, isSongsLoading, songsError ] = useApi(api.songs.list, { artist: artistId, ...orderBy, ...paginationParams });
 
+  const [ handleDelete, deleteError ] = useDeleteAndRedirect(api.artists.delete, artistId);
+
   const songs = songsResponse?.data;
   const songsCount = songsResponse?.count;
 
   const renderArtistData = () => {
     if(!artist) return null;
-    return <>
-      <h2 className="text-4xl text-deepred my-2">{artist.name}</h2>
-      <p className="text-xl my-2">Founded: {artist.foundedYear}</p>
-      <p>{artist.description}</p>
-    </>;
+    return (
+      <div className="flex justify-between items-start">
+        <div>
+          <h2 className="text-4xl text-deepred my-2">{artist.name}</h2>
+          <p className="text-xl my-2">Founded: {artist.foundedYear}</p>
+          <p>{artist.description}</p>
+        </div>
+        { user?.id === artist.creator.id && (
+          <div className="flex">
+            <LinkButton className="mr-2" to={`/artists/${artistId}/edit`}>edit</LinkButton>
+            <DeleteButton onDelete={handleDelete} accessibleName="Delete Artist" />
+          </div>
+        )}
+      </div>
+    );
   };
 
   const renderSongsData = () => {
@@ -61,6 +76,7 @@ export const ArtistPage = props => {
     <Page>
       <section>
         <WarningText>{artistError}</WarningText>
+        <WarningText>{deleteError}</WarningText>
         <LoadingIndicator isLoading={isArtistLoading} />
         { renderArtistData() }
       </section>

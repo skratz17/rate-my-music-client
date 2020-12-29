@@ -10,7 +10,7 @@ export const PaginationControls = props => {
       className={`mx-1 hover:text-gray-600 ${val === pageSize ? 'font-bold' : ''}`}>
         {val}
     </button>
-  )
+  );
 
   return (
     <div className="flex flex-col md:flex-row justify-between items-center relative my-2">

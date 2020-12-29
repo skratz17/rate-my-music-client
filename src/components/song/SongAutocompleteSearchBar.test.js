@@ -36,7 +36,7 @@ describe('song autocomplete search bar functionality', () => {
     expect(buttons[0].textContent).toEqual('Famous - The Magnetic Fields');
     expect(buttons[1].textContent).toEqual('Baby - of Montreal');
 
-    await userEvent.click(buttons[0]);
+    userEvent.click(buttons[0]);
 
     expect(mockSelectHandler).toHaveBeenCalledTimes(1);
     expect(mockSelectHandler).toHaveBeenCalledWith({

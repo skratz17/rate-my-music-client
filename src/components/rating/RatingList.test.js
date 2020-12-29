@@ -50,7 +50,7 @@ const RATINGS = [
 ];
 
 describe('rating list functionality', () => {
-  test('renders rating list, username as link, review text, and rating', async () => {
+  test('renders rating list, username as link, review text, and rating', () => {
     const history = renderComponent(<RatingList ratings={RATINGS} />);
 
     const listItems = screen.getAllByRole('listitem');
@@ -61,10 +61,10 @@ describe('rating list functionality', () => {
     expect(links[0]).toHaveTextContent('jweckert17');
     expect(links[1]).toHaveTextContent('test');
 
-    await userEvent.click(links[0]);
+    userEvent.click(links[0]);
     expect(history.location.pathname).toEqual('/profiles/2');
 
-    await userEvent.click(links[1]);
+    userEvent.click(links[1]);
     expect(history.location.pathname).toEqual('/profiles/3');
 
     expect(screen.getByText('My favorite Magnetic Fields song.')).toBeInTheDocument();

@@ -16,14 +16,14 @@ const renderComponent = ui => {
 };
 
 describe('LinkButton functionality', () => {
-  test('renders as a Link to the specific url', async () => {
+  test('renders as a Link to the specific url', () => {
     const history = renderComponent(<LinkButton to="/test">Link Text</LinkButton>);
 
     const link = screen.getByRole('link');
     expect(link).toBeInTheDocument();
     expect(link.textContent).toEqual('Link Text')
 
-    await userEvent.click(link);
+    userEvent.click(link);
 
     expect(history.location.pathname).toEqual('/test');
   });

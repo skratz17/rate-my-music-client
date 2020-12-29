@@ -12,17 +12,17 @@ describe('review form toggler functionality', () => {
     expect(screen.queryByRole('textbox')).not.toBeInTheDocument();
   });
 
-  test('renders button that toggles expanded state on click', async () => {
+  test('renders button that toggles expanded state on click', () => {
     render(<ReviewFormToggler rating={{ id: 2, review: 'asdf' }} />);
 
     const expandButton = screen.getByRole('button');
     expect(expandButton).toBeInTheDocument();
     expect(expandButton).toHaveTextContent('Write a Review (collapsed)');
 
-    await userEvent.click(expandButton);
+    userEvent.click(expandButton);
     expect(expandButton).toHaveTextContent('Write a Review (expanded)');
     
-    await userEvent.click(expandButton);
+    userEvent.click(expandButton);
     expect(expandButton).toHaveTextContent('Write a Review (collapsed)');
   });
 });

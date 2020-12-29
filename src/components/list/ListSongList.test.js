@@ -68,7 +68,7 @@ const LIST_SONGS = [
 ];
 
 describe('list song list functionality', () => {
-  test('renders all songs in list, with link to song, link to artist, and description', async () => {
+  test('renders all songs in list, with link to song, link to artist, and description', () => {
     const history = renderComponent(<ListSongList listSongs={LIST_SONGS} />);
 
     expect(screen.getByRole('list')).toBeInTheDocument();
@@ -81,9 +81,9 @@ describe('list song list functionality', () => {
     expect(firstSongLinks[0]).toHaveTextContent('Half-Life');
     expect(firstSongLinks[1]).toHaveTextContent('KoeeoaddiThere');
 
-    await userEvent.click(firstSongLinks[0]);
+    userEvent.click(firstSongLinks[0]);
     expect(history.location.pathname).toEqual('/songs/1')
-    await userEvent.click(firstSongLinks[1]);
+    userEvent.click(firstSongLinks[1]);
     expect(history.location.pathname).toEqual('/artists/1')
 
     const secondSongLinks = getAllByRole(listItems[1], 'link');
@@ -91,9 +91,9 @@ describe('list song list functionality', () => {
     expect(secondSongLinks[0]).toHaveTextContent('Save a Secret for the Moon');
     expect(secondSongLinks[1]).toHaveTextContent('The Magnetic Fields');
 
-    await userEvent.click(secondSongLinks[0]);
+    userEvent.click(secondSongLinks[0]);
     expect(history.location.pathname).toEqual('/songs/3')
-    await userEvent.click(secondSongLinks[1]);
+    userEvent.click(secondSongLinks[1]);
     expect(history.location.pathname).toEqual('/artists/2')
 
     expect(getByText(listItems[0], 'Here is a masterpiece that I made.')).toBeInTheDocument();

@@ -99,7 +99,7 @@ describe('list page functionality', () => {
 
     await waitFor(() => history = renderComponentAsUser(<ListPage listId={8} />, 2));
 
-    await userEvent.click(screen.getByText('edit'));
+    userEvent.click(screen.getByText('edit'));
     expect(history.location.pathname).toEqual('/lists/8/edit');
   });
 
@@ -109,8 +109,8 @@ describe('list page functionality', () => {
 
     await waitFor(() => history = renderComponentAsUser(<ListPage listId={8} />, 2));
 
-    await userEvent.click(screen.getByText('Delete List'));
-    await userEvent.click(screen.getByText('Delete Forever'));
+    userEvent.click(screen.getByText('Delete List'));
+    userEvent.click(screen.getByText('Delete Forever'));
 
     expect(mockDeleteList).toHaveBeenCalledTimes(1);
     expect(mockDeleteList).toHaveBeenCalledWith(8);

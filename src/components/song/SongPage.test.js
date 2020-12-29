@@ -127,7 +127,7 @@ describe('song page functionality', () => {
     let history;
     await waitFor(() => history = renderComponentAsUser(<SongPage songId={2} />, 2));
 
-    await userEvent.click(screen.getByText('edit'));
+    userEvent.click(screen.getByText('edit'));
 
     expect(history.location.pathname).toEqual('/songs/2/edit');
   });
@@ -138,8 +138,8 @@ describe('song page functionality', () => {
     let history;
     await waitFor(() => history = renderComponentAsUser(<SongPage songId={2} />, 2));
 
-    await userEvent.click(screen.getByText('Delete Song'));
-    await userEvent.click(screen.getByText('Delete Forever'));
+    userEvent.click(screen.getByText('Delete Song'));
+    userEvent.click(screen.getByText('Delete Forever'));
 
     expect(history.location.pathname).toEqual('/');   
   });

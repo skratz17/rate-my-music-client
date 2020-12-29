@@ -12,39 +12,39 @@ describe('rating control functionality', () => {
     expect(screen.getAllByTestId('empty-star')).toHaveLength(2);
   });
 
-  test('renders as many filled stars as the button value user has hovered over', async () => {
+  test('renders as many filled stars as the button value user has hovered over', () => {
     render(<RatingControl value={3} />);
 
-    await userEvent.hover(screen.getByText('Rate song 5 out of 5'));
+    userEvent.hover(screen.getByText('Rate song 5 out of 5'));
     expect(screen.getAllByTestId('filled-star')).toHaveLength(5);
     expect(screen.queryAllByTestId('empty-star')).toHaveLength(0);
   });
 
-  test('renders as many filled stars as the button value user has focused', async () => {
+  test('renders as many filled stars as the button value user has focused', () => {
     render(<RatingControl value={3} />);
 
-    await userEvent.tab();
+    userEvent.tab();
 
     expect(screen.getAllByRole('button')[0]).toHaveFocus();
     expect(screen.getAllByTestId('filled-star')).toHaveLength(1);
     expect(screen.getAllByTestId('empty-star')).toHaveLength(4);
   });
 
-  test('hovering out of a button will return control to initial render state', async () => {
+  test('hovering out of a button will return control to initial render state', () => {
     render(<RatingControl value={3} />);
 
-    await userEvent.hover(screen.getByText('Rate song 5 out of 5'));
-    await userEvent.unhover(screen.getByText('Rate song 5 out of 5'));
+    userEvent.hover(screen.getByText('Rate song 5 out of 5'));
+    userEvent.unhover(screen.getByText('Rate song 5 out of 5'));
 
     expect(screen.getAllByTestId('filled-star')).toHaveLength(3);
     expect(screen.getAllByTestId('empty-star')).toHaveLength(2);
   });
 
-  test('clicking a button will call onClick with the value clicked', async () => {
+  test('clicking a button will call onClick with the value clicked', () => {
     const mockClickHandler = jest.fn();
     render(<RatingControl value={3} onClick={mockClickHandler} />);
 
-    await userEvent.click(screen.getByText('Rate song 4 out of 5'));
+    userEvent.click(screen.getByText('Rate song 4 out of 5'));
     expect(mockClickHandler).toHaveBeenCalledTimes(1);
     expect(mockClickHandler).toHaveBeenCalledWith(4);
   });

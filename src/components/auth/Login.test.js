@@ -32,7 +32,7 @@ describe('login form validation', () => {
   test('all fields are required', async () => {
     renderComponent();
 
-    await userEvent.click(screen.getByRole('button'));
+    userEvent.click(screen.getByRole('button'));
     expect(await screen.findByText('Username is required.')).toBeInTheDocument();
     expect(await screen.findByText('Password is required.')).toBeInTheDocument();
   });
@@ -44,9 +44,9 @@ describe('login form functionality', () => {
 
     const history = renderComponent();
 
-    await userEvent.type(screen.getByLabelText('Username'), 'test');
-    await userEvent.type(screen.getByLabelText('Password'), 'test');
-    await userEvent.click(screen.getByRole('button'));
+    userEvent.type(screen.getByLabelText('Username'), 'test');
+    userEvent.type(screen.getByLabelText('Password'), 'test');
+    userEvent.click(screen.getByRole('button'));
 
     await waitFor(() => expect(mockLogin).toHaveBeenCalledTimes(1));
     expect(mockLogin).toHaveBeenCalledWith({
@@ -64,9 +64,9 @@ describe('login form functionality', () => {
 
     const history = renderComponent();
 
-    await userEvent.type(screen.getByLabelText('Username'), 'test');
-    await userEvent.type(screen.getByLabelText('Password'), 'test');
-    await userEvent.click(screen.getByRole('button'));
+    userEvent.type(screen.getByLabelText('Username'), 'test');
+    userEvent.type(screen.getByLabelText('Password'), 'test');
+    userEvent.click(screen.getByRole('button'));
 
     await waitFor(() => expect(mockLogin).toHaveBeenCalledTimes(1));
     expect(mockLogin).toHaveBeenCalledWith({

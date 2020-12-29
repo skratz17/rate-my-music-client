@@ -12,10 +12,10 @@ describe('delete button functionality', () => {
     expect(screen.getByText('Delete Me')).toBeInTheDocument();
   });
 
-  test('clicking on the button renders modal with delete warning, cancel, and delete buttons', async () => {
+  test('clicking on the button renders modal with delete warning, cancel, and delete buttons', () => {
     render(<DeleteButton accessibleName="Delete Me" />);
 
-    await userEvent.click(screen.getByRole('button'));
+    userEvent.click(screen.getByRole('button'));
 
     expect(screen.getByText('Are you sure you want to delete this item?')).toBeInTheDocument();
 
@@ -26,27 +26,33 @@ describe('delete button functionality', () => {
     expect(buttons[2]).toHaveTextContent('Delete Forever');
   });
 
-  test('clicking the cancel button will close the modal and not call the delete handler', async () => {
+  test('clicking the cancel button will close the modal and not call the delete handler', () => {
     const mockDeleteHandler = jest.fn();
 
     render(<DeleteButton onDelete={mockDeleteHandler} />);
 
-    await userEvent.click(screen.getByRole('button'));
-    await userEvent.click(screen.getByText('Cancel'));
+    userEvent.click(screen.getByRole('button'));
 
-    expect(await screen.findAllByRole('button')).toHaveLength(1);
+    expect(screen.getAllByRole('button')).toHaveLength(3);
+
+    userEvent.click(screen.getByText('Cancel'));
+
+    expect(screen.getAllByRole('button')).toHaveLength(1);
     expect(mockDeleteHandler).not.toHaveBeenCalled();
   });
 
-  test('clicking the delete button in the modal will close the modal and call the delete handler', async () => {
+  test('clicking the delete button in the modal will close the modal and call the delete handler', () => {
     const mockDeleteHandler = jest.fn();
 
     render(<DeleteButton onDelete={mockDeleteHandler} />);
 
-    await userEvent.click(screen.getByRole('button'));
-    await userEvent.click(screen.getByText('Delete Forever'));
+    userEvent.click(screen.getByRole('button'));
 
-    expect(await screen.findAllByRole('button')).toHaveLength(1);
+    expect(screen.getAllByRole('button')).toHaveLength(3);
+
+    userEvent.click(screen.getByText('Delete Forever'));
+
+    expect(screen.getAllByRole('button')).toHaveLength(1);
     expect(mockDeleteHandler).toHaveBeenCalledTimes(1);
   });
 });

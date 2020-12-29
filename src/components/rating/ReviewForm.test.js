@@ -27,7 +27,7 @@ describe('review form functionality', () => {
     const mockSubmitHandler = jest.fn();
     render(<ReviewForm onSubmit={mockSubmitHandler} />);
 
-    await userEvent.type(screen.getByRole('textbox'), 'It good.');
+    userEvent.type(screen.getByRole('textbox'), 'It good.');
 
     await waitFor(() => userEvent.click(screen.getByRole('button')));
 

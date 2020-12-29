@@ -22,7 +22,7 @@ const ARTISTS = [
 ];
 
 describe('artist search results list functionality', () => {
-  test('renders list of artists with link to artist page and artist name text', async () => {
+  test('renders list of artists with link to artist page and artist name text', () => {
     const history = renderComponent(<ArtistSearchResultsList artists={ARTISTS} />);
 
     expect(screen.getByRole('list')).toBeInTheDocument();
@@ -32,7 +32,7 @@ describe('artist search results list functionality', () => {
 
     expect(getByText(listItem, 'The Magnetic Fields')).toBeInTheDocument();
 
-    await userEvent.click(screen.getByRole('link'));
+    userEvent.click(screen.getByRole('link'));
 
     expect(history.location.pathname).toEqual('/artists/1');
   });

@@ -32,7 +32,7 @@ describe('artist autocomplete search bar functionality', () => {
     expect(buttons).toHaveLength(2);
     expect(buttons[0].textContent).toEqual('The Magnetic Fields');
 
-    await userEvent.click(buttons[0]);
+    userEvent.click(buttons[0]);
 
     expect(mockSelectHandler).toHaveBeenCalledTimes(1);
     expect(mockSelectHandler).toHaveBeenCalledWith({ id: 1, name: 'The Magnetic Fields' });

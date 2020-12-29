@@ -43,7 +43,7 @@ describe('autocomplete search bar functionality', () => {
     const selectButton = await screen.findByRole('button');
     expect(selectButton).toBeInTheDocument();
 
-    await userEvent.click(selectButton);
+    userEvent.click(selectButton);
 
     expect(mockSelectHandler).toHaveBeenCalledTimes(1);
     expect(mockSelectHandler).toHaveBeenCalledWith({ id: 1, name: 'The Magnetic Fields' });
@@ -65,7 +65,7 @@ describe('autocomplete search bar functionality', () => {
     const selectButton = await screen.findByRole('button');
     expect(selectButton).toBeInTheDocument();
 
-    await userEvent.click(screen.getByTestId('1234'));
+    userEvent.click(screen.getByTestId('1234'));
 
     expect(screen.queryByRole('button')).not.toBeInTheDocument();
   });
@@ -83,10 +83,10 @@ describe('autocomplete search bar functionality', () => {
     await waitFor(() => userEvent.type(screen.getByRole('textbox'), 'a'));
     await waitFor(() => jest.advanceTimersByTime(500));
 
-    await userEvent.click(screen.getByTestId('1234'));
+    userEvent.click(screen.getByTestId('1234'));
     expect(screen.queryByRole('button')).not.toBeInTheDocument();
 
-    await userEvent.click(screen.getByRole('textbox'));
+    userEvent.click(screen.getByRole('textbox'));
     const button = screen.getByRole('button');
     expect(button).toBeInTheDocument();
     expect(button).toHaveTextContent('The Magnetic Fields');

@@ -106,10 +106,10 @@ describe('list detail functionality', () => {
     expect(history.location.pathname).toEqual('/profiles/2');
   });
 
-  test('play button queues songs in list when clicked', async () => {
+  test('play button queues songs in list when clicked', () => {
     renderComponent(<ListDetail list={LIST} />);
 
-    await userEvent.click(screen.getByText('Play all songs in list "My favorite songs"'));
+    userEvent.click(screen.getByText('Play all songs in list "My favorite songs"'));
 
     expect(mockSetQueue).toHaveBeenCalledTimes(1);
     expect(mockSetQueue).toHaveBeenCalledWith([

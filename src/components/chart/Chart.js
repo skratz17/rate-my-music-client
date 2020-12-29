@@ -1,17 +1,64 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useLocation, useHistory } from 'react-router-dom';
 
 import { api } from '../../api';
 import { usePagination, useApi } from '../../hooks';
+import { queryParamsToString } from '../../utils';
 import { YearSelect } from './YearSelect';
 import { SongList } from '../song/SongList';
 import { PlayButton } from '../player/PlayButton';
 import { GenreAutocompleteSelector } from '../genre/GenreAutocompleteSelector';
 import { Page, LoadingIndicator, WarningText, PaginationControls } from '../common';
 
+const createInitialChartParams = location => {
+  const initialState = { orderBy: 'avgRating', direction: 'desc' };
+  const params = new URLSearchParams(location.search);
+
+  if(params.has('startYear')) initialState.startYear = params.get('startYear');
+  if(params.has('endYear')) initialState.endYear = params.get('endYear');
+  if(params.has('genres')) initialState.genres = params.get('genres').split(',').map(val => parseInt(val, 10));
+
+  return initialState;
+};
+
 export const Chart = () => {
-  const [ chartParams, setChartParams ] = useState({ orderBy: 'avgRating', direction: 'desc' });
+  const location = useLocation();
+  const history = useHistory();
+
+  const initialChartParams = createInitialChartParams(location);
+
+  const [ chartParams, setChartParams ] = useState(initialChartParams);
   const [ paginationParams, paginationFunctions ] = usePagination();
   const [ songsResponse, isLoading, error ] = useApi(api.songs.list, { ...chartParams, ...paginationParams });
+  const [ initiallySelectedGenres, setInitiallySelectedGenres ] = useState(null);
+
+  useEffect(() => {
+    const setInitiallySelectedGenresFromApi = async () => {
+      const allGenres = await api.genres.list();
+      setInitiallySelectedGenres(allGenres.data.filter(g => initialChartParams.genres.includes(g.id)));
+    };
+
+    if(initialChartParams.genres) {
+      setInitiallySelectedGenresFromApi();
+    }
+    else {
+      setInitiallySelectedGenres([]);
+    }
+  }, []);
+
+  useEffect(() => {
+    const urlParams = {};
+    const { startYear, endYear, genres } = chartParams;
+
+    if(startYear) urlParams.startYear = startYear;
+    if(endYear) urlParams.endYear = endYear;
+    if(genres) urlParams.genres = genres;
+
+    const queryStringParams = queryParamsToString(urlParams);
+    const queryString = queryStringParams ? `?${queryStringParams}` : '';
+    history.push(`/charts${queryString}`);
+
+  }, [ chartParams ]);
 
   const songs = songsResponse?.data;
   const count = songsResponse?.count;
@@ -53,7 +100,13 @@ export const Chart = () => {
         <div className="flex w-100 my-2">
           <label className="mt-1 mr-2 text-xl" htmlFor="genres">In the genres:</label>
           <div className="flex-grow">
-            <GenreAutocompleteSelector selectionsBelow className="p-2" name="genres" onSelect={handleGenreSelect} />
+            { initiallySelectedGenres && 
+              <GenreAutocompleteSelector selectionsBelow 
+                className="p-2" 
+                name="genres" 
+                defaultValue={initiallySelectedGenres}
+                onSelect={handleGenreSelect} />
+            }
           </div>
         </div>
       </section>

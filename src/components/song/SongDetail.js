@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 
 import { LinkButton, DeleteButton } from '../common';
 import { PlayButton } from '../player/PlayButton';
-import { GenreBadge } from '../genre/GenreBadge';
 
 export const SongDetail = props => {
   const { song, canUserModify, onDelete } = props;
@@ -16,10 +15,18 @@ export const SongDetail = props => {
         <h2 className="text-4xl text-deepred my-1">{song.name}</h2>
         <Link to={`/artists/${song.artist.id}`} className="text-2xl my-1 text-black hover:text-deepred">{song.artist.name}</Link>
         <span className="text-lg">Avg. Rating: {song.avgRating !== null ? song.avgRating : '--'} / 5</span>
-        <span className="text-lg">Year: {song.year}</span>
+        <span className="text-lg">
+          Year: <Link className="text-black hover:text-emerald-dark" to={`/charts?startYear=${song.year}&endYear=${song.year}`}>{song.year}</Link>
+        </span>
         <div className="flex items-center my-1">
           <span className="mr-1">Genres:</span>
-          { song.genres.map(g => <GenreBadge key={g.genre.id}>{g.genre.name}</GenreBadge>) }
+          { song.genres.map(g => (
+              <LinkButton key={g.genre.id}
+                to={`/charts?genres=${g.genre.id}`} 
+                className="mx-1 py-1 px-2 border border-gray-300 text-white hover:text-white bg-emerald hover:bg-emerald-dark rounded-xl">
+                  {g.genre.name}
+              </LinkButton>
+            )) }
         </div>
       </div>
       <div className="flex flex-col items-center md:items-end order-first md:order-none">
@@ -40,5 +47,5 @@ export const SongDetail = props => {
         </div>
       </div>
     </div>
-  )
+  );
 };

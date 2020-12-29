@@ -32,14 +32,14 @@ describe('genre autocomplete selector functionality', () => {
     expect(buttons).toHaveLength(2);
     expect(buttons[0].textContent).toEqual('Indie Pop');
 
-    await userEvent.click(buttons[0]);
+    userEvent.click(buttons[0]);
 
     expect(mockSelectHandler).toHaveBeenCalledTimes(2);
     expect(mockSelectHandler).toHaveBeenCalledWith([{ id: 1, name: 'Indie Pop' }]);
 
     const clearIndiePopButton = screen.getByText('Remove Indie Pop');
     expect(clearIndiePopButton).toBeInTheDocument();
-    await userEvent.click(clearIndiePopButton);
+    userEvent.click(clearIndiePopButton);
 
     expect(mockSelectHandler).toHaveBeenCalledTimes(3);
     expect(mockSelectHandler).toHaveBeenCalledWith([]);

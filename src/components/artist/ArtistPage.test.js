@@ -122,7 +122,7 @@ describe('artist page functionality', () => {
     expect(mockListSongs).toHaveBeenCalledTimes(1);
 
     const playButton = await screen.findByText('Play all Chuck Person songs');
-    await userEvent.click(playButton);
+    userEvent.click(playButton);
 
     expect(mockSetQueue).toHaveBeenCalledTimes(1);
     expect(mockSetQueue).toHaveBeenCalledWith(songsResponse.data);
@@ -158,7 +158,7 @@ describe('artist page functionality', () => {
 
     await waitFor(() => history = renderComponentAsUser(<ArtistPage artistId={1} />, 1));
 
-    await userEvent.click(screen.getByText('edit'));
+    userEvent.click(screen.getByText('edit'));
     expect(history.location.pathname).toEqual('/artists/1/edit');
   });
 
@@ -170,8 +170,8 @@ describe('artist page functionality', () => {
 
     await waitFor(() => history = renderComponentAsUser(<ArtistPage artistId={1} />, 1));
 
-    await userEvent.click(screen.getByText('Delete Artist'));
-    await userEvent.click(screen.getByText('Delete Forever'));
+    userEvent.click(screen.getByText('Delete Artist'));
+    userEvent.click(screen.getByText('Delete Forever'));
 
     expect(mockDeleteArtist).toHaveBeenCalledTimes(1);
     expect(mockDeleteArtist).toHaveBeenCalledWith(1);

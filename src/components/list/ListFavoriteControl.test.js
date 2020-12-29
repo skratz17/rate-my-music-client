@@ -25,12 +25,12 @@ describe('list favorite control functionality', () => {
     expect(screen.getByText('8')).toBeInTheDocument();
   });
 
-  test('calls onClick when clicked', async () => {
+  test('calls onClick when clicked', () => {
     const mockClickHandler = jest.fn();
 
     render(<ListFavoriteControl onClick={mockClickHandler} />);
 
-    await userEvent.click(screen.getByRole('button'));
+    userEvent.click(screen.getByRole('button'));
     expect(mockClickHandler).toHaveBeenCalledTimes(1);
   });
 });

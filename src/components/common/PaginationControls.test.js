@@ -20,21 +20,21 @@ describe('pagination controls functionality', () => {
     expect(screen.getByText('Page 3')).toBeInTheDocument();
   });
 
-  test('clicking previous page button calls onPreviousPage function', async () => {
+  test('clicking previous page button calls onPreviousPage function', () => {
     const mockPreviousPageHandler = jest.fn();
 
     render(<PaginationControls page={2} onPreviousPage={mockPreviousPageHandler} />);
 
-    await userEvent.click(screen.getByText('Previous Page'));
+    userEvent.click(screen.getByText('Previous Page'));
     expect(mockPreviousPageHandler).toHaveBeenCalledTimes(1);
   });
 
-  test('clicking next page button calls onNextPage function', async () => {
+  test('clicking next page button calls onNextPage function', () => {
     const mockNextPageHandler = jest.fn();
 
     render(<PaginationControls page={3} isLastPage={false} onNextPage={mockNextPageHandler} />);
 
-    await userEvent.click(screen.getByText('Next Page'));
+    userEvent.click(screen.getByText('Next Page'));
     expect(mockNextPageHandler).toHaveBeenCalledTimes(1);
   });
 

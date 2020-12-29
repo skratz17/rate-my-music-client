@@ -23,7 +23,7 @@ describe('full search functionality', () => {
 
     await waitFor(() => render(<FullSearch />));
 
-    await userEvent.type(screen.getByRole('textbox'), 'test');
+    userEvent.type(screen.getByRole('textbox'), 'test');
 
     await waitFor(() => jest.advanceTimersByTime(500));
 

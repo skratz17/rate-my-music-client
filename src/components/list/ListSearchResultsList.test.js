@@ -28,7 +28,7 @@ const LISTS = [
 ];
 
 describe('list search results list functionality', () => {
-  test('renders list of lists with link to list page, list name text, list creator text, and favorites count', async () => {
+  test('renders list of lists with link to list page, list name text, list creator text, and favorites count', () => {
     const history = renderComponent(<ListSearchResultsList lists={LISTS} />);
 
     expect(screen.getByRole('list')).toBeInTheDocument();
@@ -40,7 +40,7 @@ describe('list search results list functionality', () => {
     expect(getByText(listItem, 'by jweckert17')).toBeInTheDocument();
     expect(getByText(listItem, /3*favorites/)).toBeInTheDocument();
 
-    await userEvent.click(screen.getByRole('link'));
+    userEvent.click(screen.getByRole('link'));
 
     expect(history.location.pathname).toEqual('/lists/1');
   });

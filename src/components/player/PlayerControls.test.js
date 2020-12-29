@@ -40,23 +40,23 @@ const renderComponent = (ui, currentSong = mockCurrentSong, isPlaying = false) =
 };
 
 describe('player controls functionality', () => {
-  test('renders song name as link that routes to song page', async () => {
+  test('renders song name as link that routes to song page', () => {
     const history = renderComponent(<PlayerControls />);
 
     const links = screen.getAllByRole('link');
     expect(links[0]).toHaveTextContent('Save a Secret for the Moon');
 
-    await userEvent.click(links[0]);
+    userEvent.click(links[0]);
     expect(history.location.pathname).toEqual('/songs/1');
   });
 
-  test('renders artist name as link that routes to artist page', async () => {
+  test('renders artist name as link that routes to artist page', () => {
     const history = renderComponent(<PlayerControls />);
 
     const links = screen.getAllByRole('link');
     expect(links[1]).toHaveTextContent('The Magnetic Fields');
 
-    await userEvent.click(links[1]);
+    userEvent.click(links[1]);
     expect(history.location.pathname).toEqual('/artists/2');
   });
 
@@ -78,33 +78,33 @@ describe('player controls functionality', () => {
     expect(screen.getByText('Pause Save a Secret for the Moon')).toBeInTheDocument();
   });
 
-  test('clicking previous will call skip function with -1', async () => {
+  test('clicking previous will call skip function with -1', () => {
     renderComponent(<PlayerControls />);
 
-    await userEvent.click(screen.getByText('Previous Song'));
+    userEvent.click(screen.getByText('Previous Song'));
     expect(mockSkip).toHaveBeenCalledTimes(1);
     expect(mockSkip).toHaveBeenCalledWith(-1);
   });
 
-  test('clicking next will call skip function with 1', async () => {
+  test('clicking next will call skip function with 1', () => {
     renderComponent(<PlayerControls />);
 
-    await userEvent.click(screen.getByText('Next Song'));
+    userEvent.click(screen.getByText('Next Song'));
     expect(mockSkip).toHaveBeenCalledTimes(1);
     expect(mockSkip).toHaveBeenCalledWith(1);
   });
 
-  test('clicking play will call play function', async () => {
+  test('clicking play will call play function', () => {
     renderComponent(<PlayerControls />);
 
-    await userEvent.click(screen.getByText('Play Save a Secret for the Moon'));
+    userEvent.click(screen.getByText('Play Save a Secret for the Moon'));
     expect(mockPlay).toHaveBeenCalledTimes(1);
   });
 
-  test('clicking pause will call pause function', async () => {
+  test('clicking pause will call pause function', () => {
     renderComponent(<PlayerControls />, mockCurrentSong, true);
 
-    await userEvent.click(screen.getByText('Pause Save a Secret for the Moon'));
+    userEvent.click(screen.getByText('Pause Save a Secret for the Moon'));
     expect(mockPause).toHaveBeenCalledTimes(1);
   });
 });

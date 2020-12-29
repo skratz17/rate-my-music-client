@@ -65,7 +65,7 @@ describe('list list functionality', () => {
     expect(getByText(listItems[1], /0*favorites/)).toBeInTheDocument();
   });
 
-  test('renders link for each list that links to list page', async () => {
+  test('renders link for each list that links to list page', () => {
     const history = renderComponent(<ListList lists={LISTS} />);
 
     const links = screen.getAllByRole('link');
@@ -74,10 +74,10 @@ describe('list list functionality', () => {
     expect(links[0]).toHaveTextContent('My favorite songs Page');
     expect(links[1]).toHaveTextContent('TEST Page');
 
-    await userEvent.click(links[0]);
+    userEvent.click(links[0]);
     expect(history.location.pathname).toEqual('/lists/1');
 
-    await userEvent.click(links[1]);
+    userEvent.click(links[1]);
     expect(history.location.pathname).toEqual('/lists/2');
   });
 

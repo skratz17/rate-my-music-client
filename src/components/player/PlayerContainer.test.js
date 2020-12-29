@@ -20,16 +20,16 @@ describe('player expander functionality', () => {
     expect(screen.getByText('Expand Player')).toBeInTheDocument();
   });
 
-  test('user can expand or collapse the player with the button', async () => {
+  test('user can expand or collapse the player with the button', () => {
     renderComponent(<PlayerContainer />);
 
     const button = screen.getByRole('button');
     expect(button).toHaveTextContent('Expand Player');
 
-    await userEvent.click(button);
+    userEvent.click(button);
     expect(button).toHaveTextContent('Collapse Player');
 
-    await userEvent.click(button);
+    userEvent.click(button);
     expect(button).toHaveTextContent('Expand Player');
   });
 });

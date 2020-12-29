@@ -15,7 +15,7 @@ describe('artist form validation', () => {
   test('all fields are required', async () => {
     render(<ArtistForm />);
 
-    await userEvent.click(screen.getByRole('button'));
+    userEvent.click(screen.getByRole('button'));
 
     expect(await screen.findByText('Artist name is required.')).toBeInTheDocument();
     expect(await screen.findByText('Founded year must be a number.')).toBeInTheDocument();
@@ -25,8 +25,8 @@ describe('artist form validation', () => {
   test('year founded must be >= 1850', async () => {
     render(<ArtistForm />);
 
-    await userEvent.type(screen.getByLabelText('Year Founded'), '1849');
-    await userEvent.click(screen.getByRole('button'));
+    userEvent.type(screen.getByLabelText('Year Founded'), '1849');
+    userEvent.click(screen.getByRole('button'));
 
     expect(await screen.findByText('Year must be on or after 1850.')).toBeInTheDocument();
   });
@@ -36,8 +36,8 @@ describe('artist form validation', () => {
 
     render(<ArtistForm />);
 
-    await userEvent.type(screen.getByLabelText('Year Founded'), String(currentYear + 1));
-    await userEvent.click(screen.getByRole('button'));
+    userEvent.type(screen.getByLabelText('Year Founded'), String(currentYear + 1));
+    userEvent.click(screen.getByRole('button'));
 
     expect(await screen.findByText(`Year must be on or earlier than the current year.`)).toBeInTheDocument();
   });
@@ -78,10 +78,10 @@ describe('artist form functionality', () => {
 
     const history = renderComponent(<ArtistForm />);
 
-    await userEvent.type(screen.getByLabelText('Name'), 'of Montreal');
-    await userEvent.type(screen.getByLabelText('Year Founded'), '1996');
-    await userEvent.type(screen.getByLabelText('Description'), 'The best out of Athens.');
-    await userEvent.click(screen.getByRole('button'));
+    userEvent.type(screen.getByLabelText('Name'), 'of Montreal');
+    userEvent.type(screen.getByLabelText('Year Founded'), '1996');
+    userEvent.type(screen.getByLabelText('Description'), 'The best out of Athens.');
+    userEvent.click(screen.getByRole('button'));
 
     await waitFor(() => expect(mockPostArtist).toHaveBeenCalledTimes(1));
     expect(mockPostArtist).toHaveBeenCalledWith({
@@ -98,10 +98,10 @@ describe('artist form functionality', () => {
 
     render(<ArtistForm />);
 
-    await userEvent.type(screen.getByLabelText('Name'), 'of Montreal');
-    await userEvent.type(screen.getByLabelText('Year Founded'), '1996');
-    await userEvent.type(screen.getByLabelText('Description'), 'The best out of Athens.');
-    await userEvent.click(screen.getByRole('button'));
+    userEvent.type(screen.getByLabelText('Name'), 'of Montreal');
+    userEvent.type(screen.getByLabelText('Year Founded'), '1996');
+    userEvent.type(screen.getByLabelText('Description'), 'The best out of Athens.');
+    userEvent.click(screen.getByRole('button'));
 
     await waitFor(() => expect(mockPostArtist).toHaveBeenCalledTimes(1));
 
@@ -124,7 +124,7 @@ describe('artist form functionality', () => {
     expect(screen.getByLabelText('Year Founded')).toEqual(screen.getByDisplayValue('1996'));
     expect(screen.getByLabelText('Description')).toEqual(screen.getByDisplayValue('So good.'));
 
-    await userEvent.click(screen.getByRole('button'));
+    userEvent.click(screen.getByRole('button'));
 
     await waitFor(() => expect(mockUpdateArtist).toHaveBeenCalledTimes(1));
     expect(mockUpdateArtist).toHaveBeenCalledWith(2, {

@@ -17,17 +17,17 @@ describe('modal functionality', () => {
     expect(screen.queryByTestId('123456')).toBeInTheDocument();
   });
 
-  test('hitting the escape key calls onClose when modal is showing', async () => {
+  test('hitting the escape key calls onClose when modal is showing', () => {
     const mockCloseHandler = jest.fn();
 
     render(<Modal isShowing={true} onClose={mockCloseHandler}><p data-testid="123456">hi</p></Modal>);
 
-    await userEvent.type(screen.getByTestId('123456'), '{esc}');
+    userEvent.type(screen.getByTestId('123456'), '{esc}');
 
     expect(mockCloseHandler).toHaveBeenCalledTimes(1);
   });
 
-  test('hitting the escape key does not call onClose when modal is not showing', async () => {
+  test('hitting the escape key does not call onClose when modal is not showing', () => {
     const mockCloseHandler = jest.fn();
 
     const { container } = render(<Modal isShowing={false} onClose={mockCloseHandler}><p data-testid="123456">hi</p></Modal>);
@@ -38,7 +38,7 @@ describe('modal functionality', () => {
     expect(mockCloseHandler).toHaveBeenCalledTimes(0);
   });
 
-  test('clicking outside of the modal will call onClose when modal is showing', async () => {
+  test('clicking outside of the modal will call onClose when modal is showing', () => {
     const mockCloseHandler = jest.fn();
 
     render(
@@ -50,12 +50,12 @@ describe('modal functionality', () => {
       </div>
     );
 
-    await userEvent.click(screen.getByTestId('outside'));
+    userEvent.click(screen.getByTestId('outside'));
 
     expect(mockCloseHandler).toHaveBeenCalledTimes(1);
   });
 
-  test('clicking outside of the modal will not call onClose when modal is not showing', async () => {
+  test('clicking outside of the modal will not call onClose when modal is not showing', () => {
     const mockCloseHandler = jest.fn();
 
     render(
@@ -67,7 +67,7 @@ describe('modal functionality', () => {
       </div>
     );
 
-    await userEvent.click(screen.getByTestId('outside'));
+    userEvent.click(screen.getByTestId('outside'));
 
     expect(mockCloseHandler).toHaveBeenCalledTimes(0);
   });

@@ -17,7 +17,7 @@ const renderComponent = ui => {
 };
 
 describe('play button functionality', () => {
-  test('should render as a button with accesible text that queues songs when clicked', async () => {
+  test('should render as a button with accesible text that queues songs when clicked', () => {
     renderComponent(
       <PlayButton accessibleName="Play All Magnetic Fields Songs" 
         songs={[ { id: 1, name: 'Save a Secret for the Moon' }]} />
@@ -25,7 +25,7 @@ describe('play button functionality', () => {
 
     expect(screen.getByRole('button')).toBeInTheDocument();
 
-    await userEvent.click(screen.getByText('Play All Magnetic Fields Songs'));
+    userEvent.click(screen.getByText('Play All Magnetic Fields Songs'));
     expect(mockSetQueue).toHaveBeenCalledTimes(1);
     expect(mockSetQueue).toHaveBeenLastCalledWith([ { id: 1, name: 'Save a Secret for the Moon' } ]);
     expect(mockPlayQueue).toHaveBeenCalledTimes(1);

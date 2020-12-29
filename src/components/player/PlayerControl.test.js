@@ -5,7 +5,7 @@ import userEvent from '@testing-library/user-event';
 import { PlayerControl } from './PlayerControl';
 
 describe('player control functionality', () => {
-  test('renders as a button with accessible name and children that calls onClick when clicked', async () => {
+  test('renders as a button with accessible name and children that calls onClick when clicked', () => {
     const mockClickHandler = jest.fn();
 
     render(<PlayerControl accessibleName="Test" onClick={mockClickHandler} />);
@@ -14,7 +14,7 @@ describe('player control functionality', () => {
     expect(button).toBeInTheDocument();
     expect(button).toHaveTextContent('Test');
 
-    await userEvent.click(button);
+    userEvent.click(button);
 
     expect(mockClickHandler).toHaveBeenCalledTimes(1);
   });

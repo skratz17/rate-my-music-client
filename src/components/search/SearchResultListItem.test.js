@@ -15,14 +15,14 @@ const renderComponent = ui => {
 };
 
 describe('search result list item functionality', () => {
-  test('renders as a list item with link to to prop', async () => {
+  test('renders as a list item with link to to prop', () => {
     const history = renderComponent(<SearchResultListItem to="/artists/3" />);
 
     expect(screen.getByRole('listitem')).toBeInTheDocument();
     const link = screen.getByRole('link');
     expect(link).toBeInTheDocument();
 
-    await userEvent.click(link);
+    userEvent.click(link);
     expect(history.location.pathname).toEqual('/artists/3');
   });
 

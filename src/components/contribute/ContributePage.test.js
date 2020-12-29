@@ -31,26 +31,26 @@ describe('contribute page basic rendering', () => {
     expect(links[2]).toHaveTextContent("Create a New List");
   });
 
-  test('clicking on new artist link navigates to /artists/new', async () => {
+  test('clicking on new artist link navigates to /artists/new', () => {
     const history = renderComponent();
 
-    await userEvent.click(screen.getByText("Create a New Artist"));
+    userEvent.click(screen.getByText("Create a New Artist"));
 
     expect(history.location.pathname).toEqual('/artists/new');
   });
 
-  test('clicking on new song link navigates to /songs/new', async () => {
+  test('clicking on new song link navigates to /songs/new', () => {
     const history = renderComponent();
 
-    await userEvent.click(screen.getByText("Create a New Song"));
+    userEvent.click(screen.getByText("Create a New Song"));
 
     expect(history.location.pathname).toEqual('/songs/new');
   });
 
-  test('clicking on new list link navigates to /lists/new', async () => {
+  test('clicking on new list link navigates to /lists/new', () => {
     const history = renderComponent();
 
-    await userEvent.click(screen.getByText("Create a New List"));
+    userEvent.click(screen.getByText("Create a New List"));
 
     expect(history.location.pathname).toEqual('/lists/new');
   });

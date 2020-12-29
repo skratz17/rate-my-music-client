@@ -37,7 +37,7 @@ const renderComponent = ui => {
 };
 
 describe('song list functionality', () => {
-  test('renders a list of songs with clickable song and artist links', async () => {
+  test('renders a list of songs with clickable song and artist links', () => {
     const history = renderComponent(<SongList songs={SONGS} />);
 
     expect(screen.getByRole('list')).toBeInTheDocument();
@@ -47,16 +47,16 @@ describe('song list functionality', () => {
     const links = screen.getAllByRole('link');
     expect(links).toHaveLength(4);
 
-    await userEvent.click(links[0]);
+    userEvent.click(links[0]);
     expect(history.location.pathname).toEqual('/songs/1');
 
-    await userEvent.click(links[1]);
+    userEvent.click(links[1]);
     expect(history.location.pathname).toEqual('/artists/1');
 
-    await userEvent.click(links[2]);
+    userEvent.click(links[2]);
     expect(history.location.pathname).toEqual('/songs/2');
 
-    await userEvent.click(links[3]);
+    userEvent.click(links[3]);
     expect(history.location.pathname).toEqual('/artists/2');
   });
 

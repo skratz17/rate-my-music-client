@@ -5,7 +5,7 @@ import userEvent from '@testing-library/user-event';
 import { Button } from './Button';
 
 describe('button functionality', () => {
-  test('renders a button with given text that calls the given onClick function', async () => {
+  test('renders a button with given text that calls the given onClick function', () => {
     const mockClickHandler = jest.fn();
     render(<Button onClick={mockClickHandler}>Test Button</Button>);
 
@@ -14,7 +14,7 @@ describe('button functionality', () => {
     expect(button.textContent).toEqual('Test Button');
 
     expect(mockClickHandler).toHaveBeenCalledTimes(0);
-    await userEvent.click(button);
+    userEvent.click(button);
     expect(mockClickHandler).toHaveBeenCalledTimes(1);
   });
 });

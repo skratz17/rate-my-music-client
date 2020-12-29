@@ -32,7 +32,7 @@ describe('registration form validation', () => {
   test('all fields are required', async () => {
     renderComponent();
 
-    await userEvent.click(screen.getByRole('button'));
+    userEvent.click(screen.getByRole('button'));
 
     expect(await screen.findByText('Username is required.')).toBeInTheDocument();
     expect(await screen.findByText('Email is required.')).toBeInTheDocument();
@@ -46,8 +46,8 @@ describe('registration form validation', () => {
   test('username must contain only valid characters', async () => {
     renderComponent();
 
-    await userEvent.type(screen.getByLabelText('Username'), 'user~');
-    await userEvent.click(screen.getByRole('button'));
+    userEvent.type(screen.getByLabelText('Username'), 'user~');
+    userEvent.click(screen.getByRole('button'));
 
     expect(await screen.findByText('Username may only contain letters, numbers, and @.+-_ characters.')).toBeInTheDocument();
   });
@@ -55,8 +55,8 @@ describe('registration form validation', () => {
   test('email must be valid email format', async () => {
     renderComponent();
 
-    await userEvent.type(screen.getByLabelText('Email'), 'invalid');
-    await userEvent.click(screen.getByRole('button'));
+    userEvent.type(screen.getByLabelText('Email'), 'invalid');
+    userEvent.click(screen.getByRole('button'));
 
     expect(await screen.findByText('Must be a valid email address.')).toBeInTheDocument();
   });
@@ -64,9 +64,9 @@ describe('registration form validation', () => {
   test('password confirmation must match password', async () => {
     renderComponent();
 
-    await userEvent.type(screen.getByLabelText('Password'), 'test');
-    await userEvent.type(screen.getByLabelText('Confirm Password'), 'testt');
-    await userEvent.click(screen.getByRole('button'));
+    userEvent.type(screen.getByLabelText('Password'), 'test');
+    userEvent.type(screen.getByLabelText('Confirm Password'), 'testt');
+    userEvent.click(screen.getByRole('button'));
 
     expect(await screen.findByText('Passwords must match.')).toBeInTheDocument();
   });
@@ -78,15 +78,15 @@ describe('registration form functionality', () => {
 
     const history = renderComponent();
 
-    await userEvent.type(screen.getByLabelText('Username'), 'test');
-    await userEvent.type(screen.getByLabelText('Email'), 'test@test.com');
-    await userEvent.type(screen.getByLabelText('Password'), 'test');
-    await userEvent.type(screen.getByLabelText('Confirm Password'), 'test');
-    await userEvent.type(screen.getByLabelText('First Name'), 'test');
-    await userEvent.type(screen.getByLabelText('Last Name'), 'test');
-    await userEvent.type(screen.getByLabelText('Bio'), 'test');
+    userEvent.type(screen.getByLabelText('Username'), 'test');
+    userEvent.type(screen.getByLabelText('Email'), 'test@test.com');
+    userEvent.type(screen.getByLabelText('Password'), 'test');
+    userEvent.type(screen.getByLabelText('Confirm Password'), 'test');
+    userEvent.type(screen.getByLabelText('First Name'), 'test');
+    userEvent.type(screen.getByLabelText('Last Name'), 'test');
+    userEvent.type(screen.getByLabelText('Bio'), 'test');
 
-    await userEvent.click(screen.getByRole('button'));
+    userEvent.click(screen.getByRole('button'));
 
     await waitFor(() => expect(mockRegister).toHaveBeenCalledTimes(1));
     expect(mockRegister).toHaveBeenCalledWith({
@@ -109,15 +109,15 @@ describe('registration form functionality', () => {
 
     const history = renderComponent();
 
-    await userEvent.type(screen.getByLabelText('Username'), 'test');
-    await userEvent.type(screen.getByLabelText('Email'), 'test@test.com');
-    await userEvent.type(screen.getByLabelText('Password'), 'test');
-    await userEvent.type(screen.getByLabelText('Confirm Password'), 'test');
-    await userEvent.type(screen.getByLabelText('First Name'), 'test');
-    await userEvent.type(screen.getByLabelText('Last Name'), 'test');
-    await userEvent.type(screen.getByLabelText('Bio'), 'test');
+    userEvent.type(screen.getByLabelText('Username'), 'test');
+    userEvent.type(screen.getByLabelText('Email'), 'test@test.com');
+    userEvent.type(screen.getByLabelText('Password'), 'test');
+    userEvent.type(screen.getByLabelText('Confirm Password'), 'test');
+    userEvent.type(screen.getByLabelText('First Name'), 'test');
+    userEvent.type(screen.getByLabelText('Last Name'), 'test');
+    userEvent.type(screen.getByLabelText('Bio'), 'test');
 
-    await userEvent.click(screen.getByRole('button'));
+    userEvent.click(screen.getByRole('button'));
 
     await waitFor(() => expect(mockRegister).toHaveBeenCalledTimes(1));
 

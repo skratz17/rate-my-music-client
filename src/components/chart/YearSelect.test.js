@@ -26,11 +26,11 @@ describe('year select functionality', () => {
     }
   });
 
-  test('calls onChange when user selects a value', async () => {
+  test('calls onChange when user selects a value', () => {
     const mockChangeHandler = jest.fn();
     render(<YearSelect onChange={mockChangeHandler} />);
 
-    await userEvent.selectOptions(screen.getByRole('combobox'), '1994');
+    userEvent.selectOptions(screen.getByRole('combobox'), '1994');
     expect(mockChangeHandler).toHaveBeenCalledTimes(1);
   });
 });

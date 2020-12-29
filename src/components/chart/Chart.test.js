@@ -12,17 +12,23 @@ jest.mock('../../api');
 
 const mockListSongs = (api.songs.list = jest.fn());
 const mockSearchGenres = (api.genres.search = jest.fn());
+const mockListGenres = (api.genres.list = jest.fn());
 const mockSetQueue = jest.fn();
 const mockPlayQueue = jest.fn();
 
-const renderComponent = ui => {
+const renderComponent = (ui, url = '/charts') => {
+  const history = createMemoryHistory();
+  history.push(url);
+
   render(
     <PlayerContext.Provider value={{ setQueue: mockSetQueue, playQueue: mockPlayQueue }}>
-      <Router history={createMemoryHistory()}>
+      <Router history={history}>
         {ui}
       </Router>
     </PlayerContext.Provider>
-  )
+  );
+
+  return history;
 };
 
 const SONGS_RESPONSE = {
@@ -162,5 +168,65 @@ describe('chart functionality', () => {
     expect(mockSetQueue).toHaveBeenLastCalledWith(SONGS_RESPONSE.data);
     
     expect(mockPlayQueue).toHaveBeenCalledTimes(1);
+  });
+
+  test('initializes startYear value from query string parameter', async () => {
+    renderComponent(<Chart />, '/charts?startYear=1994');
+
+    await waitFor(() => expect(mockListSongs).toHaveBeenCalledTimes(1));
+    expect(mockListSongs).toHaveBeenCalledWith({
+      orderBy: 'avgRating',
+      direction: 'desc',
+      startYear: '1994',
+      page: 1,
+      pageSize: 10
+    });
+
+    const dropdowns = screen.getAllByRole('combobox');
+    expect(dropdowns[0]).toHaveDisplayValue('1994');
+    expect(dropdowns[1]).toHaveDisplayValue('any');
+  });
+
+  test('initializes endYear value from query string parameter', async () => {
+    renderComponent(<Chart />, '/charts?endYear=1994');
+
+    await waitFor(() => expect(mockListSongs).toHaveBeenCalledTimes(1));
+    expect(mockListSongs).toHaveBeenCalledWith({
+      orderBy: 'avgRating',
+      direction: 'desc',
+      endYear: '1994',
+      page: 1,
+      pageSize: 10
+    });
+
+    const dropdowns = screen.getAllByRole('combobox');
+    expect(dropdowns[0]).toHaveDisplayValue('any');
+    expect(dropdowns[1]).toHaveDisplayValue('1994');
+  });
+
+  test('initializes genres value from query string parameter, and genre autocomplete selector shows genre names', async () => {
+    mockListGenres.mockResolvedValueOnce({
+      count: 2,
+      data: [ 
+        { id: 1, name: 'Indie Pop' },
+        { id: 2, name: 'Black Metal' }
+      ]
+    });
+
+    renderComponent(<Chart />, '/charts?genres=1,2');
+
+    await waitFor(() => expect(mockListSongs).toHaveBeenCalledTimes(1));
+    expect(mockListSongs).toHaveBeenCalledWith({
+      orderBy: 'avgRating',
+      direction: 'desc',
+      genres: [ 1, 2 ],
+      page: 1,
+      pageSize: 10
+    });
+
+    await waitFor(() => expect(mockListGenres).toHaveBeenCalledTimes(1));
+
+    expect(screen.getByText('Indie Pop')).toBeInTheDocument();
+    expect(screen.getByText('Black Metal')).toBeInTheDocument();
   });
 });

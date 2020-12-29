@@ -109,8 +109,8 @@ describe('chart functionality', () => {
     expect(screen.getByRole('textbox')).toBeInTheDocument();
   });
 
-  test('selecting a value in the start year dropdown refetches songs list with selected year', async () => {
-    renderComponent(<Chart />);
+  test('selecting a value in the start year dropdown refetches songs list with selected year and updates query string', async () => {
+    const history = renderComponent(<Chart />);
 
     await waitFor(() => expect(mockListSongs).toHaveBeenCalledTimes(1));
     const startYearDropdown = screen.getAllByRole('combobox')[0];
@@ -118,10 +118,11 @@ describe('chart functionality', () => {
     await waitFor(() => userEvent.selectOptions(startYearDropdown, '1992'));
     expect(mockListSongs).toHaveBeenCalledTimes(2);
     expect(mockListSongs).toHaveBeenLastCalledWith({ orderBy: 'avgRating', direction: 'desc', startYear: '1992', page: 1, pageSize: 10 });
+    expect(history.location.search).toEqual('?startYear=1992');
   });
 
-  test('selecting a value in the end year dropdown refetches songs list with selected year', async () => {
-    renderComponent(<Chart />);
+  test('selecting a value in the end year dropdown refetches songs list with selected year and updates query string', async () => {
+    const history = renderComponent(<Chart />);
 
     await waitFor(() => expect(mockListSongs).toHaveBeenCalledTimes(1));
     const endYearDropdown = screen.getAllByRole('combobox')[1];
@@ -129,16 +130,17 @@ describe('chart functionality', () => {
     await waitFor(() => userEvent.selectOptions(endYearDropdown, '1996'));
     expect(mockListSongs).toHaveBeenCalledTimes(2);
     expect(mockListSongs).toHaveBeenLastCalledWith({ orderBy: 'avgRating', direction: 'desc', endYear: '1996', page: 1, pageSize: 10 });
+    expect(history.location.search).toEqual('?endYear=1996');
   });
 
-  test('selecting a genre in the genre autocomplete selector refetches songs list with selected genre', async () => {
+  test('selecting a genre in the genre autocomplete selector refetches songs list with selected genre and updates query string', async () => {
     mockSearchGenres.mockResolvedValue({
       count: 2,
       data: [ { id: 1, name: 'Indie Folk' }, { id: 2, name: 'Indie Pop' } ]
     });
     jest.useFakeTimers();
 
-    renderComponent(<Chart />);
+    const history = renderComponent(<Chart />);
 
     await waitFor(() => expect(mockListSongs).toHaveBeenCalledTimes(1));
 
@@ -154,6 +156,7 @@ describe('chart functionality', () => {
 
     expect(mockListSongs).toHaveBeenCalledTimes(2);
     expect(mockListSongs).toHaveBeenLastCalledWith({ orderBy: 'avgRating', direction: 'desc', genres: [ 1 ], page: 1, pageSize: 10 });
+    expect(history.location.search).toEqual('?genres=1');
   });
 
   test('clicking play button will queue songs in songs list response', async () => {

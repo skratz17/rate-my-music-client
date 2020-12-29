@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 
 import { api } from '../../api';
 import { usePagination, useApi } from '../../hooks';
+import { queryParamsToString } from '../../utils';
 import { YearSelect } from './YearSelect';
 import { SongList } from '../song/SongList';
 import { PlayButton } from '../player/PlayButton';
@@ -22,6 +23,7 @@ const createInitialChartParams = location => {
 
 export const Chart = () => {
   const location = useLocation();
+  const history = useHistory();
 
   const initialChartParams = createInitialChartParams(location);
 
@@ -43,6 +45,20 @@ export const Chart = () => {
       setInitiallySelectedGenres([]);
     }
   }, []);
+
+  useEffect(() => {
+    const urlParams = {};
+    const { startYear, endYear, genres } = chartParams;
+
+    if(startYear) urlParams.startYear = startYear;
+    if(endYear) urlParams.endYear = endYear;
+    if(genres) urlParams.genres = genres;
+
+    const queryStringParams = queryParamsToString(urlParams);
+    const queryString = queryStringParams ? `?${queryStringParams}` : '';
+    history.push(`/charts${queryString}`);
+
+  }, [ chartParams ]);
 
   const songs = songsResponse?.data;
   const count = songsResponse?.count;

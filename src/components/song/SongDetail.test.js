@@ -56,6 +56,8 @@ describe('song detail view functionality', () => {
     expect(screen.getByText('Avg. Rating: 4 / 5')).toBeInTheDocument();
 
     expect(screen.getByText('Year: 1996')).toBeInTheDocument();
+
+    expect(screen.getByText('Indie Pop')).toBeInTheDocument();
   });
 
   test('renders dropdown with song sources which defaults to song\'s primary source', () => {

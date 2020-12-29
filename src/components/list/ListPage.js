@@ -1,14 +1,17 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 import { api } from '../../api';
 import { useApi } from '../../hooks';
-import { Page, LoadingIndicator, WarningText } from '../common';
+import { UserContext } from '../user/UserProvider';
+import { Page, LoadingIndicator, WarningText, LinkButton, DeleteButton } from '../common';
 import { ListDetail } from './ListDetail';
 import { ListSongList } from './ListSongList';
 import { ListFavoriteControl } from './ListFavoriteControl';
 
 export const ListPage = props => {
   const { listId } = props;
+
+  const { user } = useContext(UserContext);
 
   const [ list, isLoading, error, refreshList ] = useApi(api.lists.get, listId);
 
@@ -30,10 +33,19 @@ export const ListPage = props => {
         <WarningText>{error}</WarningText>
         { list && 
           <div className="flex justify-between items-start">
-            <ListDetail list={list} />           
-            <ListFavoriteControl favCount={list.favCount} 
-              isFavorited={list.hasRaterFavorited}
-              onClick={handleFavoriteClick} />
+            <ListDetail list={list} />
+            <div className="flex">
+              {
+                list.creator.id === user?.id && 
+                  <>
+                    <LinkButton className="mr-2" to={`/lists/${listId}/edit`}>edit</LinkButton>
+                    <DeleteButton className="mr-2" onDelete={() => console.log('hi')} />
+                  </>
+              }
+              <ListFavoriteControl favCount={list.favCount} 
+                isFavorited={list.hasRaterFavorited}
+                onClick={handleFavoriteClick} />
+            </div>
           </div>
         }
       </section>

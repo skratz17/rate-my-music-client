@@ -22,6 +22,10 @@ export const lists = {
     return lists;
   },
 
+  delete: async listId => {
+    return await request(`/lists/${listId}`, 'DELETE');
+  },
+
   favorite: async listId => {
     return await request(`/lists/${listId}/favorite`, 'POST');
   },

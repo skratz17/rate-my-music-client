@@ -23,7 +23,7 @@ describe('delete button functionality', () => {
     expect(buttons).toHaveLength(3);
 
     expect(buttons[1]).toHaveTextContent('Cancel');
-    expect(buttons[2]).toHaveTextContent('Delete');
+    expect(buttons[2]).toHaveTextContent('Delete Forever');
   });
 
   test('clicking the cancel button will close the modal and not call the delete handler', async () => {
@@ -44,7 +44,7 @@ describe('delete button functionality', () => {
     render(<DeleteButton onDelete={mockDeleteHandler} />);
 
     await userEvent.click(screen.getByRole('button'));
-    await userEvent.click(screen.getByText('Delete'));
+    await userEvent.click(screen.getByText('Delete Forever'));
 
     expect(await screen.findAllByRole('button')).toHaveLength(1);
     expect(mockDeleteHandler).toHaveBeenCalledTimes(1);

@@ -15,9 +15,9 @@ export const ReviewFormToggler = props => {
   };
 
   return (
-    <div>
+    <div className="w-full">
       <div style={{ height: isVisible ? '2rem' : '0' }}
-        className="transition-all overflow-hidden">
+        className="transition-all overflow-hidden flex justify-center md:justify-start">
           { isVisible && 
             <button className="flex items-center h-8 px-2 bg-gray-200 hover:bg-gray-300" onClick={() => setIsExpanded(prevExpanded => !prevExpanded)}>
               <span>Write a Review</span>
@@ -26,7 +26,7 @@ export const ReviewFormToggler = props => {
             </button>
           }
       </div>
-      <div>
+      <div className="w-full">
           { isExpanded && <ReviewForm review={rating?.review} onSubmit={handleSubmit} /> }
       </div>
     </div>

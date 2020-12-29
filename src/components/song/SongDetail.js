@@ -12,24 +12,24 @@ export const SongDetail = props => {
 
   return (
     <div className="flex flex-col md:flex-row text-center md:text-left items-center md:items-start justify-between">
-      <div className="flex flex-col">
+      <div className="flex flex-col items-center md:items-start">
         <h2 className="text-4xl text-deepred my-1">{song.name}</h2>
         <Link to={`/artists/${song.artist.id}`} className="text-2xl my-1 text-black hover:text-deepred">{song.artist.name}</Link>
         <span className="text-lg">Avg. Rating: {song.avgRating !== null ? song.avgRating : '--'} / 5</span>
         <span className="text-lg">Year: {song.year}</span>
-        <div className="flex items-center">
+        <div className="flex items-center my-1">
           <span className="mr-1">Genres:</span>
           { song.genres.map(g => <GenreBadge key={g.genre.id}>{g.genre.name}</GenreBadge>) }
         </div>
       </div>
-      <div className="flex flex-col items-end">
+      <div className="flex flex-col items-center md:items-end order-first md:order-none">
         { canUserModify && (
-          <div className="flex">
+          <div className="flex my-1">
             <LinkButton className="mr-2" to={`/songs/${song.id}/edit`}>edit</LinkButton>
             <DeleteButton onDelete={onDelete} accessibleName="Delete Song" />
           </div>
         )}
-        <div className="flex items-center">
+        <div className="flex items-center my-1">
           <PlayButton className="text-5xl mx-2" 
             accessibleName={`Play ${song.name}`}
             songs={[ songSource ? { ...song, sources: song.sources.filter(s => s.url === songSource) } : song ]} />

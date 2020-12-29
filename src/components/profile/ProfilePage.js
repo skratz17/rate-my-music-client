@@ -17,8 +17,8 @@ export const ProfilePage = props => {
   const [ ratingSortOptions, setRatingSortOptions ] = useState({ orderBy: 'date', direction: 'desc' });
   const [ listSearchParams, setListSearchParams ] = useState({ userId: userId });
 
-  const [ ratingPaginationParams, ratingPaginationFunctions ] = usePagination();
-  const [ listPaginationParams, listPaginationFunctions ] = usePagination();
+  const [ ratingPaginationParams, ratingPaginationFunctions ] = usePagination(ratingSortOptions);
+  const [ listPaginationParams, listPaginationFunctions ] = usePagination(listSearchParams);
 
   const [ user, isUserLoading, userError ] = useApi(api.user.get, userId);
   const [ ratingsResponse, isRatingsLoading, ratingsError ] = useApi(api.ratings.list, { userId: userId, ...ratingSortOptions, ...ratingPaginationParams })

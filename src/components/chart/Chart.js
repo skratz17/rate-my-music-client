@@ -10,7 +10,7 @@ import { Page, LoadingIndicator, WarningText, PaginationControls } from '../comm
 
 export const Chart = () => {
   const [ chartParams, setChartParams ] = useState({ orderBy: 'avgRating', direction: 'desc' });
-  const [ paginationParams, paginationFunctions ] = usePagination();
+  const [ paginationParams, paginationFunctions ] = usePagination(chartParams);
   const [ songsResponse, isLoading, error ] = useApi(api.songs.list, { ...chartParams, ...paginationParams });
 
   const songs = songsResponse?.data;

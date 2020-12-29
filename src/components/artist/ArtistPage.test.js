@@ -1,37 +1,46 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Router } from 'react-router-dom';
 
 import { ArtistPage } from './ArtistPage';
 import { api } from '../../api';
 import { PlayerContext } from '../player/PlayerProvider';
+import { UserContext } from '../user/UserProvider';
 import { createMemoryHistory } from 'history';
 
 jest.mock('../../api');
 const mockGetArtist = (api.artists.get = jest.fn());
+const mockDeleteArtist = (api.artists.delete = jest.fn());
 const mockListSongs = (api.songs.list = jest.fn());
 
 const mockSetQueue = jest.fn();
 const mockPlayQueue = jest.fn();
 
-const renderComponent = ui => {
+const renderComponentAsUser = (ui, userId) => {
   const history = createMemoryHistory();
 
   render(
-    <PlayerContext.Provider value={{ setQueue: mockSetQueue, playQueue: mockPlayQueue }}>
-      <Router history={history}>
-        {ui}
-      </Router>
-    </PlayerContext.Provider>
+    <UserContext.Provider value={{ user: { id: userId }}}>
+      <PlayerContext.Provider value={{ setQueue: mockSetQueue, playQueue: mockPlayQueue }}>
+        <Router history={history}>
+          {ui}
+        </Router>
+      </PlayerContext.Provider>
+    </UserContext.Provider>
   );
+
+  return history;
 };
 
 const artistResponse = {
   id: 1,
   name: 'Chuck Person',
   foundedYear: 2011,
-  description: 'AKA Oneohtrix Point Never'
+  description: 'AKA Oneohtrix Point Never',
+  creator: {
+    id: 1
+  }
 };
 
 const songsResponse = {
@@ -82,7 +91,7 @@ describe('artist page functionality', () => {
   test('should fetch artist with given id on load and render their information', async () => {
     mockGetArtist.mockResolvedValueOnce(artistResponse);
 
-    renderComponent(<ArtistPage artistId={1} />);
+    renderComponentAsUser(<ArtistPage artistId={1} />, 1);
 
     expect(mockGetArtist).toHaveBeenCalledTimes(1);
     expect(mockGetArtist).toHaveBeenCalledWith(1);
@@ -97,7 +106,7 @@ describe('artist page functionality', () => {
   test('should render error message on error', async () => {
     mockGetArtist.mockRejectedValueOnce({ message: 'Artist failed to load.' });
 
-    renderComponent(<ArtistPage artistId={666} />);
+    renderComponentAsUser(<ArtistPage artistId={666} />, 1);
 
     expect(mockGetArtist).toHaveBeenCalledTimes(1);
 
@@ -108,7 +117,7 @@ describe('artist page functionality', () => {
     mockGetArtist.mockResolvedValue(artistResponse);
     mockListSongs.mockResolvedValueOnce(songsResponse);
 
-    renderComponent(<ArtistPage artistId={1} />);
+    renderComponentAsUser(<ArtistPage artistId={1} />, 1);
 
     expect(mockListSongs).toHaveBeenCalledTimes(1);
 
@@ -119,5 +128,53 @@ describe('artist page functionality', () => {
     expect(mockSetQueue).toHaveBeenCalledWith(songsResponse.data);
 
     expect(mockPlayQueue).toHaveBeenCalledTimes(1);
+  });
+
+  test('renders edit and delete controls when user is creator of artist', async () => {
+    mockGetArtist.mockResolvedValue(artistResponse);
+    mockListSongs.mockResolvedValueOnce(songsResponse);
+
+    await waitFor(() => renderComponentAsUser(<ArtistPage artistId={1} />, 1));
+
+    expect(screen.getByText('edit')).toBeInTheDocument();
+    expect(screen.getByText('Delete Artist')).toBeInTheDocument();
+  });
+
+  test('does not render edit or delete controls when user is not creator of artist', async () => {
+    mockGetArtist.mockResolvedValue(artistResponse);
+    mockListSongs.mockResolvedValueOnce(songsResponse);
+
+    await waitFor(() => renderComponentAsUser(<ArtistPage artistId={1} />, 2));
+
+    expect(screen.queryByText('edit')).not.toBeInTheDocument();
+    expect(screen.queryByText('Delete Artist')).not.toBeInTheDocument();
+  });
+
+  test('edit links to artist edit page', async () => {
+    mockGetArtist.mockResolvedValue(artistResponse);
+    mockListSongs.mockResolvedValueOnce(songsResponse);
+
+    let history;
+
+    await waitFor(() => history = renderComponentAsUser(<ArtistPage artistId={1} />, 1));
+
+    await userEvent.click(screen.getByText('edit'));
+    expect(history.location.pathname).toEqual('/artists/1/edit');
+  });
+
+  test('confirming delete on artist will call delete artist api function and redirect to /', async () => {
+    mockGetArtist.mockResolvedValue(artistResponse);
+    mockListSongs.mockResolvedValueOnce(songsResponse);
+
+    let history;
+
+    await waitFor(() => history = renderComponentAsUser(<ArtistPage artistId={1} />, 1));
+
+    await userEvent.click(screen.getByText('Delete Artist'));
+    await userEvent.click(screen.getByText('Delete Forever'));
+
+    expect(mockDeleteArtist).toHaveBeenCalledTimes(1);
+    expect(mockDeleteArtist).toHaveBeenCalledWith(1);
+    expect(history.location.pathname).toEqual('/');
   });
 });

@@ -56,8 +56,10 @@ export const Chart = () => {
 
     const queryStringParams = queryParamsToString(urlParams);
     const queryString = queryStringParams ? `?${queryStringParams}` : '';
-    history.push(`/charts${queryString}`);
 
+    if(queryString !== location.search) {
+      history.push(`/charts${queryString}`);
+    }
   }, [ chartParams ]);
 
   const songs = songsResponse?.data;

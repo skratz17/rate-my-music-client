@@ -78,8 +78,12 @@ export const SongPage = props => {
         <WarningText>{deleteError}</WarningText>
         <LoadingIndicator isLoading={!song && isSongLoading} />
         { song && <SongDetail song={song} onDelete={handleDelete} canUserModify={user?.id === song.creator.id} /> }
-        { ratings && <RatingControl value={userRating?.rating} onClick={rateSong} /> }
-        { ratings && <ReviewFormToggler rating={userRating} onSubmit={reviewSong} /> }
+        { ratings && (
+          <div className="flex flex-col items-center md:items-start">
+            <RatingControl value={userRating?.rating} onClick={rateSong} /> 
+            <ReviewFormToggler rating={userRating} onSubmit={reviewSong} /> 
+          </div>
+        )}
       </section>
 
       <hr className="w-3/4 h-1 mx-auto my-5" />

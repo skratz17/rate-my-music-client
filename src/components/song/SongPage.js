@@ -23,7 +23,7 @@ export const SongPage = props => {
   ];
   const [ ratingSortOptions, setRatingSortOptions ] = useState({ orderBy: 'date', direction: 'desc' });
 
-  const [ ratingsPaginationParams, ratingsPaginationFunctions ] = usePagination();
+  const [ ratingsPaginationParams, ratingsPaginationFunctions ] = usePagination(ratingSortOptions);
   const [ listsPaginationParams, listsPaginationFunctions ] = usePagination();
 
   const [ song, isSongLoading, songError, refreshSong ] = useApi(api.songs.get, songId);

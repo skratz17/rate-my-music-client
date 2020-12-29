@@ -13,7 +13,7 @@ export const ArtistPage = props => {
   const { user } = useContext(UserContext);
 
   const [ orderBy, setOrderBy ] = useState({ orderBy: 'year', direction: 'desc' });
-  const [ paginationParams, paginationFunctions ] = usePagination();
+  const [ paginationParams, paginationFunctions ] = usePagination(orderBy);
   const [ artist, isArtistLoading, artistError ] = useApi(api.artists.get, artistId);
   const [ songsResponse, isSongsLoading, songsError ] = useApi(api.songs.list, { artist: artistId, ...orderBy, ...paginationParams });
 

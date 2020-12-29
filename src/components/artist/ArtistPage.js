@@ -1,8 +1,7 @@
 import React, { useState, useContext } from 'react';
-import { useHistory } from 'react-router-dom';
 
 import { api } from '../../api';
-import { useApi, usePagination } from '../../hooks';
+import { useApi, useDeleteAndRedirect, usePagination } from '../../hooks';
 import { UserContext } from '../user/UserProvider';
 import { PlayButton } from '../player/PlayButton';
 import { SongList } from '../song/SongList';
@@ -11,8 +10,6 @@ import { Page, LoadingIndicator, WarningText, ListSortOptions, PaginationControl
 export const ArtistPage = props => {
   const { artistId } = props;
 
-  const history = useHistory();
-
   const { user } = useContext(UserContext);
 
   const [ orderBy, setOrderBy ] = useState({ orderBy: 'year', direction: 'desc' });
@@ -20,20 +17,10 @@ export const ArtistPage = props => {
   const [ artist, isArtistLoading, artistError ] = useApi(api.artists.get, artistId);
   const [ songsResponse, isSongsLoading, songsError ] = useApi(api.songs.list, { artist: artistId, ...orderBy, ...paginationParams });
 
-  const [ deleteError, setDeleteError ] = useState('');
+  const [ handleDelete, deleteError ] = useDeleteAndRedirect(api.artists.delete, artistId);
 
   const songs = songsResponse?.data;
   const songsCount = songsResponse?.count;
-
-  const handleDelete = async () => {
-    try {
-      await api.artists.delete(artistId);
-      history.push('/');
-    }
-    catch(e) {
-      setDeleteError(e.message);
-    }
-  };
 
   const renderArtistData = () => {
     if(!artist) return null;

@@ -23,7 +23,7 @@ export const SongPage = props => {
   ];
   const [ ratingSortOptions, setRatingSortOptions ] = useState({ orderBy: 'date', direction: 'desc' });
 
-  const [ ratingsPaginationParams, ratingsPaginationFunctions ] = usePagination(ratingSortOptions);
+  const [ ratingsPaginationParams, ratingsPaginationFunctions ] = usePagination();
   const [ listsPaginationParams, listsPaginationFunctions ] = usePagination();
 
   const [ song, isSongLoading, songError, refreshSong ] = useApi(api.songs.get, songId);
@@ -71,6 +71,11 @@ export const SongPage = props => {
     refreshUserRating();
   };
 
+  const handleRatingSort = sortOptions => {
+    setRatingSortOptions(sortOptions);
+    ratingsPaginationFunctions.getPage(1);
+  };
+
   return (
     <Page>
       <section>
@@ -95,7 +100,7 @@ export const SongPage = props => {
           <h3 className="text-2xl">Ratings and Reviews</h3>
           <ListSortOptions fields={allRatingSortOptions} 
             orderingData={ratingSortOptions} 
-            onSelectSortOption={setRatingSortOptions} />
+            onSelectSortOption={handleRatingSort} />
         </div>
         { ratings && 
         <div>

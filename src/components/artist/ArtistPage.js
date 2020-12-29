@@ -13,7 +13,7 @@ export const ArtistPage = props => {
   const { user } = useContext(UserContext);
 
   const [ orderBy, setOrderBy ] = useState({ orderBy: 'year', direction: 'desc' });
-  const [ paginationParams, paginationFunctions ] = usePagination(orderBy);
+  const [ paginationParams, paginationFunctions ] = usePagination();
   const [ artist, isArtistLoading, artistError ] = useApi(api.artists.get, artistId);
   const [ songsResponse, isSongsLoading, songsError ] = useApi(api.songs.list, { artist: artistId, ...orderBy, ...paginationParams });
 
@@ -21,6 +21,11 @@ export const ArtistPage = props => {
 
   const songs = songsResponse?.data;
   const songsCount = songsResponse?.count;
+
+  const handleSelectSortOption = sortOption => {
+    setOrderBy(sortOption);
+    paginationFunctions.getPage(1);
+  };
 
   const renderArtistData = () => {
     if(!artist) return null;
@@ -58,7 +63,7 @@ export const ArtistPage = props => {
             songs={songs}
             accessibleName={`Play all ${artist?.name} songs`} />
         </div>
-        <ListSortOptions orderingData={orderBy} fields={songListSortOptions} onSelectSortOption={setOrderBy} />
+        <ListSortOptions orderingData={orderBy} fields={songListSortOptions} onSelectSortOption={handleSelectSortOption} />
       </div>
       <div>
         <SongList songs={songs} />

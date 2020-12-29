@@ -17,8 +17,8 @@ export const ProfilePage = props => {
   const [ ratingSortOptions, setRatingSortOptions ] = useState({ orderBy: 'date', direction: 'desc' });
   const [ listSearchParams, setListSearchParams ] = useState({ userId: userId });
 
-  const [ ratingPaginationParams, ratingPaginationFunctions ] = usePagination(ratingSortOptions);
-  const [ listPaginationParams, listPaginationFunctions ] = usePagination(listSearchParams);
+  const [ ratingPaginationParams, ratingPaginationFunctions ] = usePagination();
+  const [ listPaginationParams, listPaginationFunctions ] = usePagination();
 
   const [ user, isUserLoading, userError ] = useApi(api.user.get, userId);
   const [ ratingsResponse, isRatingsLoading, ratingsError ] = useApi(api.ratings.list, { userId: userId, ...ratingSortOptions, ...ratingPaginationParams })
@@ -34,6 +34,13 @@ export const ProfilePage = props => {
     const { name } = e.target;
     if(name === 'userId') setListSearchParams({ userId });
     else if(name === 'favoritedBy') setListSearchParams({ favoritedBy: userId });
+
+    listPaginationFunctions.getPage(1);
+  };
+
+  const handleRatingSort = sortOptions => {
+    setRatingSortOptions(sortOptions);
+    ratingPaginationFunctions.getPage(1);
   };
 
   return (
@@ -61,7 +68,7 @@ export const ProfilePage = props => {
           </div>
           <ListSortOptions fields={allRatingSortOptions} 
             orderingData={ratingSortOptions}
-            onSelectSortOption={setRatingSortOptions} />
+            onSelectSortOption={handleRatingSort} />
         </div>
 
         { ratings && 

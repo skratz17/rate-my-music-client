@@ -43,21 +43,28 @@ const song = {
 };
 
 describe('song detail view functionality', () => {
-  test('renders basic song information and artist name as link', async () => {
+  test('renders basic song information and artist name as link', () => {
     const history = renderComponent(<SongDetail song={song} />);
 
     expect(screen.getByText('Famous')).toBeInTheDocument();
 
-    const artistLink = screen.getByRole('link');
-    expect(artistLink).toHaveTextContent('The Magnetic Fields');
-    await userEvent.click(artistLink);
+    const artistLink = screen.getByText('The Magnetic Fields');
+    userEvent.click(artistLink);
     expect(history.location.pathname).toEqual('/artists/3');
 
     expect(screen.getByText('Avg. Rating: 4 / 5')).toBeInTheDocument();
 
-    expect(screen.getByText('Year: 1996')).toBeInTheDocument();
+    const yearLink = screen.getByText('1996');
+    expect(yearLink).toBeInTheDocument();
+    userEvent.click(yearLink);
+    expect(history.location.pathname).toEqual('/charts');
+    expect(history.location.search).toEqual('?startYear=1996&endYear=1996');
 
-    expect(screen.getByText('Indie Pop')).toBeInTheDocument();
+    const genreLink = screen.getByText('Indie Pop');
+    expect(genreLink).toBeInTheDocument();
+    userEvent.click(genreLink);
+    expect(history.location.pathname).toEqual('/charts');
+    expect(history.location.search).toEqual('?genres=1');
   });
 
   test('renders dropdown with song sources which defaults to song\'s primary source', () => {
@@ -69,10 +76,10 @@ describe('song detail view functionality', () => {
     expect(dropdown).toHaveDisplayValue('YouTube');
   });
 
-  test('clicking play button will play the source selected in the dropdown', async () => {
+  test('clicking play button will play the source selected in the dropdown', () => {
     renderComponent(<SongDetail song={song} />);
 
-    await userEvent.click(screen.getByRole('button'));
+    userEvent.click(screen.getByRole('button'));
     expect(mockSetQueue).toHaveBeenCalledTimes(1);
     expect(mockSetQueue).toHaveBeenCalledWith([{
       id: 1,
@@ -94,9 +101,9 @@ describe('song detail view functionality', () => {
     expect(mockPlayQueue).toHaveBeenCalledTimes(1);
 
     const dropdown = screen.getByRole('combobox');
-    await userEvent.selectOptions(dropdown, 'https://soundcloud.com/themagneticfields/famous-1');
+    userEvent.selectOptions(dropdown, 'https://soundcloud.com/themagneticfields/famous-1');
 
-    await userEvent.click(screen.getByRole('button'));
+    userEvent.click(screen.getByRole('button'));
     expect(mockSetQueue).toHaveBeenCalledTimes(2);
     expect(mockSetQueue).toHaveBeenCalledWith([{
       id: 1,

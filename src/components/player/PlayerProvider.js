@@ -50,11 +50,6 @@ export const PlayerProvider = props => {
     }
   }, [ user, playIndex, queue ]);
 
-  const playQueue = () => {
-    setIsPlaying(true);
-    setPlayIndex(0);
-  }
-
   const play = idx => {
     if(idx !== undefined) setPlayIndex(idx);
     setIsPlaying(true);
@@ -74,7 +69,7 @@ export const PlayerProvider = props => {
 
   return (
     <PlayerContext.Provider value={{
-      queue, setQueue, playQueue, play, pause, skip, setIsPlaying, isPlaying, currentSong, currentSongUrl
+      queue, setQueue, play, pause, skip, setIsPlaying, isPlaying, currentSong, currentSongUrl
     }}>
       { props.children }
     </PlayerContext.Provider>

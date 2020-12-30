@@ -5,11 +5,11 @@ import { PlayerContext } from './PlayerProvider';
 
 export const PlayButton = props => {
   const { songs, className, accessibleName } = props;
-  const { setQueue, playQueue } = useContext(PlayerContext);
+  const { setQueue, play } = useContext(PlayerContext);
 
   const handleClick = () => {
     setQueue([ ...songs ]);
-    playQueue();
+    play(0);
   }
 
   return (

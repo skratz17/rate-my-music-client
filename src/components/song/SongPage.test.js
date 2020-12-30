@@ -16,7 +16,7 @@ const mockListLists = (api.lists.list = jest.fn());
 const mockListRatings = (api.ratings.list = jest.fn());
 
 const mockSetQueue = jest.fn();
-const mockPlayQueue = jest.fn();
+const mockPlay = jest.fn();
 
 const SONG_RESPONSE = {
   "id": 2,
@@ -63,7 +63,7 @@ const renderComponentAsUser = (ui, userId) => {
 
   render(
     <UserContext.Provider value={{ user: { id: userId } }}>
-      <PlayerContext.Provider value={{ setQueue: mockSetQueue, playQueue: mockPlayQueue }}>
+      <PlayerContext.Provider value={{ setQueue: mockSetQueue, play: mockPlay }}>
         <Router history={history}>{ui}</Router>
       </PlayerContext.Provider>
     </UserContext.Provider>
@@ -140,6 +140,9 @@ describe('song page functionality', () => {
 
     userEvent.click(screen.getByText('Delete Song'));
     userEvent.click(screen.getByText('Delete Forever'));
+
+    expect(mockDeleteSong).toHaveBeenCalledTimes(1);
+    expect(mockDeleteSong).toHaveBeenCalledWith(2);
 
     expect(history.location.pathname).toEqual('/');   
   });

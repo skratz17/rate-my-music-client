@@ -39,7 +39,7 @@ export const PlayerContainer = () => {
 
       return () => document.removeEventListener('keydown', handleEscape);
     }
-  }, [ isQueueShowing ]);
+  }, [ isQueueShowing, handleEscape ]);
 
   return <>
     <div style={{ height: isExpanded ? '10rem' : '5rem' }}

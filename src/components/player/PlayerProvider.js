@@ -55,7 +55,8 @@ export const PlayerProvider = props => {
     setPlayIndex(0);
   }
 
-  const play = () => {
+  const play = idx => {
+    if(idx !== undefined) setPlayIndex(idx);
     setIsPlaying(true);
   };
 

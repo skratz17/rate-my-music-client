@@ -13,13 +13,13 @@ export const PlayerControls = () => {
   }
 
   const playButton = (
-    <PlayerControl onClick={play} accessibleName={`Play ${currentSong.name}`}>
+    <PlayerControl onClick={() => play()} accessibleName={`Play ${currentSong.name}`}>
       <MdPlayArrow />
     </PlayerControl>
   );
 
   const pauseButton = (
-    <PlayerControl onClick={pause} accessibleName={`Pause ${currentSong.name}`}>
+    <PlayerControl onClick={() => pause()} accessibleName={`Pause ${currentSong.name}`}>
       <MdPause />
     </PlayerControl>
   );

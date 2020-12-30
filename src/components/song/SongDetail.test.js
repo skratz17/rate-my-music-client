@@ -8,13 +8,13 @@ import { SongDetail } from './SongDetail';
 import { PlayerContext } from '../player/PlayerProvider';
 
 const mockSetQueue = jest.fn();
-const mockPlayQueue = jest.fn();
+const mockPlay = jest.fn();
 
 const renderComponent = ui => {
   const history = createMemoryHistory();
 
   render(
-    <PlayerContext.Provider value={{ setQueue: mockSetQueue, playQueue: mockPlayQueue }}>
+    <PlayerContext.Provider value={{ setQueue: mockSetQueue, play: mockPlay }}>
       <Router history={history}>
         {ui}
       </Router>
@@ -98,7 +98,8 @@ describe('song detail view functionality', () => {
       ]
     }]);
 
-    expect(mockPlayQueue).toHaveBeenCalledTimes(1);
+    expect(mockPlay).toHaveBeenCalledTimes(1);
+    expect(mockPlay).toHaveBeenCalledWith(0);
 
     const dropdown = screen.getByRole('combobox');
     userEvent.selectOptions(dropdown, 'https://soundcloud.com/themagneticfields/famous-1');
@@ -122,6 +123,6 @@ describe('song detail view functionality', () => {
       ]
     }]);
 
-    expect(mockPlayQueue).toHaveBeenCalledTimes(2);
+    expect(mockPlay).toHaveBeenCalledTimes(2);
   });
 });

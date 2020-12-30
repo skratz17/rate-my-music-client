@@ -6,11 +6,11 @@ import { PlayButton } from './PlayButton';
 import { PlayerContext } from './PlayerProvider';
 
 const mockSetQueue = jest.fn();
-const mockPlayQueue = jest.fn();
+const mockPlay = jest.fn();
 
 const renderComponent = ui => {
   render(
-    <PlayerContext.Provider value={{ setQueue: mockSetQueue, playQueue: mockPlayQueue }}>
+    <PlayerContext.Provider value={{ setQueue: mockSetQueue, play: mockPlay }}>
       { ui }
     </PlayerContext.Provider>
   );
@@ -28,6 +28,7 @@ describe('play button functionality', () => {
     userEvent.click(screen.getByText('Play All Magnetic Fields Songs'));
     expect(mockSetQueue).toHaveBeenCalledTimes(1);
     expect(mockSetQueue).toHaveBeenLastCalledWith([ { id: 1, name: 'Save a Secret for the Moon' } ]);
-    expect(mockPlayQueue).toHaveBeenCalledTimes(1);
+    expect(mockPlay).toHaveBeenCalledTimes(1);
+    expect(mockPlay).toHaveBeenCalledWith(0);
   });
 });

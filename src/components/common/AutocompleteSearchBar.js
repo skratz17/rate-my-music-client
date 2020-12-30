@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useRef, useCallback } from 'react';
 
 import { DelayedSearchBar } from './DelayedSearchBar';
 import { useClickOutside, useClickInside } from '../../hooks';
@@ -8,7 +8,7 @@ export const AutocompleteSearchBar = props => {
 
   const [ clickOutsideResults, setClickOutsideResults ] = useState(null);
   const [ results, setResults ] = useState([]);
-  const [ isRefreshing, setIsRefreshing ] = useState(false);
+  const [ searchBarKey, setSearchBarKey ] = useState(1);
 
   // on click outside, clear results to not show autocomplete options
   // and if there were results and no previously cached click outside results, cache them in clickOutsideResults
@@ -32,14 +32,6 @@ export const AutocompleteSearchBar = props => {
   useClickOutside(searchBarComponentRef, clickOutsideHandler);
   useClickInside(searchBarComponentRef, clickInsideHandler);
 
-  useEffect(() => {
-    if(isRefreshing) {
-      const timeoutId = setTimeout(() => setIsRefreshing(false), 10);
-
-      return () => clearTimeout(timeoutId);
-    }
-  }, [ isRefreshing ]);
-
   const handleResults = _results => {
     if(clickOutsideResults) {
       setClickOutsideResults(null);
@@ -49,23 +41,17 @@ export const AutocompleteSearchBar = props => {
 
   const handleSelect = result => {
     onSelect(result);
-    if(removeOnSelect) refreshSearchBar();
-  };
-
-  // this is a hack that will de-render then re-render the DelayedSearchBar to reset its input value state to empty :/
-  // you should do something better than this
-  const refreshSearchBar = () => {
-    setResults([]);
-    setIsRefreshing(true);
+    if(removeOnSelect) setSearchBarKey(prevSearchBarKey => prevSearchBarKey + 1);
   };
 
   return (
     <div ref={searchBarComponentRef } className="flex flex-col">
-      { !isRefreshing && <DelayedSearchBar className={className} 
+      <DelayedSearchBar className={className} 
+        key={searchBarKey}
         name={name} 
         placeholder={placeholder}
         onSearch={onSearch} 
-        onResults={handleResults} /> }
+        onResults={handleResults} /> 
       { results.length > 0 && 
         <ul>
           { results.map(result => (

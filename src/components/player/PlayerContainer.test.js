@@ -5,9 +5,11 @@ import userEvent from '@testing-library/user-event';
 import { PlayerContainer } from './PlayerContainer';
 import { PlayerContext } from './PlayerProvider';
 
+const mockSetPlayerRef = jest.fn();
+
 const renderComponent = (ui, isPlaying = false) => {
   return render(
-    <PlayerContext.Provider value={{ isPlaying }}>
+    <PlayerContext.Provider value={{ isPlaying, setPlayerRef: mockSetPlayerRef }}>
       {ui}
     </PlayerContext.Provider>
   );

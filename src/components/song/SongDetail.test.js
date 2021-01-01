@@ -7,14 +7,13 @@ import { createMemoryHistory } from 'history';
 import { SongDetail } from './SongDetail';
 import { PlayerContext } from '../player/PlayerProvider';
 
-const mockSetQueue = jest.fn();
-const mockPlay = jest.fn();
+const mockUpdateQueue = jest.fn();
 
 const renderComponent = ui => {
   const history = createMemoryHistory();
 
   render(
-    <PlayerContext.Provider value={{ setQueue: mockSetQueue, play: mockPlay }}>
+    <PlayerContext.Provider value={{ updateQueue: mockUpdateQueue }}>
       <Router history={history}>
         {ui}
       </Router>
@@ -80,8 +79,8 @@ describe('song detail view functionality', () => {
     renderComponent(<SongDetail song={song} />);
 
     userEvent.click(screen.getByRole('button'));
-    expect(mockSetQueue).toHaveBeenCalledTimes(1);
-    expect(mockSetQueue).toHaveBeenCalledWith([{
+    expect(mockUpdateQueue).toHaveBeenCalledTimes(1);
+    expect(mockUpdateQueue).toHaveBeenCalledWith([{
       id: 1,
       name: 'Famous',
       artist: {
@@ -98,15 +97,12 @@ describe('song detail view functionality', () => {
       ]
     }]);
 
-    expect(mockPlay).toHaveBeenCalledTimes(1);
-    expect(mockPlay).toHaveBeenCalledWith(0);
-
     const dropdown = screen.getByRole('combobox');
     userEvent.selectOptions(dropdown, 'https://soundcloud.com/themagneticfields/famous-1');
 
     userEvent.click(screen.getByRole('button'));
-    expect(mockSetQueue).toHaveBeenCalledTimes(2);
-    expect(mockSetQueue).toHaveBeenCalledWith([{
+    expect(mockUpdateQueue).toHaveBeenCalledTimes(2);
+    expect(mockUpdateQueue).toHaveBeenCalledWith([{
       id: 1,
       name: 'Famous',
       artist: {
@@ -122,7 +118,5 @@ describe('song detail view functionality', () => {
         { id: 1, genre: { id: 1, name: 'Indie Pop' } }
       ]
     }]);
-
-    expect(mockPlay).toHaveBeenCalledTimes(2);
   });
 });

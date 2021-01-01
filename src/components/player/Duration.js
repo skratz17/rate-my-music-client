@@ -7,7 +7,7 @@ export const Duration = props => {
 
   return (
     <span className={className}>
-      { seconds !== null ? convertSecondsToTimeString(Math.floor(seconds)) : '--' }
+      { seconds !== null && !isNaN(seconds) ? convertSecondsToTimeString(Math.floor(seconds)) : '--' }
     </span>
   );
 };

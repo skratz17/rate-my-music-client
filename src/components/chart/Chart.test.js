@@ -13,15 +13,14 @@ jest.mock('../../api');
 const mockListSongs = (api.songs.list = jest.fn());
 const mockSearchGenres = (api.genres.search = jest.fn());
 const mockListGenres = (api.genres.list = jest.fn());
-const mockSetQueue = jest.fn();
-const mockPlay = jest.fn();
+const mockUpdateQueue = jest.fn();
 
 const renderComponent = (ui, url = '/charts') => {
   const history = createMemoryHistory();
   history.push(url);
 
   render(
-    <PlayerContext.Provider value={{ setQueue: mockSetQueue, play: mockPlay }}>
+    <PlayerContext.Provider value={{ updateQueue: mockUpdateQueue }}>
       <Router history={history}>
         {ui}
       </Router>
@@ -167,11 +166,8 @@ describe('chart functionality', () => {
     await waitFor(() => expect(mockListSongs).toHaveBeenCalledTimes(1));
     await waitFor(() => userEvent.click(screen.getByText('Play All Songs in Chart')));
 
-    expect(mockSetQueue).toHaveBeenCalledTimes(1);
-    expect(mockSetQueue).toHaveBeenLastCalledWith(SONGS_RESPONSE.data);
-    
-    expect(mockPlay).toHaveBeenCalledTimes(1);
-    expect(mockPlay).toHaveBeenCalledWith(0);
+    expect(mockUpdateQueue).toHaveBeenCalledTimes(1);
+    expect(mockUpdateQueue).toHaveBeenLastCalledWith(SONGS_RESPONSE.data);
   });
 
   test('initializes startYear value from query string parameter', async () => {

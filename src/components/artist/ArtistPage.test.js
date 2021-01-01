@@ -14,15 +14,14 @@ const mockGetArtist = (api.artists.get = jest.fn());
 const mockDeleteArtist = (api.artists.delete = jest.fn());
 const mockListSongs = (api.songs.list = jest.fn());
 
-const mockSetQueue = jest.fn();
-const mockPlay = jest.fn();
+const mockUpdateQueue = jest.fn();
 
 const renderComponentAsUser = (ui, userId) => {
   const history = createMemoryHistory();
 
   render(
     <UserContext.Provider value={{ user: { id: userId }}}>
-      <PlayerContext.Provider value={{ setQueue: mockSetQueue, play: mockPlay }}>
+      <PlayerContext.Provider value={{ updateQueue: mockUpdateQueue }}>
         <Router history={history}>
           {ui}
         </Router>
@@ -124,11 +123,8 @@ describe('artist page functionality', () => {
     const playButton = await screen.findByText('Play all Chuck Person songs');
     userEvent.click(playButton);
 
-    expect(mockSetQueue).toHaveBeenCalledTimes(1);
-    expect(mockSetQueue).toHaveBeenCalledWith(songsResponse.data);
-
-    expect(mockPlay).toHaveBeenCalledTimes(1);
-    expect(mockPlay).toHaveBeenCalledWith(0);
+    expect(mockUpdateQueue).toHaveBeenCalledTimes(1);
+    expect(mockUpdateQueue).toHaveBeenCalledWith(songsResponse.data);
   });
 
   test('renders edit and delete controls when user is creator of artist', async () => {

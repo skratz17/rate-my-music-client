@@ -53,8 +53,12 @@ export const PlayerProvider = props => {
     }
   }, [ user, playIndex, queue ]);
 
-  const play = idx => {
-    if(idx !== undefined) setPlayIndex(idx);
+  const currentSong = queue[playIndex];
+
+  const currentSongUrl = queue[playIndex]?.sources.find(source => source.isPrimary)?.url || queue[playIndex]?.sources[0]?.url;
+
+  const play = (idx = playIndex) => {
+    updatePlayIndex(idx);
     setIsPlaying(true);
   };
 
@@ -63,18 +67,31 @@ export const PlayerProvider = props => {
   };
 
   const skip = increment => {
-    setDuration(null);
-    setElapsed(null);
-    setPlayIndex(prevPlayIndex => (prevPlayIndex + increment) % queue.length);
+    updatePlayIndex(prevPlayIndex => (prevPlayIndex + increment) % queue.length);
   };
 
-  const currentSong = queue[playIndex];
+  const updatePlayIndex = idx => {
+    if(playIndex !== idx) {
+      setDuration(null);
+      setElapsed(null);
+    }
 
-  const currentSongUrl = queue[playIndex]?.sources.find(source => source.isPrimary)?.url || queue[playIndex]?.sources[0]?.url;
+    setPlayIndex(idx);
+  };
+
+  const updateQueue = songs => {
+    if(!currentSong || songs[0]?.id !== currentSong.id) {
+      setDuration(null);
+      setElapsed(null);
+    }
+    setQueue(songs);
+    setPlayIndex(0);
+    setIsPlaying(true);
+  };
 
   return (
     <PlayerContext.Provider value={{
-      queue, setQueue, play, pause, skip, setIsPlaying, isPlaying, currentSong, currentSongUrl,
+      queue, updateQueue, play, pause, skip, setIsPlaying, isPlaying, currentSong, currentSongUrl,
       duration, setDuration, elapsed, setElapsed, playerRef, setPlayerRef
     }}>
       { props.children }

@@ -14,6 +14,12 @@ export const Player = () => {
     }
   }, [ playerRef, setPlayerRef ]);
 
+  const handleProgress = progress => {
+    if(isPlaying) {
+      setElapsed(progress.played);
+    }
+  };
+
   return (
     <div className="w-0 h-0">
       <ReactPlayer width={0} height={0}
@@ -22,7 +28,7 @@ export const Player = () => {
         onPause={() => setIsPlaying(false)}
         onPlay={() => setIsPlaying(true)}
         onDuration={duration => setDuration(duration)}
-        onProgress={progress => setElapsed(progress.played)}
+        onProgress={handleProgress}
         url={currentSongUrl}
         playing={isPlaying} />
     </div>

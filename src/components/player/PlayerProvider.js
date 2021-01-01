@@ -22,6 +22,9 @@ export const PlayerProvider = props => {
   const [ queue, setQueue ] = useState([]);
   const [ playIndex, setPlayIndex ] = useState(0);
   const [ isPlaying, setIsPlaying ] = useState(null);
+  const [ duration, setDuration ] = useState(null);
+  const [ elapsed, setElapsed ] = useState(null);
+  const [ playerRef, setPlayerRef ] = useState(null);
 
   const { user } = useContext(UserContext);
 
@@ -50,8 +53,12 @@ export const PlayerProvider = props => {
     }
   }, [ user, playIndex, queue ]);
 
-  const play = idx => {
-    if(idx !== undefined) setPlayIndex(idx);
+  const currentSong = queue[playIndex];
+
+  const currentSongUrl = queue[playIndex]?.sources.find(source => source.isPrimary)?.url || queue[playIndex]?.sources[0]?.url;
+
+  const play = (idx = playIndex) => {
+    updatePlayIndex(idx);
     setIsPlaying(true);
   };
 
@@ -60,16 +67,35 @@ export const PlayerProvider = props => {
   };
 
   const skip = increment => {
-    setPlayIndex(prevPlayIndex => (prevPlayIndex + increment) % queue.length);
+    updatePlayIndex(prevPlayIndex => {
+      let nextIndex = prevPlayIndex + increment;
+      if(nextIndex < 0) nextIndex = queue.length - 1;
+      return nextIndex % queue.length;
+    });
   };
 
-  const currentSong = queue[playIndex];
+  const updatePlayIndex = idx => {
+    if(playIndex !== idx) {
+      setDuration(null);
+      setElapsed(null);
+    }
+    setPlayIndex(idx);
+  };
 
-  const currentSongUrl = queue[playIndex]?.sources.find(source => source.isPrimary)?.url || queue[playIndex]?.sources[0]?.url;
+  const updateQueue = songs => {
+    if(!currentSong || songs[0]?.id !== currentSong.id) {
+      setDuration(null);
+      setElapsed(null);
+    }
+    setQueue(songs);
+    setPlayIndex(0);
+    setIsPlaying(true);
+  };
 
   return (
     <PlayerContext.Provider value={{
-      queue, setQueue, play, pause, skip, setIsPlaying, isPlaying, currentSong, currentSongUrl
+      queue, updateQueue, play, pause, skip, setIsPlaying, isPlaying, currentSong, currentSongUrl,
+      duration, setDuration, elapsed, setElapsed, playerRef, setPlayerRef
     }}>
       { props.children }
     </PlayerContext.Provider>

@@ -17,7 +17,7 @@ export const PlayerContainer = () => {
   const { isPlaying, queue } = useContext(PlayerContext);
 
   useEffect(() => {
-    if(isExpanded) document.body.style = 'margin-bottom: 10rem;';
+    if(isExpanded) document.body.style = 'margin-bottom: 12rem;';
     else document.body.style = 'margin-bottom: 5rem;';
 
     return () => document.body.style = 'margin-bottom: 0';
@@ -42,7 +42,7 @@ export const PlayerContainer = () => {
   }, [ isQueueShowing, handleEscape ]);
 
   return <>
-    <div style={{ height: isExpanded ? '10rem' : '5rem' }}
+    <div style={{ height: isExpanded ? '12rem' : '5rem' }}
       className={`w-full fixed z-10 bottom-0 bg-gray-100 px-2 py-4 border-t border-gray-200 transition-all flex flex-col ${isExpanded ? 'justify-between' : 'justify-center'}`}
     >
       <div className="flex items-center justify-between relative">
@@ -71,7 +71,7 @@ export const PlayerContainer = () => {
       <Player />
     </div>
 
-    <div style={{ height: `calc(100vh - ${isExpanded ? '10rem' : '5rem' })`}} 
+    <div style={{ height: `calc(100vh - ${isExpanded ? '12rem' : '5rem' })`}} 
       className={`fixed top-0 left-0 overflow-scroll bg-lightyellow bg-opacity-80 transform transition-all w-56 px-2 py-4 ${isQueueShowing ? 'translate-x-0' : '-translate-x-full'}`}>
         { (isQueueShowing || debouncedIsQueueShowing) && <>
           <RemoveButton className="ml-auto" accessibleName="Hide Queue" onClick={() => setIsQueueShowing(false)} />

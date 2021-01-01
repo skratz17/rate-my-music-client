@@ -7,14 +7,13 @@ import { createMemoryHistory } from 'history';
 import { ListDetail } from './ListDetail';
 import { PlayerContext } from '../player/PlayerProvider';
 
-const mockSetQueue = jest.fn();
-const mockPlay = jest.fn();
+const mockUpdateQueue = jest.fn();
 
 const renderComponent = ui => {
   const history = createMemoryHistory();
 
   render(
-    <PlayerContext.Provider value={{ setQueue: mockSetQueue, play: mockPlay }}>
+    <PlayerContext.Provider value={{ updateQueue: mockUpdateQueue }}>
       <Router history={history}>{ui}</Router>
     </PlayerContext.Provider>
   );
@@ -111,8 +110,8 @@ describe('list detail functionality', () => {
 
     userEvent.click(screen.getByText('Play all songs in list "My favorite songs"'));
 
-    expect(mockSetQueue).toHaveBeenCalledTimes(1);
-    expect(mockSetQueue).toHaveBeenCalledWith([
+    expect(mockUpdateQueue).toHaveBeenCalledTimes(1);
+    expect(mockUpdateQueue).toHaveBeenCalledWith([
       {
         "id": 1,
         "name": "Half-Life",
@@ -157,8 +156,5 @@ describe('list detail functionality', () => {
         ]
       }
     ]);
-
-    expect(mockPlay).toHaveBeenCalledTimes(1);
-    expect(mockPlay).toHaveBeenCalledWith(0);
   });
 });

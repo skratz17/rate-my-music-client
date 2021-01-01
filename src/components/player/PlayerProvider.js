@@ -67,7 +67,11 @@ export const PlayerProvider = props => {
   };
 
   const skip = increment => {
-    updatePlayIndex(prevPlayIndex => (prevPlayIndex + increment) % queue.length);
+    updatePlayIndex(prevPlayIndex => {
+      let nextIndex = prevPlayIndex + increment;
+      if(nextIndex < 0) nextIndex = queue.length - 1;
+      return nextIndex % queue.length;
+    });
   };
 
   const updatePlayIndex = idx => {
@@ -75,7 +79,6 @@ export const PlayerProvider = props => {
       setDuration(null);
       setElapsed(null);
     }
-
     setPlayIndex(idx);
   };
 

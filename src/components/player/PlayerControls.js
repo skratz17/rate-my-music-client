@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 
 import { PlayerContext } from './PlayerProvider';
 import { PlayerControl } from './PlayerControl';
+import { PlayerSeekControl } from './PlayerSeekControl';
 
 export const PlayerControls = () => {
   const { play, pause, skip, isPlaying, currentSong } = useContext(PlayerContext);
@@ -45,6 +46,10 @@ export const PlayerControls = () => {
         <PlayerControl onClick={() => skip(1)} accessibleName="Next Song">
           <MdSkipNext />
         </PlayerControl>
+      </div>
+
+      <div>
+        <PlayerSeekControl />
       </div>
     </div>
   );

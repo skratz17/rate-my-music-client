@@ -22,6 +22,9 @@ export const PlayerProvider = props => {
   const [ queue, setQueue ] = useState([]);
   const [ playIndex, setPlayIndex ] = useState(0);
   const [ isPlaying, setIsPlaying ] = useState(null);
+  const [ duration, setDuration ] = useState(null);
+  const [ elapsed, setElapsed ] = useState(null);
+  const [ playerRef, setPlayerRef ] = useState(null);
 
   const { user } = useContext(UserContext);
 
@@ -60,6 +63,8 @@ export const PlayerProvider = props => {
   };
 
   const skip = increment => {
+    setDuration(null);
+    setElapsed(null);
     setPlayIndex(prevPlayIndex => (prevPlayIndex + increment) % queue.length);
   };
 
@@ -69,7 +74,8 @@ export const PlayerProvider = props => {
 
   return (
     <PlayerContext.Provider value={{
-      queue, setQueue, play, pause, skip, setIsPlaying, isPlaying, currentSong, currentSongUrl
+      queue, setQueue, play, pause, skip, setIsPlaying, isPlaying, currentSong, currentSongUrl,
+      duration, setDuration, elapsed, setElapsed, playerRef, setPlayerRef
     }}>
       { props.children }
     </PlayerContext.Provider>

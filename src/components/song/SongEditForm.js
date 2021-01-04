@@ -1,7 +1,8 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 
 import { api } from '../../api';
-import { useApi } from '../../hooks';
+import { useApi, useIsUser } from '../../hooks';
 import { LoadingIndicator, WarningText } from '../common';
 import { SongForm } from './SongForm';
 
@@ -9,11 +10,16 @@ export const SongEditForm = props => {
   const { songId } = props;
 
   const [ song, isLoading, error ] = useApi(api.songs.get, songId);
+  const isUserCreatedSong = useIsUser(song?.creator?.id);
+
+  if(isUserCreatedSong === false) {
+    return <Redirect to="/" />;
+  }
 
   return <>
     <LoadingIndicator isLoading={isLoading} />
     <WarningText>{error}</WarningText>
-    { song && <SongForm song={{
+    { song && isUserCreatedSong && <SongForm song={{
       id: song.id,
       name: song.name,
       artist: song.artist,

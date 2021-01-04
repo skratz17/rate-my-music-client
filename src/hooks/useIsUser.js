@@ -3,7 +3,7 @@ import { useState, useContext, useEffect } from 'react';
 import { UserContext } from '../components/user/UserProvider';
 
 export const useIsUser = userId => {
-  const [ isUser, setIsUser ] = useState(false);
+  const [ isUser, setIsUser ] = useState(null);
 
   const { user } = useContext(UserContext);
 

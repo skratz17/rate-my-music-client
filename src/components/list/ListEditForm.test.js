@@ -1,11 +1,29 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
+import { Router } from 'react-router-dom';
+import { createMemoryHistory } from 'history';
 
 import { api } from '../../api';
+import { UserContext } from '../user/UserProvider';
 import { ListEditForm } from './ListEditForm';
 
 jest.mock('../../api');
 const mockGetList = (api.lists.get = jest.fn());
+
+const renderComponent = (ui, contextData) => {
+  const history = createMemoryHistory();
+  history.push('/lists/2/edit');
+
+  render(
+    <UserContext.Provider value={contextData}>
+      <Router history={history}>
+        {ui}
+      </Router>
+    </UserContext.Provider>
+  );
+
+  return history;
+};
 
 const listApiResponse = {
   "id": 2,
@@ -52,7 +70,7 @@ describe('list edit form functionality', () => {
   test('fetches list with id passed in props on load and renders edit form with list data prepopulated', async () => {
     mockGetList.mockResolvedValueOnce(listApiResponse);
 
-    render(<ListEditForm listId={2} />);
+    renderComponent(<ListEditForm listId={2} />, { user: { id: 3 } });
 
     expect(mockGetList).toHaveBeenCalledTimes(1);
     expect(mockGetList).toHaveBeenCalledWith(2);
@@ -66,10 +84,19 @@ describe('list edit form functionality', () => {
     expect(screen.getByLabelText('Song Description')).toEqual(screen.getByDisplayValue('Probably my favorite song from Get Lost.'));
   });
 
+  test('redirects to / if user editing list is not user who created list', async () => {
+    mockGetList.mockResolvedValueOnce(listApiResponse);
+
+    const history = renderComponent(<ListEditForm listId={2} />, { user: { id: 1 } });
+
+    expect(history.location.pathname).toEqual('/lists/2/edit');
+    await waitFor(() => expect(history.location.pathname).toEqual('/'));
+  });
+
   test('renders error message and no form if list load error', async () => {
     mockGetList.mockRejectedValueOnce({ message: 'List load failed.' });
 
-    render(<ListEditForm listId={2} />);
+    renderComponent(<ListEditForm listId={2} />, { user: { id: 3 } });
 
     expect(await screen.findByText('List load failed.')).toBeInTheDocument();
     expect(screen.queryByRole('form')).not.toBeInTheDocument();

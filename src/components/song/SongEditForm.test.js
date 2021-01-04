@@ -56,7 +56,6 @@ describe('song edit form functionality', () => {
     expect(screen.getByText('Clear Artist')).toBeInTheDocument();
     expect(screen.getByLabelText('Year')).toEqual(screen.getByDisplayValue('1996'));
     expect(screen.getByText('Remove Indie Pop')).toBeInTheDocument();
-    expect(screen.getByLabelText('Service')).toEqual(screen.getByDisplayValue('YouTube'));
     expect(screen.getByLabelText('Song URL')).toEqual(screen.getByDisplayValue('https://www.youtube.com/watch?v=r1aLwEQc6LM'));
     expect(screen.getByLabelText('Is Primary?')).toBeChecked();
   });

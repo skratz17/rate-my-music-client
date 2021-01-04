@@ -9,15 +9,35 @@ import { Button, RemoveButton, FormControl, WarningText } from '../common';
 import { ArtistAutocompleteSearchBar } from '../artist/ArtistAutocompleteSearchBar';
 import { GenreAutocompleteSelector } from '../genre/GenreAutocompleteSelector';
 
-const SERVICES = [ 'SoundCloud', 'YouTube' ];
+const getServiceFromUrl = url => {
+  let parsedUrl;
+
+  try {
+    parsedUrl = new URL(url);
+  }
+  catch(e) {
+    return false;
+  }
+
+  const { hostname } = parsedUrl;
+
+  if(/youtu\.{0,1}be/.test(hostname)) return 'YouTube';
+  if(/soundcloud/i.test(hostname)) return 'SoundCloud';
+  if(/vimeo/i.test(hostname)) return 'Vimeo';
+  if(/dailymotion/i.test(hostname)) return 'Dailymotion';
+
+  return false;
+};
 
 const songSourceSchema = yup.object().shape({
-  service: yup.string()
-    .required('Service is required.'),
-
   url: yup.string()
     .required('Song URL is required.')
-    .url('Must be a valid URL.'),
+    .url('Must be a valid URL.')
+    .test(
+      'is-valid-url-host',
+      'URL must be from one of the following sources: YouTube, SoundCloud, Vimeo, Dailymotion.',
+      url => !!getServiceFromUrl(url)
+    ),
 
   isPrimary: yup.bool()
     .required('Is primary is required.')
@@ -79,8 +99,11 @@ export const SongForm = props => {
   const [ error, setError ] = useState('');
 
   const onSubmit = async songData => {
+    const requestBodyData = { ...songData };
+    requestBodyData.sources = requestBodyData.sources.map(s => ({ ...s, service: getServiceFromUrl(s.url) }));
+
     try {
-      const songResponse = song ? await api.songs.update(song.id, songData) : await api.songs.create(songData);
+      const songResponse = song ? await api.songs.update(song.id, requestBodyData) : await api.songs.create(requestBodyData);
       history.push(`/songs/${songResponse.id}`);
     }
     catch(e) {
@@ -146,20 +169,6 @@ export const SongForm = props => {
         {fields.map((item, index) => (
           <li key={item.id} className="my-2">
             <fieldset className="flex flex-col md:flex-row w-full p-2 border border-gray-200">
-              <FormControl name={`sources[${index}].service`}
-                className="md:mr-2 md:w-auto w-full"
-                label="Service"
-                error={errors.sources && errors.sources[index]?.service?.message}>
-                  <select id={`sources[${index}].service`} 
-                    name={`sources[${index}].service`} 
-                    className="p-2"
-                    defaultValue={item.service}
-                    ref={register()}>
-                      <option value="" disabled>Select a service...</option>
-                      { SERVICES.map(service => <option key={service} value={service}>{service}</option>) }
-                  </select>
-              </FormControl>
-
               <FormControl name={`sources[${index}].url`}
                 className="flex-grow md:mx-2 md:w-auto w-full"
                 label="Song URL"

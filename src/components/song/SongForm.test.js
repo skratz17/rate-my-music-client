@@ -23,7 +23,6 @@ describe('song form validation', () => {
     expect(await screen.findByText('Artist is required.')).toBeInTheDocument();
     expect(await screen.findByText('Year must be a number.')).toBeInTheDocument();
     expect(await screen.findByText('You must select at least one genre.')).toBeInTheDocument();
-    expect(await screen.findByText('Service is required.')).toBeInTheDocument();
     expect(await screen.findByText('Song URL is required.')).toBeInTheDocument();
     expect(screen.getByLabelText('Is Primary?')).toBeChecked();
   });
@@ -126,11 +125,9 @@ describe('song form functionality', () => {
     expect(await screen.findByText('indie folk')).toBeInTheDocument();
     await waitFor(() => userEvent.click(screen.getByText('indie pop')));
 
-    await waitFor(() => userEvent.selectOptions(screen.getByLabelText('Service'), 'YouTube'));
     await waitFor(() => userEvent.type(screen.getByLabelText('Song URL'), 'https://www.youtube.com/watch?v=4rk_9cYOp8A'));
 
     await waitFor(() => userEvent.click(screen.getByText('Add Additional Source')));
-    await waitFor(() => userEvent.selectOptions(screen.getAllByLabelText('Service')[1], 'SoundCloud'));
     await waitFor(() => userEvent.type(screen.getAllByLabelText('Song URL')[1], 'https://soundcloud.com/themagneticfields/save-a-secret-for-the-moon-1'));
 
     await waitFor(() => userEvent.click(screen.getByText('Create Song')));
@@ -170,7 +167,6 @@ describe('song form functionality', () => {
     expect(screen.getByLabelText('Year')).toEqual(screen.getByDisplayValue('1973'));
     expect(screen.getByText('Remove Folk')).toBeInTheDocument();
     expect(screen.getByText('Remove Classic Rock')).toBeInTheDocument();
-    expect(screen.getByLabelText('Service')).toEqual(screen.getByDisplayValue('YouTube'));
     expect(screen.getByLabelText('Song URL')).toEqual(screen.getByDisplayValue('https://www.youtube.com/watch?v=EA2BNB_4m3g'));
     expect(screen.getByLabelText('Is Primary?')).toBeChecked();
 

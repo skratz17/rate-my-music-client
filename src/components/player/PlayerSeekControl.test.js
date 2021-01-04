@@ -49,11 +49,26 @@ describe('player seek control functionality', () => {
     expect(screen.getByText('0:20')).toBeInTheDocument();
   });
 
+  test('slider is disabled if canSeek from context is false', () => {
+    const context = {
+      playerRef,
+      elapsed: 0.2,
+      duration: 20,
+      canSeek: false
+    };
+
+    renderComponent(<PlayerSeekControl />, context);
+
+    const seekControl = screen.getByRole('slider');
+    expect(seekControl).toBeDisabled();
+  });
+
   test('changing the value in the range input updates start time displayed', () => {
     const context = {
       playerRef,
       elapsed: 0.2,
-      duration: 20
+      duration: 20,
+      canSeek: true
     };
 
     renderComponent(<PlayerSeekControl />, context);
@@ -70,7 +85,8 @@ describe('player seek control functionality', () => {
     const context = {
       playerRef,
       elapsed: 0.2,
-      duration: 20
+      duration: 20,
+      canSeek: true
     };
 
     renderComponent(<PlayerSeekControl />, context);
@@ -86,7 +102,8 @@ describe('player seek control functionality', () => {
     const context = {
       playerRef,
       elapsed: 0.2,
-      duration: 20
+      duration: 20,
+      canSeek: true
     };
 
     renderComponent(<PlayerSeekControl />, context);

@@ -4,7 +4,7 @@ import ReactPlayer from 'react-player';
 import { PlayerContext } from './PlayerProvider';
 
 export const Player = () => {
-  const { setIsPlaying, isPlaying, currentSongUrl, skip, setDuration, setElapsed, setPlayerRef } = useContext(PlayerContext);
+  const { setIsPlaying, isPlaying, currentSongUrl, skip, setDuration, setElapsed, setPlayerRef, setCanSeek } = useContext(PlayerContext);
 
   const playerRef = useRef(null);
 
@@ -17,6 +17,7 @@ export const Player = () => {
   const handleProgress = progress => {
     if(isPlaying) {
       setElapsed(progress.played);
+      setCanSeek(true);
     }
   };
 

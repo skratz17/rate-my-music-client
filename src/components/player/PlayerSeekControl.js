@@ -5,7 +5,7 @@ import { Duration } from './Duration';
 
 export const PlayerSeekControl = () => {
   const [ isSeeking, setIsSeeking ] = useState(false);
-  const { elapsed, duration, playerRef } = useContext(PlayerContext);
+  const { elapsed, duration, playerRef, canSeek } = useContext(PlayerContext);
   const [ seekLocation, setSeekLocation ] = useState(elapsed);
 
   useEffect(() => {
@@ -31,6 +31,7 @@ export const PlayerSeekControl = () => {
       <Duration className="w-24 text-right" seconds={duration ? seekLocation * duration : 0} />
       <input type="range" min={0} max={1} step={!isNaN(stepSize) ? stepSize : ''}
         className="mx-2 flex-shrink-0"
+        disabled={!canSeek}
         value={seekLocation || 0}
         onMouseDown={() => setIsSeeking(true)}
         onChange={handleSeek}

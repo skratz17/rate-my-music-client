@@ -22,6 +22,7 @@ export const PlayerProvider = props => {
   const [ queue, setQueue ] = useState([]);
   const [ playIndex, setPlayIndex ] = useState(0);
   const [ isPlaying, setIsPlaying ] = useState(null);
+  const [ canSeek, setCanSeek ] = useState(false);
   const [ duration, setDuration ] = useState(null);
   const [ elapsed, setElapsed ] = useState(null);
   const [ playerRef, setPlayerRef ] = useState(null);
@@ -52,6 +53,10 @@ export const PlayerProvider = props => {
       localStorage.setItem(`${user.id}_playerState`, JSON.stringify(toSerialize));
     }
   }, [ user, playIndex, queue ]);
+
+  useEffect(() => {
+    setCanSeek(false);
+  }, [ playIndex ]);
 
   const currentSong = queue[playIndex];
 
@@ -95,7 +100,7 @@ export const PlayerProvider = props => {
   return (
     <PlayerContext.Provider value={{
       queue, updateQueue, play, pause, skip, setIsPlaying, isPlaying, currentSong, currentSongUrl,
-      duration, setDuration, elapsed, setElapsed, playerRef, setPlayerRef
+      duration, setDuration, elapsed, setElapsed, playerRef, setPlayerRef, canSeek, setCanSeek
     }}>
       { props.children }
     </PlayerContext.Provider>

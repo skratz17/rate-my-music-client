@@ -4,6 +4,7 @@ import { useDebounce } from './useDebounce';
 import { useClickOutside } from './useClickOutside';
 import { useClickInside } from './useClickInside';
 import { useDeleteAndRedirect } from './useDeleteAndRedirect';
+import { useIsUser } from './useIsUser';
 
 export {
   useApi,
@@ -11,5 +12,6 @@ export {
   useDebounce,
   useClickOutside,
   useClickInside,
-  useDeleteAndRedirect
+  useDeleteAndRedirect,
+  useIsUser
 };

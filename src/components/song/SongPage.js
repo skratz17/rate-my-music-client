@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 
 import { api } from '../../api';
-import { useApi, usePagination, useDeleteAndRedirect } from '../../hooks';
+import { useApi, usePagination, useDeleteAndRedirect, useIsUser } from '../../hooks';
 import { UserContext } from '../user/UserProvider';
 import { Page, LoadingIndicator, WarningText, ListSortOptions, PaginationControls } from '../common';
 import { SongDetail } from './SongDetail';
@@ -29,6 +29,8 @@ export const SongPage = props => {
   const [ song, isSongLoading, songError, refreshSong ] = useApi(api.songs.get, songId);
   const [ ratingsResponse, isRatingsLoading, ratingsError, refreshRatings ] = useApi(api.ratings.list, { songId, ...ratingSortOptions, ...ratingsPaginationParams });
   const [ listsResponse, isListsLoading, listsError ] = useApi(api.lists.list, { songId, ...listsPaginationParams });
+
+  const isUserCreatedSong = useIsUser(song?.creator?.id);
 
   const ratings = ratingsResponse?.data;
   const ratingsCount = ratingsResponse?.count;
@@ -82,7 +84,7 @@ export const SongPage = props => {
         <WarningText>{songError}</WarningText>
         <WarningText>{deleteError}</WarningText>
         <LoadingIndicator isLoading={!song && isSongLoading} />
-        { song && <SongDetail song={song} onDelete={handleDelete} canUserModify={user?.id === song.creator.id} /> }
+        { song && <SongDetail song={song} onDelete={handleDelete} canUserModify={isUserCreatedSong} /> }
         { ratings && (
           <div className="flex flex-col items-center md:items-start">
             <RatingControl value={userRating?.rating} onClick={rateSong} /> 

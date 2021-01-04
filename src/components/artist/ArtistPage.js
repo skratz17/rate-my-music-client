@@ -1,8 +1,7 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 
 import { api } from '../../api';
-import { useApi, useDeleteAndRedirect, usePagination } from '../../hooks';
-import { UserContext } from '../user/UserProvider';
+import { useApi, useDeleteAndRedirect, usePagination, useIsUser } from '../../hooks';
 import { PlayButton } from '../player/PlayButton';
 import { SongList } from '../song/SongList';
 import { Page, LoadingIndicator, WarningText, ListSortOptions, PaginationControls, LinkButton, DeleteButton } from '../common';
@@ -10,14 +9,14 @@ import { Page, LoadingIndicator, WarningText, ListSortOptions, PaginationControl
 export const ArtistPage = props => {
   const { artistId } = props;
 
-  const { user } = useContext(UserContext);
-
   const [ orderBy, setOrderBy ] = useState({ orderBy: 'year', direction: 'desc' });
   const [ paginationParams, paginationFunctions ] = usePagination();
   const [ artist, isArtistLoading, artistError ] = useApi(api.artists.get, artistId);
   const [ songsResponse, isSongsLoading, songsError ] = useApi(api.songs.list, { artist: artistId, ...orderBy, ...paginationParams });
 
   const [ handleDelete, deleteError ] = useDeleteAndRedirect(api.artists.delete, artistId);
+
+  const isUserCreatedArtist = useIsUser(artist?.creator?.id);
 
   const songs = songsResponse?.data;
   const songsCount = songsResponse?.count;
@@ -36,7 +35,7 @@ export const ArtistPage = props => {
           <p className="text-xl my-2">Founded: {artist.foundedYear}</p>
           <p>{artist.description}</p>
         </div>
-        { user?.id === artist.creator.id && (
+        { isUserCreatedArtist && (
           <div className="flex">
             <LinkButton className="mr-2" to={`/artists/${artistId}/edit`}>edit</LinkButton>
             <DeleteButton onDelete={handleDelete} accessibleName="Delete Artist" />

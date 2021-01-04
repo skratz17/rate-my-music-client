@@ -1,11 +1,29 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
+import { Router } from 'react-router-dom';
+import { createMemoryHistory } from 'history';
 
 import { api } from '../../api';
+import { UserContext } from '../user/UserProvider';
 import { SongEditForm } from './SongEditForm';
 
 jest.mock('../../api');
 const mockGetSong = (api.songs.get = jest.fn());
+
+const renderComponent = (ui, contextData) => {
+  const history = createMemoryHistory();
+  history.push('/songs/4/edit');
+
+  render(
+    <UserContext.Provider value={contextData}>
+      <Router history={history}>
+        {ui}
+      </Router>
+    </UserContext.Provider>
+  );
+
+  return history;
+};
 
 const songApiResponse = {
   "id": 4,
@@ -37,14 +55,24 @@ const songApiResponse = {
       }
   ],
   "createdAt": "2020-11-16T12:00:00Z",
-  "avgRating": null
+  "avgRating": null,
+  "creator": {
+    "id": 2,
+    "bio": "Just a cool boi.",
+    "user": {
+        "id": 2,
+        "username": "jweckert17",
+        "firstName": "Jacob",
+        "lastName": "Eckert"
+    }
+  }
 };
 
 describe('song edit form functionality', () => {
   test('fetches song with id passed in props on load and renders edit form with song data prepopulated', async () => {
     mockGetSong.mockResolvedValueOnce(songApiResponse);
 
-    render(<SongEditForm songId={4} />);
+    renderComponent(<SongEditForm songId={4} />, { user: { id: 2 } });
 
     expect(mockGetSong).toHaveBeenCalledTimes(1);
     expect(mockGetSong).toHaveBeenCalledWith(4);
@@ -60,10 +88,19 @@ describe('song edit form functionality', () => {
     expect(screen.getByLabelText('Is Primary?')).toBeChecked();
   });
 
+  test('redirects to / if user editing song did not create song', async () => {
+    mockGetSong.mockResolvedValueOnce(songApiResponse);
+
+    const history = renderComponent(<SongEditForm songId={4} />, { user: { id: 1 } });
+
+    expect(history.location.pathname).toEqual('/songs/4/edit');
+    await waitFor(() => expect(history.location.pathname).toEqual('/'));
+  });
+
   test('renders errors message and no form if song load error', async () => {
     mockGetSong.mockRejectedValueOnce({ message: 'Song load failed.' });
 
-    render(<SongEditForm songId={1} />);
+    renderComponent(<SongEditForm songId={1} />, { user: { id: 2 } });
 
     expect(await screen.findByText('Song load failed.')).toBeInTheDocument();
     expect(screen.queryByRole('form')).not.toBeInTheDocument();

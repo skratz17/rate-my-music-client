@@ -1,19 +1,18 @@
 const express = require('express');
 const path = require('path');
+const enforce = require('express-sslify');
 
 const port = process.env.PORT || 8080;
 
 const app = express();
+
+app.use(enforce.HTTPS());
 
 app.use(express.static(__dirname));
 app.use(express.static(path.join(__dirname, 'build')));
 
 app.get('/ping', function (req, res) {
  return res.send('pong');
-});
-
-app.get('/.well-known/acme-challenge/atWFQxrrF5FxzIzyLOU3jlJUw0thZhKAXQA4xR87Jv0', (req, res) => {
-  res.send('atWFQxrrF5FxzIzyLOU3jlJUw0thZhKAXQA4xR87Jv0.cFynvrW8PUzFicpFbiOxmyOej8qARygHVlGVcSyLUoI');
 });
 
 app.get('/*', function (req, res) {

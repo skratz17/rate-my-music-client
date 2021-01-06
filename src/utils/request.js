@@ -1,6 +1,6 @@
 import { translateObjectKeys, convertCamelToSnake, convertSnakeToCamel } from './caseConversions';
 
-const API_BASE = 'http://skratz17.pythonanywhere.com';
+const API_BASE = 'https://skratz17.pythonanywhere.com';
 
 /**
  * Fetch wrapper to automate repetitive fetch tasks.

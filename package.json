@@ -4,7 +4,7 @@
   "type": "module",
   "private": true,
   "engines": {
-    "node": ">=14.0.0"
+    "node": "14.x"
   },
   "dependencies": {
     "@hookform/resolvers": "^1.2.0",

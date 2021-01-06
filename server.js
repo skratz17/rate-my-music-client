@@ -12,6 +12,10 @@ app.get('/ping', function (req, res) {
  return res.send('pong');
 });
 
+app.get('.well-known/acme-challenge/u7oRDF-jDpHOZpjKTAZzy2b2IMul7k7wWsJZtRTVDXY', (req, res) => {
+  res.send('u7oRDF-jDpHOZpjKTAZzy2b2IMul7k7wWsJZtRTVDXY.cFynvrW8PUzFicpFbiOxmyOej8qARygHVlGVcSyLUoI');
+});
+
 app.get('/*', function (req, res) {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });

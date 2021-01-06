@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "type": "module",
   "private": true,
+  "engines": {
+    "node": ">=14.0.0"
+  },
   "dependencies": {
     "@hookform/resolvers": "^1.2.0",
     "@testing-library/jest-dom": "^5.11.4",

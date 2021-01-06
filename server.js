@@ -12,8 +12,8 @@ app.get('/ping', function (req, res) {
  return res.send('pong');
 });
 
-app.get('/.well-known/acme-challenge/u7oRDF-jDpHOZpjKTAZzy2b2IMul7k7wWsJZtRTVDXY', (req, res) => {
-  res.send('u7oRDF-jDpHOZpjKTAZzy2b2IMul7k7wWsJZtRTVDXY.cFynvrW8PUzFicpFbiOxmyOej8qARygHVlGVcSyLUoI');
+app.get('/.well-known/acme-challenge/atWFQxrrF5FxzIzyLOU3jlJUw0thZhKAXQA4xR87Jv0', (req, res) => {
+  res.send('atWFQxrrF5FxzIzyLOU3jlJUw0thZhKAXQA4xR87Jv0.cFynvrW8PUzFicpFbiOxmyOej8qARygHVlGVcSyLUoI');
 });
 
 app.get('/*', function (req, res) {

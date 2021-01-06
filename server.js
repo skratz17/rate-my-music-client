@@ -1,11 +1,17 @@
-import sslRedirect from 'heroku-ssl-redirect';
-const express = require('express');
-const path = require('path');
+import path from 'path';
+import express from 'express';
+import herokuSSLRedirect from 'heroku-ssl-redirect';
+
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const port = process.env.PORT || 8080;
 
 const app = express();
 
+const sslRedirect = herokuSSLRedirect.default;
 app.use(sslRedirect());
 
 app.use(express.static(__dirname));

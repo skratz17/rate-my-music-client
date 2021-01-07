@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 
 import { LinkButton, DeleteButton } from '../common';
 import { PlayButton } from '../player/PlayButton';
+import { roundToAtMostDecimalPlaces } from '../../utils';
 
 export const SongDetail = props => {
   const { song, canUserModify, onDelete } = props;
@@ -14,7 +15,7 @@ export const SongDetail = props => {
       <div className="flex flex-col items-center md:items-start">
         <h2 className="text-4xl text-deepred my-1">{song.name}</h2>
         <Link to={`/artists/${song.artist.id}`} className="text-2xl my-1 text-black hover:text-deepred">{song.artist.name}</Link>
-        <span className="text-lg">Avg. Rating: {song.avgRating !== null ? song.avgRating : '--'} / 5</span>
+        <span className="text-lg">Avg. Rating: {song.avgRating !== null ? roundToAtMostDecimalPlaces(song.avgRating, 2) : '--'} / 5</span>
         <span className="text-lg">
           Year: <Link className="text-black hover:text-emerald-dark" to={`/charts?startYear=${song.year}&endYear=${song.year}`}>{song.year}</Link>
         </span>

@@ -2,6 +2,7 @@ import { convertCamelToSnake, convertSnakeToCamel, translateObjectKeys } from '.
 import { request } from './request';
 import { queryParamsToString } from './queryParamsToString';
 import { convertSecondsToTimeString } from './timeFormatters';
+import { roundToAtMostDecimalPlaces } from './roundToAtMostDecimalPlaces';
 
 export {
   convertCamelToSnake,
@@ -9,5 +10,6 @@ export {
   translateObjectKeys,
   request,
   queryParamsToString,
-  convertSecondsToTimeString
+  convertSecondsToTimeString,
+  roundToAtMostDecimalPlaces
 };

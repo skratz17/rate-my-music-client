@@ -3,7 +3,7 @@ import { Redirect } from 'react-router-dom';
 
 import { api } from '../../api';
 import { useApi, useIsUser } from '../../hooks';
-import { LoadingIndicator, WarningText } from '../common';
+import { LoadingWrapper, WarningText } from '../common';
 import { SongForm } from './SongForm';
 
 export const SongEditForm = props => {
@@ -16,16 +16,17 @@ export const SongEditForm = props => {
     return <Redirect to="/" />;
   }
 
-  return <>
-    <LoadingIndicator isLoading={isLoading} />
-    <WarningText>{error}</WarningText>
-    { song && isUserCreatedSong && <SongForm song={{
-      id: song.id,
-      name: song.name,
-      artist: song.artist,
-      year: song.year,
-      genres: song.genres.map(g => g.genre),
-      sources: song.sources.map(({ service, url, isPrimary }) => ({ service, url, isPrimary }))
-    }} /> }
-  </>;
+  return (
+    <LoadingWrapper isLoading={isLoading}>
+      <WarningText>{error}</WarningText>
+      { song && isUserCreatedSong && <SongForm song={{
+        id: song.id,
+        name: song.name,
+        artist: song.artist,
+        year: song.year,
+        genres: song.genres.map(g => g.genre),
+        sources: song.sources.map(({ service, url, isPrimary }) => ({ service, url, isPrimary }))
+      }} /> }
+    </LoadingWrapper>
+  );
 };

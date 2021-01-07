@@ -80,7 +80,7 @@ export const SongPage = props => {
 
   return (
     <Page>
-      <LoadingWrapper isLoading={isSongLoading}>
+      <LoadingWrapper isLoading={!song && isSongLoading}>
         <section>
           <WarningText>{songError}</WarningText>
           <WarningText>{deleteError}</WarningText>

@@ -79,13 +79,13 @@ describe('profile page functionality', () => {
 
     expect(favoritesRadioButton).toBeChecked();
 
-    // await waitFor(() => userEvent.click(byUserRadioButton));
+    await waitFor(() => userEvent.click(byUserRadioButton));
 
-    // expect(mockListLists).toHaveBeenCalledTimes(3);
-    // expect(mockListLists).toHaveBeenCalledWith({
-    //   userId: 3,
-    //   page: 1,
-    //   pageSize: 10
-    // });
+    expect(mockListLists).toHaveBeenCalledTimes(3);
+    expect(mockListLists).toHaveBeenCalledWith({
+      userId: 3,
+      page: 1,
+      pageSize: 10
+    });
   });
 });

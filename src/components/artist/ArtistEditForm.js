@@ -3,7 +3,7 @@ import { Redirect } from 'react-router-dom';
 
 import { api } from '../../api';
 import { useApi, useIsUser } from '../../hooks';
-import { LoadingIndicator, WarningText } from '../common';
+import { LoadingWrapper, WarningText } from '../common';
 import { ArtistForm } from './ArtistForm';
 
 export const ArtistEditForm = props => {
@@ -16,9 +16,10 @@ export const ArtistEditForm = props => {
     return <Redirect to="/" />;
   }
 
-  return <>
-    <LoadingIndicator isLoading={isLoading} />
-    <WarningText>{error}</WarningText>
-    { artist && isUserCreatedArtist && <ArtistForm artist={artist} /> }
-  </>;
+  return (
+    <LoadingWrapper isLoading={isLoading}>
+      <WarningText>{error}</WarningText>
+      { artist && isUserCreatedArtist && <ArtistForm artist={artist} /> }
+    </LoadingWrapper>
+  );
 };

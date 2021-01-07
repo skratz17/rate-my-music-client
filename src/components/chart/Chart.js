@@ -8,7 +8,7 @@ import { YearSelect } from './YearSelect';
 import { SongList } from '../song/SongList';
 import { PlayButton } from '../player/PlayButton';
 import { GenreAutocompleteSelector } from '../genre/GenreAutocompleteSelector';
-import { Page, LoadingIndicator, WarningText, PaginationControls, LoadingWrapper } from '../common';
+import { Page, WarningText, PaginationControls, LoadingWrapper } from '../common';
 
 const createInitialChartParams = location => {
   const initialState = { orderBy: 'avgRating', direction: 'desc' };
@@ -90,48 +90,48 @@ export const Chart = () => {
   return (
     <Page>
       <LoadingWrapper isLoading={isLoading}>
-      <h2 className="text-3xl text-center">The <span className="text-emerald">Charts</span></h2>
-      <section>
-        <WarningText>{error}</WarningText>
-        <div className="text-xl my-2">
-          <label htmlFor="startYear">Best songs from between </label>
-          <YearSelect name="startYear" value={chartParams.startYear || ''} onChange={handleChange} /> 
-          <label htmlFor="endYear"> and </label>
-          <YearSelect name="endYear" value={chartParams.endYear || ''} onChange={handleChange} />
-        </div>
-        <div className="flex w-100 my-2">
-          <label className="mt-1 mr-2 text-xl" htmlFor="genres">In the genres:</label>
-          <div className="flex-grow">
-            { initiallySelectedGenres && 
-              <GenreAutocompleteSelector selectionsBelow 
-                className="p-2" 
-                name="genres" 
-                defaultValue={initiallySelectedGenres}
-                onSelect={handleGenreSelect} />
-            }
+        <h2 className="text-3xl text-center">The <span className="text-emerald">Charts</span></h2>
+        <section>
+          <WarningText>{error}</WarningText>
+          <div className="text-xl my-2">
+            <label htmlFor="startYear">Best songs from between </label>
+            <YearSelect name="startYear" value={chartParams.startYear || ''} onChange={handleChange} /> 
+            <label htmlFor="endYear"> and </label>
+            <YearSelect name="endYear" value={chartParams.endYear || ''} onChange={handleChange} />
           </div>
-        </div>
-      </section>
+          <div className="flex w-100 my-2">
+            <label className="mt-1 mr-2 text-xl" htmlFor="genres">In the genres:</label>
+            <div className="flex-grow">
+              { initiallySelectedGenres && 
+                <GenreAutocompleteSelector selectionsBelow 
+                  className="p-2" 
+                  name="genres" 
+                  defaultValue={initiallySelectedGenres}
+                  onSelect={handleGenreSelect} />
+              }
+            </div>
+          </div>
+        </section>
 
-      <section>
-          { songs?.length > 0 && 
-            <div className="flex items-center">
-              <span className="text-3xl mr-2">Play All</span>
-              <PlayButton className="text-5xl" songs={songs} accessibleName="Play All Songs in Chart" />
-            </div>
-          }
-          { songs && 
-            <div>
-              <SongList songs={songs} /> 
-              <PaginationControls page={paginationParams.page}
-                pageSize={paginationParams.pageSize}
-                isLastPage={paginationFunctions.isLastPage(count)}
-                onSetPageSize={paginationFunctions.setPageSize}
-                onPreviousPage={paginationFunctions.getPreviousPage}
-                onNextPage={paginationFunctions.getNextPage} />
-            </div>
-          }
-      </section>
+        <section>
+            { songs?.length > 0 && 
+              <div className="flex items-center">
+                <span className="text-3xl mr-2">Play All</span>
+                <PlayButton className="text-5xl" songs={songs} accessibleName="Play All Songs in Chart" />
+              </div>
+            }
+            { songs && 
+              <div>
+                <SongList songs={songs} /> 
+                <PaginationControls page={paginationParams.page}
+                  pageSize={paginationParams.pageSize}
+                  isLastPage={paginationFunctions.isLastPage(count)}
+                  onSetPageSize={paginationFunctions.setPageSize}
+                  onPreviousPage={paginationFunctions.getPreviousPage}
+                  onNextPage={paginationFunctions.getNextPage} />
+              </div>
+            }
+        </section>
       </LoadingWrapper>
     </Page>
   );

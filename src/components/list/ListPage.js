@@ -2,7 +2,7 @@ import React from 'react';
 
 import { api } from '../../api';
 import { useApi, useDeleteAndRedirect, useIsUser } from '../../hooks';
-import { Page, LoadingIndicator, WarningText, LinkButton, DeleteButton } from '../common';
+import { Page, WarningText, LinkButton, DeleteButton, LoadingWrapper } from '../common';
 import { ListDetail } from './ListDetail';
 import { ListSongList } from './ListSongList';
 import { ListFavoriteControl } from './ListFavoriteControl';
@@ -28,34 +28,35 @@ export const ListPage = props => {
 
   return (
     <Page>
-      <section>
-        <LoadingIndicator isLoading={!list && isLoading} />
-        <WarningText>{error}</WarningText>
-        <WarningText>{deleteError}</WarningText>
-        { list && 
-          <div className="flex justify-between items-start">
-            <ListDetail list={list} />
-            <div className="flex">
-              {
-                isUserCreatedList && 
-                  <>
-                    <LinkButton className="mr-2" to={`/lists/${listId}/edit`}>edit</LinkButton>
-                    <DeleteButton className="mr-2" onDelete={handleDelete} accessibleName="Delete List" />
-                  </>
-              }
-              <ListFavoriteControl favCount={list.favCount} 
-                isFavorited={list.hasRaterFavorited}
-                onClick={handleFavoriteClick} />
+      <LoadingWrapper isLoading={isLoading}>
+        <section>
+          <WarningText>{error}</WarningText>
+          <WarningText>{deleteError}</WarningText>
+          { list && 
+            <div className="flex justify-between items-start">
+              <ListDetail list={list} />
+              <div className="flex">
+                {
+                  isUserCreatedList && 
+                    <>
+                      <LinkButton className="mr-2" to={`/lists/${listId}/edit`}>edit</LinkButton>
+                      <DeleteButton className="mr-2" onDelete={handleDelete} accessibleName="Delete List" />
+                    </>
+                }
+                <ListFavoriteControl favCount={list.favCount} 
+                  isFavorited={list.hasRaterFavorited}
+                  onClick={handleFavoriteClick} />
+              </div>
             </div>
-          </div>
-        }
-      </section>
+          }
+        </section>
 
-      <hr className="w-3/4 h-1 mx-auto my-5" />
+        <hr className="w-3/4 h-1 mx-auto my-5" />
 
-      <section>
-        { list && <ListSongList listSongs={list.songs} /> }
-      </section>
+        <section>
+          { list && <ListSongList listSongs={list.songs} /> }
+        </section>
+      </LoadingWrapper>
     </Page>
   );
 };

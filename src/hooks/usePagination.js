@@ -1,16 +1,17 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 export const usePagination = (initialPageSize = 10) => {
   const [ page, setPage ] = useState(1);
   const [ pageSize, setPageSize ] = useState(initialPageSize);
 
-  useEffect(() => {
+  const handleSetPageSize = pageSize => {
+    setPageSize(pageSize);
     setPage(1);
-  }, [ pageSize ]);
+  };
 
   const paginationParams = { page, pageSize };
   const paginationFunctions = { 
-    setPageSize,
+    setPageSize: handleSetPageSize,
     getNextPage: () => setPage(prevPage => prevPage + 1),
     getPreviousPage: () => setPage(prevPage => prevPage - 1),
     getPage: pageNumber => setPage(pageNumber),

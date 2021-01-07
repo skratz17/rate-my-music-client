@@ -4,7 +4,7 @@ import { api } from '../../api';
 import { useApi, useDeleteAndRedirect, usePagination, useIsUser } from '../../hooks';
 import { PlayButton } from '../player/PlayButton';
 import { SongList } from '../song/SongList';
-import { Page, LoadingIndicator, WarningText, ListSortOptions, PaginationControls, LinkButton, DeleteButton } from '../common';
+import { Page, LoadingWrapper, WarningText, ListSortOptions, PaginationControls, LinkButton, DeleteButton } from '../common';
 
 export const ArtistPage = props => {
   const { artistId } = props;
@@ -79,18 +79,20 @@ export const ArtistPage = props => {
   return (
     <Page>
       <section>
-        <WarningText>{artistError}</WarningText>
-        <WarningText>{deleteError}</WarningText>
-        <LoadingIndicator isLoading={isArtistLoading} />
-        { renderArtistData() }
+        <LoadingWrapper isLoading={isArtistLoading}>
+          <WarningText>{artistError}</WarningText>
+          <WarningText>{deleteError}</WarningText>
+          { renderArtistData() }
+        </LoadingWrapper>
       </section>
 
       <hr className="w-3/4 h-1 mx-auto my-5" />
 
       <section>
-        <WarningText>{songsError}</WarningText>
-        <LoadingIndicator isLoading={!songs && isSongsLoading} />
-        { renderSongsData() }
+        <LoadingWrapper isLoading={isSongsLoading}>
+          <WarningText>{songsError}</WarningText>
+          { renderSongsData() }
+        </LoadingWrapper>
       </section>
     </Page>
   )

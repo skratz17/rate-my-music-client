@@ -30,7 +30,7 @@ export const PlayerSeekControl = () => {
     <div className="flex justify-center items-center">
       <Duration className="w-24 text-right" seconds={duration ? seekLocation * duration : 0} />
       <input type="range" min={0} max={1} step={!isNaN(stepSize) ? stepSize : ''}
-        className="mx-2 flex-shrink-0"
+        className="mx-2 flex-shrink-0 shadow-none"
         disabled={!canSeek}
         value={seekLocation || 0}
         onMouseDown={() => setIsSeeking(true)}

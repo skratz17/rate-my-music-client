@@ -1,70 +1,76 @@
-# Getting Started with Create React App
+# [Rate My Music](https://ratemymusic.jacobweckert.com)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## What Is This?
 
-## Available Scripts
+Rate My Music is a one-stop site for music creators and music lovers alike! If you want to get the music you make (or the music an artist you love makes!) out and into the world, Rate Your Music is your answer. Or, if you just love exploring new music and want to check out what's out there, listen to new things, and get some new favorites, you'll find exactly what you're looking for at Rate My Music, as well!
 
-In the project directory, you can run:
+## Features
 
-### `yarn start`
+* Add new artists, songs, and lists of songs to the site intuitively and with ease. 
+* Rate and write reviews for any of the songs on the site.
+* Explore all of the songs on the site through a wide variety of methods including:
+    * The Charts - A list of the highest-rated songs in the site that can optionally be filtered down to show only songs for some specific year range and/or only songs classified within one or more genres.
+    * Lists - User-curated lists of songs, perhaps something like "Jacob's Favorite Songs", or "Songs to Code To".
+    * Artist Pages - All of the songs created by a specific artist.
+    * User Profile Pages - All of the songs a particular user has rated.
+* Listen to any single song or any list of songs in the site with the click of a button.
+    * All song views function as in-browser playlists -- for instance, if I were looking at a Chart of the top-rated indie songs from between 2010 and 2015, at the touch of a button I could queue up all the songs on that chart to play from an in-browser player, just like I was listening to an iTunes or Spotify playlist!
+    * Because the site supports YouTube, SoundCloud, Vimeo, and Dailymotion sources for songs, these playlists are functionally cross-service playlists that can seamlessly include songs from any of those sources -- wow!
+    * Rate My Music will remember your queue and what song you were last listening to any time you leave the site - come and go as you please with no worries of losing your spot in that awesome list you were checking out!
+    * Intuitively interact with the music player - freely skip to the next song or back to the previous song in your queue, select any arbitrary song to play from your queue, pause and play, or seek to any point in a song whenever you wish.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Wow! How can I become a user TODAY?
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+It's easy! [Just go here](https://uhhhwut.onrender.com/), sign up, and go crazy!
 
-### `yarn test`
+## Screenshots
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+| <img src="./readme_resources/landingPage.png"> |
+| :---: |
+| Landing Page |
 
-### `yarn build`
+| <img src="./readme_resources/fullSearch.png"> |
+| :---: |
+| Search for any artist, song, or list with ease. |
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+| <img src="./readme_resources/theCharts.png"> |
+| :---: |
+| The Charts (currently filtered to show the best indie songs from 2013 or earlier!) |
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+| <img src="./readme_resources/activePlayerAndQueue.png"> |
+| :---: |
+| The Player (at bottom of screen) and the user's queue (at left of screen) - the user clicked "Play" to listen to the Chart they created! |
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+| <img src="./readme_resources/artistPage.png"> |
+| :---: |
+| An Artist Page - Read some details on an artist and play their catalog! |
 
-### `yarn eject`
+| <img src="./readme_resources/songPage.png"> |
+| :---: |
+| A Song Page - Rate and/or review a song, view the song's ratings and reviews, play the song from any source that has been added for it, and see all the lists it has appeared on! |
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## Technologies Used
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+This application was built using the [React](https://github.com/) JavaScript library, and was bootstrapped with [create-react-app](https://github.com/facebook/create-react-app). Additional packages used for the production site are: 
+* [react-player](https://github.com/cookpete/react-player) - Used to play songs from user-supplied URLs.
+* [react-hook-form](https://react-hook-form.com/) - Used to implement highly performant forms with validation.
+* [yup](https://github.com/jquense/yup) - Used to specify validation schema to be used with react-hook-form.
+* [react-icons](https://react-icons.github.io/react-icons/) - Used to easily include icons for use throughout the site.
+* [react-router-dom](https://reactrouter.com/) - Used to implement client-side routing.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+I wrote a full test suite of over 200 tests for this project, and found it to be an incredible experience that allowed me to always be confident that my app would continue to work as expected with any change I made! All React components I wrote have tests written against them in a corresponding `.test.js` file. I used [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/) to test all of my React components, with [Jest](https://jestjs.io/) as a test runner and assertion library.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Styling was implemented using [Tailwind CSS](https://tailwindcss.com/), a highly configurable, utility-based CSS library that I really enjoyed using and will absolutely be using again!
 
-## Learn More
+The server uses Django REST Framework with a SQLite database. [Check out the server repo here!](https://github.com/skratz17/rate-my-music-server)
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Planning Resources
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Below are links to the ERD for this project, as well as the Figma mockups I made and used as a guideline for how the UI should be implemented. 
 
-### Code Splitting
+* [ERD](https://dbdiagram.io/d/5fce88eb9a6c525a03ba26fc)
+* [Figma Wireframe](https://www.figma.com/file/UAXwF0vzyIztgS9m5CSjfw/Full-Stack-Capstone?node-id=0%3A1)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## Author
 
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Jacob Eckert - [GitHub](https://github.com/skratz17), [LinkedIn](https://www.linkedin.com/in/jacob-w-eckert/) 

@@ -21,7 +21,7 @@ Rate My Music is a one-stop site for music creators and music lovers alike! If y
 
 ## Wow! How can I become a user TODAY?
 
-It's easy! [Just go here](https://uhhhwut.onrender.com/), sign up, and go crazy!
+It's easy! [Just go here](https://ratemymusic.jacobweckert.com), sign up, and go crazy!
 
 ## Screenshots
 

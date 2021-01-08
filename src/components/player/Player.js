@@ -16,7 +16,6 @@ export const Player = () => {
 
   const handleProgress = progress => {
     if(playerRef.current.getDuration() !== duration) {
-      console.log('resetting duration');
       setDuration(playerRef.current.getDuration());
     }
     if(isPlaying) {

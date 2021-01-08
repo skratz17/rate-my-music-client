@@ -2,7 +2,7 @@
 
 ## What Is This?
 
-Rate My Music is a one-stop site for music creators and music lovers alike! If you want to get the music you make (or the music an artist you love makes!) out and into the world, Rate Your Music is your answer. Or, if you just love exploring new music and want to check out what's out there, listen to new things, and get some new favorites, you'll find exactly what you're looking for at Rate My Music, as well!
+Rate My Music is a one-stop site for music creators and music lovers alike! If you want to get the music you make (or the music an artist you love makes!) out and into the world, Rate My Music is your answer. Or, if you just love exploring new music and want to check out what's out there, listen to new things, and get some new favorites, you'll find exactly what you're looking for at Rate My Music, as well!
 
 ## Features
 

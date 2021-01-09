@@ -95,10 +95,29 @@ export const PlayerProvider = props => {
     setIsPlaying(true);
   };
 
+  // handle an error during playback - try to play a different source than the one that errored if available,
+  // otherwise skip to the next song in queue if more than one song in queue, or just stop playing the single song
+  const handlePlaybackError = () => {
+    if(currentSong.sources.length > 1) {
+      const errorUrl = currentSongUrl;
+      const updatedQueue = [ ...queue ];
+      const updatedSong = { ...currentSong };
+      updatedSong.sources = updatedSong.sources.filter(source => source.url !== errorUrl);
+      updatedQueue[playIndex] = updatedSong;
+      setQueue(updatedQueue);
+    }
+    else if(queue.length > 1) {
+      skip(1);
+    }
+    else {
+      setIsPlaying(false);
+    }
+  };
+
   return (
     <PlayerContext.Provider value={{
       queue, updateQueue, play, pause, skip, setIsPlaying, isPlaying, currentSong, currentSongUrl,
-      duration, setDuration, elapsed, setElapsed, playerRef, setPlayerRef, canSeek, setCanSeek
+      duration, setDuration, elapsed, setElapsed, playerRef, setPlayerRef, canSeek, setCanSeek, handlePlaybackError
     }}>
       { props.children }
     </PlayerContext.Provider>

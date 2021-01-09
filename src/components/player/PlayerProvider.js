@@ -113,7 +113,7 @@ export const PlayerProvider = props => {
       setQueue(updatedQueue);
     }
     else {
-      addToErrorQueue(`A playable source was not found for ${currentSong.name} - removing song from queue.`);
+      addToErrorQueue(`The source attempted to play for ${currentSong.name} was not playable - removing song from queue.`);
       const updatedQueue = queue.filter(song => song.id !== currentSong.id);
       setQueue(updatedQueue);
     }
@@ -124,9 +124,15 @@ export const PlayerProvider = props => {
     setErrorQueue(updatedErrorQueue);
   };
 
+  const removeErrorMessage = idx => {
+    const updatedErrorQueue = [ ...errorQueue ];
+    updatedErrorQueue.splice(idx, 1);
+    setErrorQueue(updatedErrorQueue);
+  };
+
   return (
     <PlayerContext.Provider value={{
-      queue, updateQueue, play, pause, skip, setIsPlaying, isPlaying, currentSong, currentSongUrl, errorQueue, 
+      queue, updateQueue, play, pause, skip, setIsPlaying, isPlaying, currentSong, currentSongUrl, errorQueue, removeErrorMessage, 
       duration, setDuration, elapsed, setElapsed, playerRef, setPlayerRef, canSeek, setCanSeek, handlePlaybackError
     }}>
       { props.children }

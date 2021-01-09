@@ -80,7 +80,7 @@ export const PlayerContainer = () => {
         </> }
     </div>
 
-    <div className="fixed top-0 right-0 p-8 z-50">
+    <div className="fixed top-0 right-0 p-8 z-50 w-1/4 flex justify-end">
       <PlayerErrorLog />
     </div>
   </>;

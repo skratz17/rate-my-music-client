@@ -9,7 +9,8 @@ const mockSetPlayerRef = jest.fn();
 
 const renderComponent = (ui, isPlaying = false) => {
   return render(
-    <PlayerContext.Provider value={{ isPlaying, setPlayerRef: mockSetPlayerRef }}>
+    <PlayerContext.Provider value={{ isPlaying, setPlayerRef: mockSetPlayerRef,
+    errorQueue: [] }}>
       {ui}
     </PlayerContext.Provider>
   );

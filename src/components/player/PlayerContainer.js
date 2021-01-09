@@ -3,6 +3,7 @@ import { MdExpandLess, MdQueueMusic } from 'react-icons/md';
 
 import { PlayerControls } from './PlayerControls';
 import { PlayerContext } from './PlayerProvider';
+import { PlayerErrorLog } from './PlayerErrorLog';
 import { Player } from './Player';
 import { Queue } from './Queue';
 import { RemoveButton } from '../common';
@@ -77,6 +78,10 @@ export const PlayerContainer = () => {
           <RemoveButton className="ml-auto" accessibleName="Hide Queue" onClick={() => setIsQueueShowing(false)} />
           <Queue />
         </> }
+    </div>
+
+    <div className="fixed top-0 right-0 p-8 z-50">
+      <PlayerErrorLog />
     </div>
   </>;
 };

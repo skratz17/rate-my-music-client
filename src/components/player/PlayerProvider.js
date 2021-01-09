@@ -26,6 +26,7 @@ export const PlayerProvider = props => {
   const [ duration, setDuration ] = useState(null);
   const [ elapsed, setElapsed ] = useState(null);
   const [ playerRef, setPlayerRef ] = useState(null);
+  const [ errorQueue, setErrorQueue ] = useState([]);
 
   const { user } = useContext(UserContext);
 
@@ -57,6 +58,12 @@ export const PlayerProvider = props => {
   useEffect(() => {
     setCanSeek(false);
   }, [ playIndex ]);
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => setErrorQueue(errorQueue.slice(1)), 5000);
+
+    return () => clearTimeout(timeoutId);
+  }, [ errorQueue ]);
 
   const currentSong = queue[playIndex];
 
@@ -95,10 +102,9 @@ export const PlayerProvider = props => {
     setIsPlaying(true);
   };
 
-  // handle an error during playback - try to play a different source than the one that errored if available,
-  // otherwise skip to the next song in queue if more than one song in queue, or just stop playing the single song
   const handlePlaybackError = () => {
     if(currentSong.sources.length > 1) {
+      addToErrorQueue(`${currentSong.name} could not be played from ${currentSongUrl} - trying another source.`);
       const errorUrl = currentSongUrl;
       const updatedQueue = [ ...queue ];
       const updatedSong = { ...currentSong };
@@ -106,17 +112,21 @@ export const PlayerProvider = props => {
       updatedQueue[playIndex] = updatedSong;
       setQueue(updatedQueue);
     }
-    else if(queue.length > 1) {
-      skip(1);
-    }
     else {
-      setIsPlaying(false);
+      addToErrorQueue(`A playable source was not found for ${currentSong.name} - removing song from queue.`);
+      const updatedQueue = queue.filter(song => song.id !== currentSong.id);
+      setQueue(updatedQueue);
     }
+  };
+
+  const addToErrorQueue = message => {
+    const updatedErrorQueue = [ ...errorQueue, message ];
+    setErrorQueue(updatedErrorQueue);
   };
 
   return (
     <PlayerContext.Provider value={{
-      queue, updateQueue, play, pause, skip, setIsPlaying, isPlaying, currentSong, currentSongUrl,
+      queue, updateQueue, play, pause, skip, setIsPlaying, isPlaying, currentSong, currentSongUrl, errorQueue, 
       duration, setDuration, elapsed, setElapsed, playerRef, setPlayerRef, canSeek, setCanSeek, handlePlaybackError
     }}>
       { props.children }

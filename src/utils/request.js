@@ -1,6 +1,6 @@
 import { translateObjectKeys, convertCamelToSnake, convertSnakeToCamel } from './caseConversions';
 
-const API_BASE = 'https://skratz17.pythonanywhere.com';
+const API_BASE = process.env.NODE_ENV === 'production' ? process.env.REACT_APP_PROD_API : process.env.REACT_APP_DEV_API;
 
 /**
  * Fetch wrapper to automate repetitive fetch tasks.

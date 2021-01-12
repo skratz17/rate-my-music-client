@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback } from 'react';
+import React, { useState, useRef } from 'react';
 
 import { DelayedSearchBar } from './DelayedSearchBar';
 import { useClickOutside, useClickInside } from '../../hooks';
@@ -6,36 +6,15 @@ import { useClickOutside, useClickInside } from '../../hooks';
 export const AutocompleteSearchBar = props => {
   const { onSearch, onSelect, className, name, placeholder, removeOnSelect, resultFormatter } = props;
 
-  const [ clickOutsideResults, setClickOutsideResults ] = useState(null);
   const [ results, setResults ] = useState([]);
+  const [ areResultsShowing, setAreResultsShowing ] = useState(true);
   const [ searchBarKey, setSearchBarKey ] = useState(1);
 
-  // on click outside, clear results to not show autocomplete options
-  // and if there were results and no previously cached click outside results, cache them in clickOutsideResults
-  const clickOutsideHandler = useCallback(() => {
-    if(!clickOutsideResults && results?.length) { 
-      setClickOutsideResults([ ...results ]);
-    }
-    setResults([]);
-  }, [ results, clickOutsideResults, setResults, setClickOutsideResults ]);
-
-  // on click inside, if there were cached clickOutsideResults put them back into results
-  // and then clear cached clickOutsideResults
-  const clickInsideHandler = useCallback(() => {
-    if(clickOutsideResults) {
-      setResults([ ...clickOutsideResults ]);
-      setClickOutsideResults(null);
-    }
-  }, [ clickOutsideResults, setResults, setClickOutsideResults ]);
-
   const searchBarComponentRef = useRef();
-  useClickOutside(searchBarComponentRef, clickOutsideHandler);
-  useClickInside(searchBarComponentRef, clickInsideHandler);
+  useClickOutside(searchBarComponentRef, () => setAreResultsShowing(false));
+  useClickInside(searchBarComponentRef, () => setAreResultsShowing(true));
 
   const handleResults = _results => {
-    if(clickOutsideResults) {
-      setClickOutsideResults(null);
-    }
     setResults(_results ? _results : []);
   };
 
@@ -52,7 +31,7 @@ export const AutocompleteSearchBar = props => {
         placeholder={placeholder}
         onSearch={onSearch} 
         onResults={handleResults} /> 
-      { results.length > 0 && 
+      { results.length > 0 && areResultsShowing &&
         <ul>
           { results.map(result => (
             <li className="border-t border-gray-400" key={result.id}>

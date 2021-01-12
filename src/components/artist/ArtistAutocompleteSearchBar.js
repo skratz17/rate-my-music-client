@@ -24,10 +24,8 @@ export const ArtistAutocompleteSearchBar = props => {
     );
   }
 
-  const searchHandler = async searchParams => await api.artists.list(searchParams);
-
   return (
-    <AutocompleteSearchBar onSearch={searchHandler} 
+    <AutocompleteSearchBar onSearch={api.artists.list} 
       onSelect={handleSelect} 
       name={name} 
       className={className} />

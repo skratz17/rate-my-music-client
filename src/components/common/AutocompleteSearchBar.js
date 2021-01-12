@@ -41,6 +41,7 @@ export const AutocompleteSearchBar = props => {
     if(removeOnSelect) {
       setSearchBarKey(prevSearchBarKey => prevSearchBarKey + 1);
       setResults([]);
+      setSearchTerm('');
     }
   };
 

@@ -12,6 +12,7 @@ export const AutocompleteSearchBar = props => {
   const [ areResultsShowing, setAreResultsShowing ] = useState(true);
   const [ searchBarKey, setSearchBarKey ] = useState(1);
   const [ searchTerm, setSearchTerm ] = useState('');
+  const [ isLoading, setIsLoading ] = useState(false);
   const [ paginationParams, paginationFunctions ] = usePagination();
 
   const searchBarComponentRef = useRef();
@@ -20,7 +21,9 @@ export const AutocompleteSearchBar = props => {
 
   useEffect(() => {
     const _search = async () => {
+      setIsLoading(true);
       const results = await onSearch({ q: searchTerm, page: paginationParams.page, pageSize: paginationParams.pageSize });
+      setIsLoading(false);
       setResults(results?.data || []);
       setCount(results?.count || 0);
     };
@@ -52,6 +55,7 @@ export const AutocompleteSearchBar = props => {
         key={searchBarKey}
         name={name} 
         placeholder={placeholder}
+        isLoading={isLoading}
         onFocus={() => setAreResultsShowing(true)}
         onDelayedChange={handleDelayedSearchBarChange} />
 

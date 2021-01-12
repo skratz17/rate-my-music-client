@@ -6,6 +6,7 @@ export const PaginationControls = props => {
 
   const renderPageSizeControl = val => (
     <button key={val}
+      type="button"
       onClick={() => onSetPageSize(val)}
       className={`mx-1 hover:text-gray-600 ${val === pageSize ? 'font-bold' : ''}`}>
         {val}

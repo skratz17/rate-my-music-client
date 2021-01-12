@@ -6,12 +6,11 @@ import { createMemoryHistory } from 'history';
 
 import { ListForm } from './ListForm';
 import { api } from '../../api';
-import { user } from '../../api/user';
 
 jest.mock('../../api');
 const mockPostList = (api.lists.create = jest.fn());
 const mockUpdateList = (api.lists.update = jest.fn());
-const mockSearchSongs = (api.songs.search = jest.fn());
+const mockListSongs = (api.songs.list = jest.fn());
 
 describe('list form validation', () => {
   test('all fields are required and you cannot remove a song if only one in list', async () => {
@@ -62,7 +61,7 @@ describe('list form functionality', () => {
   test('calls list create method with list data on submit and redirects to list detail page', async () => {
     const history = renderComponent(<ListForm />);
 
-    mockSearchSongs.mockResolvedValueOnce({
+    mockListSongs.mockResolvedValueOnce({
       count: 1,
       data: [ { id: 4, name: 'Famous', artist: { id: 1, name: 'The Magnetic Fields' } } ]
     });

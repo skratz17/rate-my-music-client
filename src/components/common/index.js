@@ -8,7 +8,7 @@ import { LinkButton } from './LinkButton';
 import { FormControl } from './FormControl';
 import { WarningText } from './WarningText';
 import { LoadingWrapper } from './LoadingWrapper';
-import { DelayedSearchBar } from './DelayedSearchBar';
+import { DelayedInput } from './DelayedInput';
 import { AutocompleteSearchBar } from './AutocompleteSearchBar';
 import { ListSortOptions } from './ListSortOptions';
 
@@ -23,7 +23,7 @@ export {
   FormControl,
   WarningText,
   LoadingWrapper,
-  DelayedSearchBar,
+  DelayedInput,
   AutocompleteSearchBar,
   ListSortOptions
 };

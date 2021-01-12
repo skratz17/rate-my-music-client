@@ -5,9 +5,5 @@ export const genres = {
     const queryParams = queryParamsToString(params);
     const genres = await request(`/genres?${queryParams}`);
     return genres;
-  },
-
-  search: async searchTerm => {
-    return await genres.list({ q: searchTerm });
   }
 };

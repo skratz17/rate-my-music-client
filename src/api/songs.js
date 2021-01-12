@@ -24,9 +24,5 @@ export const songs = {
 
   delete: async songId => {
     return await request(`/songs/${songId}`, 'DELETE');
-  },
-
-  search: async searchTerm => {
-    return await songs.list({ q: searchTerm });
   }
 };

@@ -6,7 +6,7 @@ import { GenreAutocompleteSelector } from './GenreAutocompleteSelector';
 import { api } from '../../api';
 
 jest.mock('../../api');
-const mockSearchGenres = (api.genres.search = jest.fn());
+const mockListGenres = (api.genres.list = jest.fn());
 
 describe('genre autocomplete selector functionality', () => {
   beforeEach(() => {
@@ -14,7 +14,7 @@ describe('genre autocomplete selector functionality', () => {
   });
 
   test('fetches genre search results, allows user to select or unselect genres', async () => {
-    mockSearchGenres.mockResolvedValueOnce({
+    mockListGenres.mockResolvedValueOnce({
       count: 2,
       data: [ { id: 1, name: 'Indie Pop' }, { id: 2, name: 'Indie Folk' } ]
     });
@@ -29,8 +29,8 @@ describe('genre autocomplete selector functionality', () => {
     await waitFor(() => jest.advanceTimersByTime(500));
 
     const buttons = screen.getAllByRole('button');
-    expect(buttons).toHaveLength(2);
     expect(buttons[0].textContent).toEqual('Indie Pop');
+    expect(buttons[1].textContent).toEqual('Indie Folk');
 
     await waitFor(() => userEvent.click(buttons[0]));
 

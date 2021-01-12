@@ -28,7 +28,7 @@ export const GenreAutocompleteSelector = props => {
     });
   };
 
-  const searchHandler = async searchTerm => (await api.genres.search(searchTerm))?.data;
+  const searchHandler = async searchParams => await api.genres.list(searchParams);
 
   return (
     <div className="flex flex-col">

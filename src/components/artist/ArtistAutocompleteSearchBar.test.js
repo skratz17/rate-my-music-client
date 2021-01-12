@@ -6,7 +6,7 @@ import { ArtistAutocompleteSearchBar } from './ArtistAutocompleteSearchBar';
 import { api } from '../../api';
 
 jest.mock('../../api');
-const mockSearchArtists = (api.artists.search = jest.fn());
+const mockListArtists = (api.artists.list = jest.fn());
 
 describe('artist autocomplete search bar functionality', () => {
   beforeEach(() => {
@@ -14,7 +14,7 @@ describe('artist autocomplete search bar functionality', () => {
   });
 
   test('fetches artist search results, allows user to select or unselect an artist', async () => {
-    mockSearchArtists.mockResolvedValue({
+    mockListArtists.mockResolvedValue({
       count: 2,
       data: [ { id: 1, name: 'The Magnetic Fields' }, { id: 2, name: 'of Montreal' } ]
     });
@@ -29,8 +29,8 @@ describe('artist autocomplete search bar functionality', () => {
     await waitFor(() => jest.advanceTimersByTime(500));
 
     const buttons = screen.getAllByRole('button');
-    expect(buttons).toHaveLength(2);
     expect(buttons[0].textContent).toEqual('The Magnetic Fields');
+    expect(buttons[1].textContent).toEqual('of Montreal');
 
     userEvent.click(buttons[0]);
 

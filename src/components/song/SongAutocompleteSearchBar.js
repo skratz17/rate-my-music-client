@@ -26,7 +26,7 @@ export const SongAutocompleteSearchBar = props => {
 
   const nameFormatter = song => `${song.name} - ${song.artist.name}`;
 
-  const searchHandler = async searchTerm => (await api.songs.search(searchTerm))?.data;
+  const searchHandler = async searchParams => await api.songs.list(searchParams);
 
   return (
     <AutocompleteSearchBar name={name} 

@@ -10,8 +10,8 @@ import { api } from '../../api';
 jest.mock('../../api');
 const mockPostSong = (api.songs.create = jest.fn());
 const mockUpdateSong = (api.songs.update = jest.fn());
-const mockSearchArtists = (api.artists.search = jest.fn());
-const mockSearchGenres = (api.genres.search = jest.fn());
+const mockListArtists = (api.artists.list = jest.fn());
+const mockListGenres = (api.genres.list = jest.fn());
 
 describe('song form validation', () => {
   test('all fields are required, and is primary checkbox defaults to true', async () => {
@@ -99,11 +99,11 @@ describe('song form functionality', () => {
   test('calls song create method with song data on submit and redirects to song detail page', async () => {
     const history = renderComponent(<SongForm />);
 
-    mockSearchArtists.mockResolvedValue({
+    mockListArtists.mockResolvedValue({
       count: 1,
       data: [ { id: 1, name: 'The Magnetic Fields' } ]
     });
-    mockSearchGenres.mockResolvedValueOnce({
+    mockListGenres.mockResolvedValueOnce({
       count: 2,
       data: [ { id: 1, name: 'indie pop' }, { id: 2, name: 'indie folk' } ]
     });

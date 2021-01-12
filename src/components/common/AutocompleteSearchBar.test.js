@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor, getByText } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { AutocompleteSearchBar } from './AutocompleteSearchBar';
@@ -12,7 +12,10 @@ describe('autocomplete search bar functionality', () => {
   });
 
   test('should render list of results from delayed search bar', async () => {
-    mockSearch.mockResolvedValue([ { id: 1, name: 'The Magnetic Fields' }, { id: 2, name: 'of Montreal' } ])
+    mockSearch.mockResolvedValue({
+      count: 2,
+      data: [ { id: 1, name: 'The Magnetic Fields' }, { id: 2, name: 'of Montreal' } ]
+    });
 
     render(<AutocompleteSearchBar onSearch={mockSearch} />)
 
@@ -25,13 +28,17 @@ describe('autocomplete search bar functionality', () => {
     expect(await screen.findByRole('list')).toBeInTheDocument();
 
     const listItems = screen.getAllByRole('listitem');
-    expect(listItems).toHaveLength(2);
-    expect(screen.getByText('The Magnetic Fields')).toBeInTheDocument();
-    expect(screen.getByText('of Montreal')).toBeInTheDocument();
+    expect(listItems).toHaveLength(3);
+    expect(getByText(listItems[0], 'The Magnetic Fields')).toBeInTheDocument();
+    expect(getByText(listItems[1], 'of Montreal')).toBeInTheDocument();
+    expect(getByText(listItems[2], /Page 1/)).toBeInTheDocument();
   });
 
   test('clicking on a result calls onSelect', async () => {
-    mockSearch.mockResolvedValue([ { id: 1, name: 'The Magnetic Fields' } ])
+    mockSearch.mockResolvedValue({
+      count: 1,
+      data: [ { id: 1, name: 'The Magnetic Fields' } ]
+    });
     const mockSelectHandler = jest.fn();
 
     render(<AutocompleteSearchBar onSearch={mockSearch} onSelect={mockSelectHandler} />)
@@ -40,8 +47,10 @@ describe('autocomplete search bar functionality', () => {
 
     await waitFor(() => jest.advanceTimersByTime(500));
 
-    const selectButton = await screen.findByRole('button');
+    const buttons = await screen.findAllByRole('button');
+    const selectButton = buttons[0];
     expect(selectButton).toBeInTheDocument();
+    expect(getByText(selectButton, 'The Magnetic Fields')).toBeInTheDocument();
 
     userEvent.click(selectButton);
 
@@ -50,7 +59,10 @@ describe('autocomplete search bar functionality', () => {
   });
 
   test('clicking outside of the component when results are showing stops the results from showing', async () => {
-    mockSearch.mockResolvedValue([ { id: 1, name: 'The Magnetic Fields' }]);
+    mockSearch.mockResolvedValue({
+      count: 1,
+      data: [ { id: 1, name: 'The Magnetic Fields' }]
+    });
 
     render(
       <div>
@@ -62,8 +74,10 @@ describe('autocomplete search bar functionality', () => {
     await waitFor(() => userEvent.type(screen.getByRole('textbox'), 'a'));
     await waitFor(() => jest.advanceTimersByTime(500));
 
-    const selectButton = await screen.findByRole('button');
+    const buttons = await screen.findAllByRole('button');
+    const selectButton = buttons[0];
     expect(selectButton).toBeInTheDocument();
+    expect(getByText(selectButton, 'The Magnetic Fields')).toBeInTheDocument();
 
     userEvent.click(screen.getByTestId('1234'));
 
@@ -71,7 +85,10 @@ describe('autocomplete search bar functionality', () => {
   });
 
   test('clicking back inside of the component after clicking outside will show the previous results again', async () => {
-    mockSearch.mockResolvedValue([ { id: 1, name: 'The Magnetic Fields' }]);
+    mockSearch.mockResolvedValue({
+      count: 1,
+      data: [ { id: 1, name: 'The Magnetic Fields' }]
+    });
 
     render(
       <div>
@@ -87,8 +104,8 @@ describe('autocomplete search bar functionality', () => {
     expect(screen.queryByRole('button')).not.toBeInTheDocument();
 
     userEvent.click(screen.getByRole('textbox'));
-    const button = screen.getByRole('button');
-    expect(button).toBeInTheDocument();
-    expect(button).toHaveTextContent('The Magnetic Fields');
+    const buttons = screen.getAllByRole('button');
+    expect(buttons[0]).toBeInTheDocument('The Magnetic Fields');
+    expect(buttons[0]).toHaveTextContent('The Magnetic Fields');
   });
 });

@@ -11,7 +11,6 @@ import { api } from '../../api';
 jest.mock('../../api');
 
 const mockListSongs = (api.songs.list = jest.fn());
-const mockSearchGenres = (api.genres.search = jest.fn());
 const mockListGenres = (api.genres.list = jest.fn());
 const mockUpdateQueue = jest.fn();
 
@@ -133,7 +132,7 @@ describe('chart functionality', () => {
   });
 
   test('selecting a genre in the genre autocomplete selector refetches songs list with selected genre and updates query string', async () => {
-    mockSearchGenres.mockResolvedValue({
+    mockListGenres.mockResolvedValueOnce({
       count: 2,
       data: [ { id: 1, name: 'Indie Folk' }, { id: 2, name: 'Indie Pop' } ]
     });
@@ -146,7 +145,7 @@ describe('chart functionality', () => {
     const genreSearchbar = screen.getByRole('textbox');
     await waitFor(() => userEvent.type(genreSearchbar, 'ind'));
     await waitFor(() => jest.advanceTimersByTime(500));
-    expect(mockSearchGenres).toHaveBeenCalledTimes(1);
+    expect(mockListGenres).toHaveBeenCalledTimes(1);
 
     expect(await screen.findByText('Indie Folk')).toBeInTheDocument();
     expect(await screen.findByText('Indie Pop')).toBeInTheDocument();
